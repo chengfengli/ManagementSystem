@@ -20,7 +20,13 @@ axios.interceptors.response.use(res => {
 	return res;
 },err => {
 	loadingInstance.close();
-	Message.error({message:'系统异常',type:'error'});
+	if(err.response){
+		var status = err.response.status;
+		Message.error({message:httpConfig[status],type:'error'});
+	}else{
+		Message.error({message:'其它异常',type:'error'});
+	}
+	
 	return Promise.reject(err);
 })
 Vue.prototype.$http = axios;

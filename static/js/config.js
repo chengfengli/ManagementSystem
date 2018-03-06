@@ -1,3 +1,3 @@
-var config = {
-	hostURL: 'http://localhost:8080'
+var httpConfig = {
+	hostURL: 'http://localhost:8085'
 }

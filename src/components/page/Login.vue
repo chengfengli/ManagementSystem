@@ -37,18 +37,15 @@
         },
         methods: {
             submitForm(formName) {
-            	this.$http.post('/user').then(res=>{
-            		
-            	})
-//              this.$refs[formName].validate((valid) => {
-//                  if (valid) {
-//                      localStorage.setItem('ms_username',this.ruleForm.username);
-//                      this.$router.push('/index');
-//                  } else {
-//                      console.log('error submit!!');
-//                      return false;
-//                  }
-//              });
+//          	this.$http.post('/user').then(res=>{
+//          		
+//          	})
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        localStorage.setItem('ms_username',this.ruleForm.username);
+                        this.$router.push('/index');
+                    }
+                });
             }
         }
     }

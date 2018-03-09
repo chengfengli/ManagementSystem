@@ -22,7 +22,7 @@
         data: function(){
             return {
             	links:[
-            		{txt:'个人通知',ico:'../../../static/img/icon.jpg',link:'login'},
+            		{txt:'个人通知',ico:'../../../static/img/icon.jpg',link:'notice'},
             		{txt:'公告',ico:'../../../static/img/icon.jpg',link:'login'},
             		{txt:'发布公告',ico:'../../../static/img/icon.jpg',link:'login'},
             		{txt:'事件中心',ico:'../../../static/img/icon.jpg',link:'login'},

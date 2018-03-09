@@ -10,6 +10,10 @@ export default new Router({
             redirect: '/login'
         },
         {
+            path: '/login',
+            component: resolve => require(['../components/page/Login.vue'], resolve)
+        },
+        {
             path: '/index',
             component: resolve => require(['../components/page/Index.vue'], resolve),
             children:[
@@ -20,8 +24,8 @@ export default new Router({
             ]
         },
         {
-            path: '/login',
-            component: resolve => require(['../components/page/Login.vue'], resolve)
+            path: '/notice',
+            component: resolve => require(['../components/page/Notice.vue'], resolve)
         },
     ]
 })

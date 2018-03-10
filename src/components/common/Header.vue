@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="logo">后台管理系统</div>
+        <div class="logo"><img src="../../../static/img/logo.png">不良事件上报系统</div>
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
@@ -51,6 +51,12 @@
         float: left;
         width:250px;
         text-align: center;
+        margin-left: 20px;
+    }
+    .header .logo img{
+    	position: relative;
+    	top: 13px;
+    	margin-right: 20px;
     }
     .user-info {
         float: right;

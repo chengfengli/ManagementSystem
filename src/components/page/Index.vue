@@ -23,15 +23,15 @@
             return {
             	links:[
             		{txt:'个人通知',ico:'../../../static/img/icon.jpg',link:'notice'},
-            		{txt:'公告',ico:'../../../static/img/icon.jpg',link:'login'},
-            		{txt:'发布公告',ico:'../../../static/img/icon.jpg',link:'login'},
+            		{txt:'公告',ico:'../../../static/img/icon.jpg',link:'announcement'},
+            		{txt:'发布公告',ico:'../../../static/img/icon.jpg',link:'announcementMana'},
             		{txt:'事件中心',ico:'../../../static/img/icon.jpg',link:'login'},
             		{txt:'事件填报',ico:'../../../static/img/icon.jpg',link:'login'},
             		{txt:'我的事件',ico:'../../../static/img/icon.jpg',link:'login'},
             		{txt:'事件处理',ico:'../../../static/img/icon.jpg',link:'login'},
             		{txt:'事件管理',ico:'../../../static/img/icon.jpg',link:'login'},
             		{txt:'统计分析',ico:'../../../static/img/icon.jpg',link:'login'},
-            		{txt:'人员管理',ico:'../../../static/img/icon.jpg',link:'login'},
+            		{txt:'人员管理',ico:'../../../static/img/icon.jpg',link:'personManage'},
             		{txt:'系统设置',ico:'../../../static/img/icon.jpg',link:'login'}
             	]
             }

@@ -4,7 +4,7 @@
 			<el-head></el-head>
 		</div>
 		<div class="notice-body">
-			<div class="current">当前位置：<a href="#/index">首页</a> > 个人中心</div>
+			<div class="current">当前位置：<a href="#/index">首页</a> > 个人通知</div>
 			<div class="data-box">
 				<table cellspacing="0" @mouseleave="show=-1">
 					<tr v-for="item in list" @mouseover="showDel(item.id)" @click="details(item.id)">

@@ -27,5 +27,17 @@ export default new Router({
             path: '/notice',
             component: resolve => require(['../components/page/Notice.vue'], resolve)
         },
+        {
+            path: '/announcement',
+            component: resolve => require(['../components/page/Announcement.vue'], resolve)
+        },
+        {
+            path: '/announcementMana',
+            component: resolve => require(['../components/page/AnnouncementMana.vue'], resolve)
+        },
+        {
+            path: '/personManage',
+            component: resolve => require(['../components/page/PersonManage.vue'], resolve)
+        },
     ]
 })

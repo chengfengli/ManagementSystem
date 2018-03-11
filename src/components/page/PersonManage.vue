@@ -18,15 +18,15 @@
 							<table cellspacing="0">
 								<tr>
 									<td class="form-title">姓名</td>
-									<td><el-input></el-input></td>
+									<td><el-input v-model="condition.USERNAME"></el-input></td>
 									<td class="form-title">部门</td>
-									<td><el-input></el-input></td>
+									<td><el-input v-model="condition.DEPT"></el-input></td>
 									<td class="form-title">角色</td>
-									<td><el-input></el-input></td>
+									<td><el-input v-model="condition.ROLE"></el-input></td>
 									<td class="form-title">职务</td>
-									<td><el-input></el-input></td>
+									<td><el-input v-model="condition.JOB"></el-input></td>
 									<td style="width: 170px;">
-										<el-button>查询</el-button>
+										<el-button @click="select">查询</el-button>
   										<el-button type="primary">导出</el-button>
 									</td>
 								</tr>
@@ -75,8 +75,14 @@
        },
         data: function(){
             return {
-            	newNoticeList:[],
-            	currentPage: 1,
+            	condition: {
+            		USERNAME: '',
+            		DEPT: '',
+            		ROLE: '',
+            		JOB: ''
+            	},
+            	page: 1,
+            	pageSize: 10,
             	data: [
             		{name: '王小虎',role: '管理员',post: '信息科长',email: '12412341@qq.com',phone: '13588888888',enable: 1,gag: 1},
             		{name: '王小虎',role: '管理员',post: '信息科长',email: '12412341@qq.com',phone: '13588888888',enable: 1,gag: 1},
@@ -85,6 +91,13 @@
             }
         },
         methods: {
+        	select(){ // 查询
+        		this.condition.page = this.page;
+        		this.condition.pageSize = this.pageSize;
+        		this.$http.post('/user/userList',this.condition).then(res=>{
+        		
+        		})
+        	},
         	loadData(type) {
 		        alert(type);
 		    },
@@ -104,10 +117,7 @@
            		console.log(row)
            	}
         },
-        mounted() {
-        	for(var i=1;i<11;i++){
-        		this.newNoticeList.push({id:i,time: "2018/10/10",title: '本周开会的通知',sender:"系统管理员",clickCount: 20})
-        	}
+        mounted() {        	
         }
     }
 </script>

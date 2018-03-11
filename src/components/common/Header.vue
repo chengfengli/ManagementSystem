@@ -3,10 +3,7 @@
         <div class="logo"><img src="../../../static/img/logo.png">不良事件上报系统</div>
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
-                <span class="el-dropdown-link">
-                    <img class="user-logo" src="../../../static/img/img.jpg">
-                    {{username}}
-                </span>
+                <span class="el-dropdown-link">{{username}}</span>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item command="loginout">退出</el-dropdown-item>
                 </el-dropdown-menu>
@@ -71,14 +68,6 @@
         color: #fff;
         cursor: pointer;
         vertical-align: middle;
-    }
-    .user-info .user-logo{
-        position: absolute;
-        left:0;
-        top:15px;
-        width:40px;
-        height:40px;
-        border-radius: 50%;
     }
     .el-dropdown-menu__item{
         text-align: center;

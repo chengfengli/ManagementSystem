@@ -59,6 +59,9 @@
         	for(var i=1;i<11;i++){
         		this.list.push({id:i,name: "张三",title: '本周开会的通知',message: '请各位同事准时参加！'})
         	}
+        	this.$http.post('/dic/dics',{page:1,pageSize:10}).then(res=>{
+        		
+        	})
         }
     }
 </script>

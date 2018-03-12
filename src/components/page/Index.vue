@@ -4,10 +4,11 @@
 			<el-head></el-head>
 		</div>
 		<div class="home">
-			<div class="current">当前位置：首页</div>
-			<div v-for="link in links" keys="link" class="link" @click="linkTo(link.link)">
-				<img class="link-ico" :src="link.ico">
-				<div class="link-txt">{{link.txt}}</div>
+			<div class="link-list">
+				<div v-for="link in links" keys="link" class="link" @click="linkTo(link.link)">
+					<img class="link-ico" :src="link.ico">
+					<div class="link-txt">{{link.txt}}</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -45,12 +46,25 @@
 </script>
 
 <style scoped>
+	#index{
+		height: 100%;
+		background-color: #F6F4E7;
+	}
 	#index .home .link{
 		display: inline-block;
 		box-shadow: 0 0 3px #ccc;
 		margin: 15px;
 	    padding: 8px;
 	    cursor: pointer;
+	    color: rgb(72,72,72);
+	    border-radius: 2px;
+	}
+	#index .home .link:hover{
+		box-shadow: 0 0 4px #fff;
+	}
+	#index .link-list{
+	    width: 584px;
+	    margin: 5% auto;
 	}
 	#index .home .link .link-ico{
 		width: 100px;

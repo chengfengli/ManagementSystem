@@ -3,9 +3,11 @@
         <div class="logo"><img src="../../../static/img/logo.png">不良事件上报系统</div>
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
-                <span class="el-dropdown-link">{{username}}</span>
+                <span class="el-dropdown-link">当前用户：{{username}}</span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="loginout">退出</el-dropdown-item>
+                	<el-dropdown-item command="loginout">修改个人信息</el-dropdown-item>
+                    <el-dropdown-item command="loginout">注销</el-dropdown-item>
+                    <el-dropdown-item command="loginout">帮助手册</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -15,7 +17,7 @@
     export default {
         data() {
             return {
-                name: 'linxin'
+                name: '管理员'
             }
         },
         computed:{

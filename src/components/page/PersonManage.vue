@@ -4,7 +4,7 @@
 			<el-head></el-head>
 		</div>
 		<div class="personManage-body">
-			<div class="current">当前位置：<a href="#/index">首页</a> > 公告</div>
+			<div class="current"><a href="#/index">首页</a> > 人员管理</div>
 			<div class="data-box">
 				<el-row class="tac">
 					<el-col :span="2">
@@ -13,7 +13,7 @@
 						    <el-menu-item index="2" @click="loadData(2)">部门管理</el-menu-item>
 					    </el-menu>
 					</el-col>
-					<el-col :span="22">
+					<el-col :offset="1" :span="21">
 						<div class="condition">
 							<table cellspacing="0">
 								<tr>
@@ -32,8 +32,8 @@
 								</tr>
 							</table>
 						</div>
-						<el-table :data="data" border style="width: 100%;margin-top: 20px;" ref="multipleTable" @selection-all="handleSelectionChange" @selection-change="handleSelectionChange">
-				            <el-table-column type="selection" width="55"></el-table-column>
+						<el-table :data="data" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable" @selection-all="handleSelectionChange" @selection-change="handleSelectionChange">
+				            <el-table-column type="index" width="55"></el-table-column>
 				            <el-table-column prop="name" label="姓名" width="100"></el-table-column>
 				            <el-table-column prop="role" label="角色" width="100"></el-table-column>
 				            <el-table-column prop="post" label="职务" width="150"></el-table-column>
@@ -51,7 +51,7 @@
 				            		<span v-else>否</span>
 				                </template>
 				            </el-table-column>
-				            <el-table-column label="操作" width="250">
+				            <el-table-column label="操作" width="200">
 				                <template scope="scope">
 				                    <el-button size="small"@click="edit(scope.$index, scope.row)">编辑</el-button>
 				                    <el-button size="small" type="danger" @click="del(scope.$index, scope.row)">删除</el-button>
@@ -123,6 +123,9 @@
 </script>
 
 <style scoped>
+	#personManage{
+		min-width: 1366px;
+	}
 	#personManage .data-box{
 		margin: 0 20px;
 	}
@@ -131,7 +134,6 @@
 	    cursor: pointer;
 	    margin-right: 15px;
 	}
-	
 	#personManage .data-box .el-menu-item{
 		text-align: center;
 	}
@@ -145,10 +147,10 @@
 		cursor: pointer;
 	}
 	#personManage .data-box table tr:nth-child(odd){
-		background-color: #FAFAFA;
+		background-color: #F5F7FA;
 	}
 	#personManage .data-box table tr:hover{
-		background-color: #F5F7FA;
+		background-color: #F0F9EB;
 	}
 	#personManage .data-box table td{
 		padding: 5px 10px;
@@ -166,5 +168,15 @@
 		width: 40px;
 		padding: 5px 0;
 	}
-	
+	#personManage .el-menu{
+		background-color: transparent;
+	}
+	#personManage .el-menu-item{
+		margin-bottom: 10px;
+		background-color: rgb(238, 246, 246);
+	}
+	#personManage .is-active,#personManage .el-menu-item:hover{
+		background-color: #00d1b2;
+		color: #fff;
+	}
 </style>

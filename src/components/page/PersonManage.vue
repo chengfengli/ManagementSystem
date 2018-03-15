@@ -4,7 +4,12 @@
 			<el-head></el-head>
 		</div>
 		<div class="personManage-body">
-			<div class="current"><a href="#/index">首页</a> > 人员管理</div>
+			<div class="current">
+				<el-breadcrumb separator-class="el-icon-arrow-right">
+				  	<el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
+				  	<el-breadcrumb-item>人员管理</el-breadcrumb-item>
+				</el-breadcrumb>
+			</div>
 			<div class="data-box">
 				<el-row class="tac">
 					<el-col :span="2">
@@ -34,32 +39,32 @@
 						</div>
 						<el-table :data="data" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable" @selection-all="handleSelectionChange" @selection-change="handleSelectionChange">
 				            <el-table-column type="index" width="55"></el-table-column>
-				            <el-table-column prop="name" label="姓名" width="100"></el-table-column>
-				            <el-table-column prop="role" label="角色" width="100"></el-table-column>
-				            <el-table-column prop="post" label="职务" width="150"></el-table-column>
-				            <el-table-column prop="email" label="邮箱" width="250"></el-table-column>
-				            <el-table-column prop="phone" label="电话" width="160"></el-table-column>
+				            <el-table-column prop="USERNAME" label="姓名" width="100"></el-table-column>
+				            <el-table-column prop="ROLENAME" label="角色" width="100"></el-table-column>
+				            <el-table-column prop="JOB" label="职务" width="150"></el-table-column>
+				            <el-table-column prop="EMAIL" label="邮箱" width="250"></el-table-column>
+				            <el-table-column prop="PHONE" label="电话" width="160"></el-table-column>
 				            <el-table-column prop="enable" label="启动" width="70">
 				            	<template scope="scope">
-				            		<span v-if="scope.row.enable == 1">是</span>
+				            		<span v-if="scope.row.ISUSED == 1">是</span>
 				            		<span v-else>否</span>
 				                </template>
 				            </el-table-column>
 				            <el-table-column prop="gag" label="禁言" width="70">
 				            	<template scope="scope">
-				            		<span v-if="scope.row.enable == 1">是</span>
+				            		<span v-if="scope.row.ISGAG == 1">是</span>
 				            		<span v-else>否</span>
 				                </template>
 				            </el-table-column>
 				            <el-table-column label="操作" width="200">
 				                <template scope="scope">
-				                    <el-button size="small"@click="edit(scope.$index, scope.row)">编辑</el-button>
-				                    <el-button size="small" type="danger" @click="del(scope.$index, scope.row)">删除</el-button>
-				                    <el-button size="small" type="primary" @click="add(scope.$index, scope.row)">新增</el-button>
+				                    <el-button size="mini" @click="edit(scope.$index, scope.row)">编辑</el-button>
+				                    <el-button size="mini" type="danger" @click="del(scope.$index, scope.row)">删除</el-button>
+				                    <el-button size="mini" type="primary" @click="add()">新增</el-button>
 				                </template>
 				            </el-table-column>
 				        </el-table>
-						<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+						<el-pagination :current-page="page" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
 					</el-col>
 				</el-row>
 			</div>
@@ -83,11 +88,7 @@
             	},
             	page: 1,
             	pageSize: 10,
-            	data: [
-            		{name: '王小虎',role: '管理员',post: '信息科长',email: '12412341@qq.com',phone: '13588888888',enable: 1,gag: 1},
-            		{name: '王小虎',role: '管理员',post: '信息科长',email: '12412341@qq.com',phone: '13588888888',enable: 1,gag: 1},
-            		{name: '王小虎',role: '管理员',post: '信息科长',email: '12412341@qq.com',phone: '13588888888',enable: 1,gag: 1}
-            	]
+            	data: []
             }
         },
         methods: {
@@ -95,7 +96,12 @@
         		this.condition.page = this.page;
         		this.condition.pageSize = this.pageSize;
         		this.$http.post('/user/userList',this.condition).then(res=>{
-        		
+        			if(res.code == 10000){
+        				this.data = res.data.rows;
+        			}else{
+        				this.$message.error(res.msg);
+        				this.data = [];
+        			}
         		})
         	},
         	loadData(type) {
@@ -113,11 +119,12 @@
            	del(index,row) {
            		console.log(row)
            	},
-           	add(index,row) {
-           		console.log(row)
+           	add() {
+           		console.log()
            	}
         },
-        mounted() {        	
+        mounted() {
+        	this.select()
         }
     }
 </script>

@@ -7,7 +7,7 @@
 			<div class="current">当前位置：<a href="#/index">首页</a> > 个人通知</div>
 			<div class="data-box">
 				<table cellspacing="0" @mouseleave="show=-1">
-					<tr v-for="item in list" @mouseover="showDel(item.id)" @click="details(item.id)">
+					<tr v-for="item in list" v-bind:key="item" @mouseover="showDel(item.id)" @click="details(item.id)">
 						<td>{{item.name}}</td>
 						<td><a v-if="show == item.id" class="del-btn" href="javascript:void(0)" @click="del(item.id)">删除</a></td>
 						<td>

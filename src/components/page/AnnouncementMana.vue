@@ -24,7 +24,7 @@
 					</el-col>
 					<el-col :span="22">
 						<table cellspacing="0">
-							<tr v-for="item in newNoticeList" @click="details(item.id)">
+							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
 								<td class="time">{{item.time}}</td>
 								<td class="title">{{item.title}}</td>
 								<td class="btn">{{item.title}}</td>

@@ -10,7 +10,7 @@
 					<!--最新公告-->
 				    <el-tab-pane label="最新公告" name="new">
 				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" @click="details(item.id)">
+							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
 								<td>{{item.time}}</td>
 								<td>{{item.title}}</td>
 								<td>点击量({{item.clickCount}})</td>
@@ -21,7 +21,7 @@
 				    <!--流程制度-->
 				    <el-tab-pane label="流程制度" name="flow">
 				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" @click="details(item.id)">
+							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
 								<td>{{item.time}}</td>
 								<td>{{item.title}}</td>
 								<td>点击量({{item.clickCount}})</td>
@@ -32,7 +32,7 @@
 				    <!--部门公告-->
 				    <el-tab-pane label="部门公告" name="dep">
 				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" @click="details(item.id)">
+							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
 								<td>{{item.time}}</td>
 								<td>{{item.title}}</td>
 								<td>点击量({{item.clickCount}})</td>
@@ -43,7 +43,7 @@
 				    <!--器械事件-->
 				    <el-tab-pane label="事件公告" name="event">
 				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" @click="details(item.id)">
+							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
 								<td>{{item.time}}</td>
 								<td>{{item.title}}</td>
 								<td>点击量({{item.clickCount}})</td>
@@ -54,7 +54,7 @@
 				    <!--器械事件-->
 				    <el-tab-pane label="器械事件" name="deviceIncidents">
 				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" @click="details(item.id)">
+							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
 								<td>{{item.time}}</td>
 								<td>{{item.title}}</td>
 								<td>点击量({{item.clickCount}})</td>
@@ -65,7 +65,7 @@
 				    <!--系统公告-->
 				    <el-tab-pane label="系统公告" name="systemBulletin">
 				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" @click="details(item.id)">
+							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
 								<td>{{item.time}}</td>
 								<td>{{item.title}}</td>
 								<td>点击量({{item.clickCount}})</td>
@@ -76,7 +76,7 @@
 				    <!--药物事件-->
 				    <el-tab-pane label="药物事件" name="drugIncidents">
 				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" @click="details(item.id)">
+							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
 								<td>{{item.time}}</td>
 								<td>{{item.title}}</td>
 								<td>点击量({{item.clickCount}})</td>

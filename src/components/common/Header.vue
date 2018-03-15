@@ -3,7 +3,7 @@
         <div class="logo"><img src="../../../static/img/logo.png">不良事件上报系统</div>
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
-                <span class="el-dropdown-link">当前用户：{{username}}</span>
+                <span class="el-dropdown-link">当前用户：{{user.USERNAME}}</span>
                 <el-dropdown-menu slot="dropdown">
                 	<el-dropdown-item command="loginout">修改个人信息</el-dropdown-item>
                     <el-dropdown-item command="loginout">注销</el-dropdown-item>
@@ -17,13 +17,13 @@
     export default {
         data() {
             return {
-                name: '管理员'
+                name: ''
             }
         },
         computed:{
-            username(){
-                let username = localStorage.getItem('ms_username');
-                return username ? username : this.name;
+            user(){
+            	var user = JSON.parse(localStorage.getItem('user'))
+                return user;
             }
         },
         methods:{
@@ -45,6 +45,7 @@
         font-size: 22px;
         line-height: 70px;
         color: #fff;
+        background-color: #00d1b2;
     }
     .header .logo{
         float: left;

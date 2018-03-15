@@ -1,22 +1,20 @@
-import Vue from 'vue';
-import App from './App';
-import router from './router';
-import axios from 'axios';
-import ElementUI from 'element-ui';
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import axios from 'axios'
+import ElementUI from 'element-ui'
 import { Loading,Message } from 'element-ui';
-//import 'element-ui/lib/theme-chalk/index.css';
-//import 'element-ui/lib/theme-default/index.css';    // 默认主题
-import '../static/css/theme-green/index.css';       // 浅绿色主题
-import '../static/css/public.css';
-import "babel-polyfill";
+import 'element-ui/lib/theme-chalk/index.css'
+import '../static/css/public.css'
+Vue.use(ElementUI)
 let loadingInstance;
-Vue.use(ElementUI);
+Vue.config.productionTip = false
 axios.defaults.baseURL = httpConfig.hostURL;
 axios.defaults.withCredentials=true;
-//axios.defaults.headers.sessionId = '2ED26A180C309E2C55A54609F5F4FF26';
-
 axios.interceptors.request.use(config => {
-	loadingInstance = Loading.service();
+	loadingInstance = Loading.service({
+		background: 'rgba(0,0,0,0.3)'
+	});
 	return config;
 })
 axios.interceptors.response.use(res => {
@@ -40,7 +38,10 @@ axios.interceptors.response.use(res => {
 })
 Vue.prototype.$http = axios;
 Vue.prototype.$httpHeader = axios.defaults.headers;
+Vue.prototype.$load = Loading;
 new Vue({
-    router,
-    render: h => h(App)
-}).$mount('#app');
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})

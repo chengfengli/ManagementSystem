@@ -23,6 +23,11 @@ export default new Router({
 //              }
             ]
         },
+      /* 系统设置 */
+      {
+        path: '/systemSet',
+        component: resolve => require(['../components/page/systemSetup/systemSet.vue'], resolve)
+      },
         {
             path: '/notice',
             component: resolve => require(['../components/page/Notice.vue'], resolve)

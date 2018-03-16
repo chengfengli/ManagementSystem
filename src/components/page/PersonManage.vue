@@ -112,12 +112,12 @@
 		</div>
 		
 		<!--员工编辑-->
-		<el-dialog title="员工编辑" :visible.sync="editPersonDialog" width="30%" :close-on-click-modal="false" :show-close="false">
+		<el-dialog title="员工编辑" :visible.sync="editPersonDialog" width="40%" :close-on-click-modal="false" :show-close="false">
 		  <edit-person @closeEidtPersonDialog="editPersonDialog=false" :data="obj"></edit-person>
 		</el-dialog>
 		<!--部门编辑-->
-		<el-dialog title="部门编辑" :visible.sync="editDeptDialog" width="30%" :close-on-click-modal="false" :show-close="false">
-		  <edit-dept @closeDeptDialog="editDeptDialog=false" :data="obj"></edit-dept>
+		<el-dialog title="部门编辑" :visible.sync="editDeptDialog" width="40%" :close-on-click-modal="false" :show-close="false">
+		  <edit-dept @closeDeptDialog="editDeptDialog=false" :ruleForm="obj"></edit-dept>
 		</el-dialog>
 	</div>
 </template>
@@ -279,4 +279,5 @@
 		background-color: #00d1b2;
 		color: #fff;
 	}
+	
 </style>

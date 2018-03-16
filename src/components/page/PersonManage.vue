@@ -38,7 +38,7 @@
 								</tr>
 							</table>
 						</div>
-						<el-table :data="dataPerson" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable" @selection-all="handleSelectionChange" @selection-change="handleSelectionChange">
+						<el-table :data="dataPerson" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable">
 				            <el-table-column type="index" width="55"></el-table-column>
 				            <el-table-column prop="USERNAME" label="姓名" width="100"></el-table-column>
 				            <el-table-column prop="ROLENAME" label="角色" width="100"></el-table-column>
@@ -59,13 +59,13 @@
 				            </el-table-column>
 				            <el-table-column label="操作" width="200">
 				                <template scope="scope">
-				                    <!--<el-button size="mini" @click="edit(scope.$index, scope.row)">编辑</el-button>-->
+				                    <el-button size="mini" @click="condition.USERNAME=5;editPersonDialog=true;">编辑</el-button>
 				                    <el-button size="mini" type="danger" @click="delPerson(scope.row.USERID)">删除</el-button>
-				                    <!--<el-button size="mini" type="primary" @click="add()">新增</el-button>-->
+				                    <el-button size="mini" type="primary" @click="add()">新增</el-button>
 				                </template>
 				            </el-table-column>
 				        </el-table>
-						<el-pagination :current-page="page" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+						<!--<el-pagination :current-page="page" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>-->
 					</el-col>
 					<!--部门管理-->
 					<el-col v-if="index==2" :offset="1" :span="21">
@@ -77,8 +77,8 @@
 									<td class="form-title">业务科室</td>
 									<td>
 										<el-select v-model="dep.ISBUSINESS" placeholder="请选择">
-										    <el-option label="是"value="1"></el-option>
-										    <el-option label="否"value="0"></el-option>
+										    <el-option label="是" value="1"></el-option>
+										    <el-option label="否" value="0"></el-option>
 										</el-select>
 									</td>
 									<td class="form-title">归属科室</td>
@@ -90,7 +90,7 @@
 								</tr>
 							</table>
 						</div>
-						<el-table :data="dataDept" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable" @selection-all="handleSelectionChange" @selection-change="handleSelectionChange">
+						<el-table :data="dataDept" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable">
 				            <el-table-column type="index" width="55"></el-table-column>
 				            <el-table-column prop="DEPTNAME" label="名称" width="100"></el-table-column>
 				            <el-table-column prop="ISBUSINESS" label="业务科室" width="150"></el-table-column>
@@ -99,34 +99,48 @@
 				            <el-table-column prop="CONTACTPHONE" label="电话" width="160"></el-table-column>
 				            <el-table-column label="操作" width="200">
 				                <template scope="scope">
-				                    <!--<el-button size="mini" @click="editDept(scope.$index, scope.row)">编辑</el-button>-->
+				                    <el-button size="mini" @click="editDept(scope.row)">编辑</el-button>
 				                    <el-button size="mini" type="danger" @click="delDept(scope.row.DEPTID)">删除</el-button>
-				                    <!--<el-button size="mini" type="primary" @click="addDept()">新增</el-button>-->
+				                    <el-button size="mini" type="primary" @click="obj={};editDeptDialog=true;">新增</el-button>
 				                </template>
 				            </el-table-column>
 				        </el-table>
-						<el-pagination :current-page="page" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+						<!--<el-pagination :current-page="page" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>-->
 					</el-col>
 				</el-row>
 			</div>
 		</div>
+		
+		<!--员工编辑-->
+		<el-dialog title="员工编辑" :visible.sync="editPersonDialog" width="30%" :close-on-click-modal="false" :show-close="false">
+		  <edit-person @closeEidtPersonDialog="editPersonDialog=false" :data="obj"></edit-person>
+		</el-dialog>
+		<!--部门编辑-->
+		<el-dialog title="部门编辑" :visible.sync="editDeptDialog" width="30%" :close-on-click-modal="false" :show-close="false">
+		  <edit-dept @closeDeptDialog="editDeptDialog=false" :data="obj"></edit-dept>
+		</el-dialog>
 	</div>
 </template>
 
 <script>
 	import elHead from '../common/Header.vue';
+	import editPerson from '../page/editPerson.vue';
+	import editDept from '../page/editDept.vue';
 	export default {
 		components:{
-			elHead
-       },
+			elHead,
+			editPerson,
+			editDept
+       	},
         data: function(){
             return {
             	index: 1,
+            	obj:{},
             	condition: {
-            		USERNAME: '',
+            		USERNAME: '2',
             		DEPT: '',
             		ROLE: '',
-            		JOB: ''
+            		JOB: '',
             	},
             	dep: {
             		DEPTNAME: '',
@@ -136,7 +150,9 @@
             	page: 1,
             	pageSize: 10,
             	dataPerson: [],
-            	dataDept: []
+            	dataDept: [],
+            	editPersonDialog: false,
+            	editDeptDialog: false
             }
         },
         methods: {
@@ -189,6 +205,10 @@
         				this.$message.error(res.msg);
         			}
         		})
+        	},
+        	editDept(data) {
+        		this.obj=data;
+        		this.editDeptDialog=true;
         	},
         	loadData(index) {
 		        this.index = index;

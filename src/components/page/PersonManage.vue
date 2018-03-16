@@ -18,7 +18,8 @@
 						    <el-menu-item index="2" @click="loadData(2)">部门管理</el-menu-item>
 					    </el-menu>
 					</el-col>
-					<el-col :offset="1" :span="21">
+					<!--人员管理-->
+					<el-col v-if="index==1" :offset="1" :span="21">
 						<div class="condition">
 							<table cellspacing="0">
 								<tr>
@@ -31,13 +32,13 @@
 									<td class="form-title">职务</td>
 									<td><el-input v-model="condition.JOB"></el-input></td>
 									<td style="width: 170px;">
-										<el-button @click="select">查询</el-button>
+										<el-button @click="selectPoseson">查询</el-button>
   										<el-button type="primary">导出</el-button>
 									</td>
 								</tr>
 							</table>
 						</div>
-						<el-table :data="data" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable" @selection-all="handleSelectionChange" @selection-change="handleSelectionChange">
+						<el-table :data="dataPerson" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable" @selection-all="handleSelectionChange" @selection-change="handleSelectionChange">
 				            <el-table-column type="index" width="55"></el-table-column>
 				            <el-table-column prop="USERNAME" label="姓名" width="100"></el-table-column>
 				            <el-table-column prop="ROLENAME" label="角色" width="100"></el-table-column>
@@ -58,9 +59,49 @@
 				            </el-table-column>
 				            <el-table-column label="操作" width="200">
 				                <template scope="scope">
-				                    <el-button size="mini" @click="edit(scope.$index, scope.row)">编辑</el-button>
-				                    <el-button size="mini" type="danger" @click="del(scope.$index, scope.row)">删除</el-button>
-				                    <el-button size="mini" type="primary" @click="add()">新增</el-button>
+				                    <!--<el-button size="mini" @click="edit(scope.$index, scope.row)">编辑</el-button>-->
+				                    <el-button size="mini" type="danger" @click="delPerson(scope.row.USERID)">删除</el-button>
+				                    <!--<el-button size="mini" type="primary" @click="add()">新增</el-button>-->
+				                </template>
+				            </el-table-column>
+				        </el-table>
+						<el-pagination :current-page="page" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+					</el-col>
+					<!--部门管理-->
+					<el-col v-if="index==2" :offset="1" :span="21">
+						<div class="condition">
+							<table cellspacing="0">
+								<tr>
+									<td class="form-title">名称</td>
+									<td><el-input v-model="dep.DEPTNAME"></el-input></td>
+									<td class="form-title">业务科室</td>
+									<td>
+										<el-select v-model="dep.ISBUSINESS" placeholder="请选择">
+										    <el-option label="是"value="1"></el-option>
+										    <el-option label="否"value="0"></el-option>
+										</el-select>
+									</td>
+									<td class="form-title">归属科室</td>
+									<td><el-input v-model="dep.BELONG"></el-input></td>
+									<td style="width: 170px;">
+										<el-button>查询</el-button>
+  										<el-button type="primary">导出</el-button>
+									</td>
+								</tr>
+							</table>
+						</div>
+						<el-table :data="dataDept" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable" @selection-all="handleSelectionChange" @selection-change="handleSelectionChange">
+				            <el-table-column type="index" width="55"></el-table-column>
+				            <el-table-column prop="DEPTNAME" label="名称" width="100"></el-table-column>
+				            <el-table-column prop="ISBUSINESS" label="业务科室" width="150"></el-table-column>
+				            <el-table-column prop="BELONG" label="归属科室" width="150"></el-table-column>
+				            <el-table-column prop="EMAIL" label="邮箱" width="250"></el-table-column>
+				            <el-table-column prop="CONTACTPHONE" label="电话" width="160"></el-table-column>
+				            <el-table-column label="操作" width="200">
+				                <template scope="scope">
+				                    <!--<el-button size="mini" @click="editDept(scope.$index, scope.row)">编辑</el-button>-->
+				                    <el-button size="mini" type="danger" @click="delDept(scope.row.DEPTID)">删除</el-button>
+				                    <!--<el-button size="mini" type="primary" @click="addDept()">新增</el-button>-->
 				                </template>
 				            </el-table-column>
 				        </el-table>
@@ -80,51 +121,82 @@
        },
         data: function(){
             return {
+            	index: 1,
             	condition: {
             		USERNAME: '',
             		DEPT: '',
             		ROLE: '',
             		JOB: ''
             	},
+            	dep: {
+            		DEPTNAME: '',
+            		ISBUSINESS:'1',
+            		BELONG: '',
+            	},
             	page: 1,
             	pageSize: 10,
-            	data: []
+            	dataPerson: [],
+            	dataDept: []
             }
         },
         methods: {
-        	select(){ // 查询
+        	selectPoseson(){ // 人员查询
         		this.condition.page = this.page;
         		this.condition.pageSize = this.pageSize;
         		this.$http.post('/user/userList',this.condition).then(res=>{
         			if(res.code == 10000){
-        				this.data = res.data.rows;
+        				this.dataPerson = res.data.rows;
         			}else{
         				this.$message.error(res.msg);
-        				this.data = [];
+        				this.dataPerson = [];
         			}
         		})
         	},
-        	loadData(type) {
-		        alert(type);
-		    },
-		    currengChange(currentPage) {// 翻页
-        		alert(currentPage)
-	        },
-	        handleSelectionChange(val) {// 返回已选择的数据 数组
-            	console.log(val)
-           	},
-           	edit(index,row) {
-           		console.log(row)
-           	},
-           	del(index,row) {
-           		console.log(row)
-           	},
-           	add() {
-           		console.log()
-           	}
+        	delPerson(id){ // 删除人员
+        		this.$http.post('/user/del/'+id).then(res=>{
+        			if(res.code == 10000){
+        				this.$message({
+				          	message: res.msg,
+				          	type: 'success'
+				        });
+        				this.selectPoseson();
+        			}else{
+        				this.$message.error(res.msg);
+        			}
+        		})
+        	},
+        	selectDept() { // 部门查询
+        		this.dep.page = this.page;
+        		this.dep.pageSize = this.pageSize;
+        		this.$http.post('/dept/listDept',this.condition).then(res=>{
+        			if(res.code == 10000){
+        				this.dataDept = res.data.rows;
+        			}else{
+        				this.$message.error(res.msg);
+        				this.dataPerson = [];
+        			}
+        		})
+        	},
+        	delDept(id){ // 删除部门
+        		this.$http.post('/dept/del/'+id).then(res=>{
+        			if(res.code == 10000){
+        				this.$message({
+				          	message: res.msg,
+				          	type: 'success'
+				        });
+        				this.selectDept();
+        			}else{
+        				this.$message.error(res.msg);
+        			}
+        		})
+        	},
+        	loadData(index) {
+		        this.index = index;
+		    }
         },
         mounted() {
-        	this.select()
+        	this.selectPoseson();
+        	this.selectDept();
         }
     }
 </script>
@@ -172,11 +244,12 @@
 	
 	#personManage .data-box .condition .form-title{
 		text-align: right;
-		width: 40px;
+		width: 60px;
 		padding: 5px 0;
 	}
 	#personManage .el-menu{
 		background-color: transparent;
+		border: 0;
 	}
 	#personManage .el-menu-item{
 		margin-bottom: 10px;

@@ -47,9 +47,5 @@ export default new Router({
             path: '/personManage',
             component: resolve => require(['../components/page/person/PersonManage.vue'], resolve)
         },
-        {
-            path: '/page',
-            component: resolve => require(['../components/common/Page.vue'], resolve)
-        },
     ]
 })

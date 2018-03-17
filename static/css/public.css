@@ -39,3 +39,6 @@ html,body,#app{
 .el-input__inner{
 	padding: 0 3px;
 }
+
+/* h5标签hack */
+header,nav,main,footer,section,article,aside{display: block;}

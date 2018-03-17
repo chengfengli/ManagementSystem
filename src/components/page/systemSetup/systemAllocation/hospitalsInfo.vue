@@ -1,72 +1,142 @@
 <template>
     <div class="hospitalsInfo">
         <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="活动名称">
+            <el-form-item label="医院名称">
                 <el-input v-model="form.name"></el-input>
             </el-form-item>
-            <el-form-item label="活动区域">
-                <el-select v-model="form.region" placeholder="请选择活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="活动时间">
-                <el-col :span="11">
-                    <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
-                </el-col>
-                <el-col class="line" :span="2">-</el-col>
-                <el-col :span="11">
-                    <el-time-picker type="fixed-time" placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
-                </el-col>
-            </el-form-item>
-            <el-form-item label="即时配送">
-                <el-switch v-model="form.delivery"></el-switch>
-            </el-form-item>
-            <el-form-item label="活动性质">
-                <el-checkbox-group v-model="form.type">
-                    <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-                    <el-checkbox label="地推活动" name="type"></el-checkbox>
-                    <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-                    <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-                </el-checkbox-group>
-            </el-form-item>
-            <el-form-item label="特殊资源">
-                <el-radio-group v-model="form.resource">
-                    <el-radio label="线上品牌商赞助"></el-radio>
-                    <el-radio label="线下场地免费"></el-radio>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item label="活动形式">
-                <el-input type="textarea" v-model="form.desc"></el-input>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="onSubmit">立即创建</el-button>
-                <el-button>取消</el-button>
-            </el-form-item>
+          <el-form-item label="床位数量">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="医院地址">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="邮编">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="电话">
+            <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="医院等级">
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="医院属性">
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="医院功能">
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="医院性质">
+            <el-select v-model="value" placeholder="请选择">
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-form-item>
+           <!--<el-form-item style="text-align: center;margin-top: 50px;">-->
+             <!--<el-button type="primary" @click="onSubmit" style="margin-right: 25px;">重置</el-button>-->
+             <!--<el-button type="info" style="margin-left: 25px;">取消</el-button>-->
+           <!--</el-form-item>-->
+
+          <article class="action-btn">
+            <section style="background: #e6a23c;border: 1px solid #e6a23c;">重置</section>
+            <section style="background: #909399;border: 1px solid #909399;">取消</section>
+          </article>
         </el-form>
+
     </div>
 </template>
 
 <script>
-    export default {
-        name: "hospitalsInfo",
-        data(){
-            return {
-                form: {
-                    name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
-                    type: [],
-                    resource: '',
-                    desc: ''
-                }
-            }
-        }
+export default {
+  name: "hospitalsInfo",
+  data(){
+      return {
+          form: {
+              name: '',
+              region: '',
+              date1: '',
+              date2: '',
+              delivery: false,
+              type: [],
+              resource: '',
+              desc: ''
+          },
+        options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+        }],
+        value: ''
+      }
+  },
+  methods: {
+    onSubmit: function () {
+
     }
+  },
+}
 </script>
 
 <style >
-    .hospitalsInfo{height: 100%;width: 100%;border: 1px solid red;}
+    .hospitalsInfo{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70%;
+    }
+    .hospitalsInfo .el-select{width: 100%;}
+    .hospitalsInfo .el-button{padding: 12px 60px;}
+    .hospitalsInfo .action-btn{
+      display: flex;
+      max-width: 400px;
+      margin: auto;
+      padding-top: 50px;
+    }
+    .hospitalsInfo .action-btn section{
+      flex:1;
+      padding: 10px 40px;
+      box-sizing: border-box;
+      text-align: center;
+      max-width: 150px;
+      margin: auto;
+      border-radius: 5px;
+      color: white;
+    }
+    .hospitalsInfo .action-btn section:hover{opacity: 0.8;cursor: pointer;}
 </style>

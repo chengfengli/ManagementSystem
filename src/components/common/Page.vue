@@ -36,7 +36,7 @@
 			},
 			limits: {
 				type: Array,
-				default:[10,20,30,50], //每页数量
+				default: [10,20,30,50] //每页数量
 			}
 		},
 		data: function(){

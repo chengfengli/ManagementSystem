@@ -19,9 +19,9 @@
                                 </template>
                                 <el-menu-item-group>
                                     <!--<template slot="title">分组一</template>-->
-                                    <el-menu-item index="1-1">医院信息</el-menu-item>
-                                    <el-menu-item index="1-2">系统参数</el-menu-item>
-                                    <el-menu-item index="1-3">数据字典</el-menu-item>
+                                    <el-menu-item index="1-1" @click="openModulePage('showHospitalsInfo')">医院信息</el-menu-item>
+                                    <el-menu-item index="1-2" @click="openModulePage('showSystemParam')">系统参数</el-menu-item>
+                                    <el-menu-item index="1-3" @click="openModulePage('showDataDict')">数据字典</el-menu-item>
                                 </el-menu-item-group>
                              <!--   <el-menu-item-group title="分组2">
                                     <el-menu-item index="1-3">医院信息</el-menu-item>
@@ -151,10 +151,14 @@
         width: 100%;
         overflow: hidden;
     }
-    .systemSet-main nav,.systemSet-main aside{height: 100%;}
+    .systemSet-main nav,.systemSet-main aside{
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
     .systemSet-main nav{flex: 3;height: 100%;}
     .systemSet-main aside{flex: 7;}
-    .systemSet-main .tac,.systemSet-main .el-col-24,.systemSet-main .el-menu{height: 100%;}
-    .systemSet .el-menu-item-grougroup{padding: 0 0;}
+    .systemSet-main .tac, .systemSet-main .el-col-24, .el-menu{height: 100%;}
 
 </style>

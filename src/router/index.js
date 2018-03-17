@@ -7,7 +7,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/login'
+            redirect: '/index'
         },
         {
             path: '/login',
@@ -23,26 +23,33 @@ export default new Router({
 //              }
             ]
         },
-      /* 系统设置 */
-      {
-        path: '/systemSet',
-        component: resolve => require(['../components/page/systemSetup/systemSet.vue'], resolve)
-      },
+      	/* 系统设置 */
+      	{
+	        path: '/systemSet',
+	        component: resolve => require(['../components/page/systemSetup/systemSet.vue'], resolve)
+      	},
+      	/*个人通知*/
         {
             path: '/notice',
             component: resolve => require(['../components/page/Notice.vue'], resolve)
         },
+        /*公告*/
         {
             path: '/announcement',
-            component: resolve => require(['../components/page/Announcement.vue'], resolve)
+            component: resolve => require(['../components/page/announcement/Announcement.vue'], resolve)
         },
         {
             path: '/announcementMana',
-            component: resolve => require(['../components/page/AnnouncementMana.vue'], resolve)
+            component: resolve => require(['../components/page/announcement/AnnouncementMana.vue'], resolve)
         },
+        /*员工管理*/
         {
             path: '/personManage',
-            component: resolve => require(['../components/page/PersonManage.vue'], resolve)
+            component: resolve => require(['../components/page/person/PersonManage.vue'], resolve)
+        },
+        {
+            path: '/page',
+            component: resolve => require(['../components/common/Page.vue'], resolve)
         },
     ]
 })

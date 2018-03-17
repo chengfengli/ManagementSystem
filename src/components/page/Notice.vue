@@ -4,7 +4,12 @@
 			<el-head></el-head>
 		</div>
 		<div class="notice-body">
-			<div class="current">当前位置：<a href="#/index">首页</a> > 个人通知</div>
+			<div class="current">
+				<el-breadcrumb separator-class="el-icon-arrow-right">
+				  	<el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
+				  	<el-breadcrumb-item>个人通知</el-breadcrumb-item>
+				</el-breadcrumb>
+			</div>
 			<div class="data-box">
 				<table cellspacing="0" @mouseleave="show=-1">
 					<tr v-for="item in list" v-bind:key="item" @mouseover="showDel(item.id)" @click="details(item.id)">

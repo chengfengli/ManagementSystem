@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="logo"><img src="../../../static/img/logo.png">不良事件上报系统</div>
+        <div class="logo"><img src="../../../static/img/logo.png"><span class="sysname">不良事件上报系统</span></div>
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">当前用户：{{user.USERNAME}}</span>
@@ -60,22 +60,25 @@
         position: relative;
         box-sizing: border-box;
         width: 100%;
-        height: 70px;
+        height: 50px;
         font-size: 22px;
-        line-height: 70px;
+        line-height: 50px;
         color: #fff;
         background-color: #00d1b2;
     }
     .header .logo{
         float: left;
-        width:250px;
         text-align: center;
         margin-left: 20px;
+        position: relative;
+    }
+    .header .logo .sysname{
+    	margin-left: 60px;
+    	font-size: 26px;
     }
     .header .logo img{
-    	position: relative;
-    	top: 13px;
-    	margin-right: 20px;
+    	position: absolute;
+    	top: 2px;
     }
     .user-info {
         float: right;

@@ -5,24 +5,24 @@
                 <el-input v-model="ruleForm.DEPTID"></el-input>
             </el-form-item>
             <el-form-item prop="DEPTNAME" label="部门名称">
-                <el-input v-model="ruleForm.DEPTNAME"></el-input>
+                <el-input v-model="ruleForm.DEPTNAME" size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="ISBUSINESS" label="业务科室">
-                <el-select v-model="ruleForm.ISBUSINESS" placeholder="请选择">
+                <el-select v-model="ruleForm.ISBUSINESS" placeholder="请选择" size="mini">
 				    <el-option label="是" value='1'></el-option>
 				    <el-option label="否" value='0'></el-option>
 				</el-select>
             </el-form-item>
-            <el-form-item prop="BELONGID" label="归属科室" placeholder="请选择">
-                <el-select v-model="ruleForm.BELONGID">
+            <el-form-item prop="BELONGID" label="归属科室">
+                <el-select v-model="ruleForm.BELONGID" placeholder="请选择" size="mini">
 				    <el-option v-for="item in belongs" :key="item.DEPTID" :label="item.DEPTNAME" :value="item.DEPTID"></el-option>
 				</el-select>
             </el-form-item>
             <el-form-item prop="EMAIL" label="邮箱">
-                <el-input v-model="ruleForm.EMAIL"></el-input>
+                <el-input v-model="ruleForm.EMAIL" size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="CONTACTPHONE" label="电话">
-                <el-input v-model="ruleForm.CONTACTPHONE"></el-input>
+                <el-input v-model="ruleForm.CONTACTPHONE" size="mini"></el-input>
             </el-form-item>
             <div class="btn-box">
                 <el-button type="primary" size="mini" @keyup.enter="submitForm('ruleForm')" @click="submitForm('ruleForm')">保存</el-button>

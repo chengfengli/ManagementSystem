@@ -48,7 +48,7 @@
 <style scoped>
 	#index{
 		height: 100%;
-		background-color: #F6F4E7;
+		background-color: #F2F2F2;
 	}
 	#index .home .link{
 		display: inline-block;

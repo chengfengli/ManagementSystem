@@ -112,11 +112,12 @@
 		width: 40px;
 	}
 	.pageComponet .limit{
-		width: 60px;
+		width: 45px;
 	}
 	.pageComponet .total,.pageComponet .pages{
 		color:#F56C6C;
 		padding: 0 3px;
 		font-weight: bold;
 	}
+	
 </style>

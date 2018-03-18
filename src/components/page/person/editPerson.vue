@@ -5,45 +5,45 @@
                 <el-input v-model="ruleForm.USERID"></el-input>
             </el-form-item>
             <el-form-item prop="ACCOUNT" label="账号">
-                <el-input v-model="ruleForm.ACCOUNT"></el-input>
+                <el-input v-model="ruleForm.ACCOUNT" size="mini"></el-input>
             </el-form-item>
             <el-form-item v-if="ruleForm.PASSWORD==''" prop="PASSWORD" label="密码">
-                <el-input v-model="ruleForm.PASSWORD" placeholder="默认：123456"></el-input>
+                <el-input v-model="ruleForm.PASSWORD" placeholder="默认：123456" size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="USERNAME" label="姓名">
-                <el-input v-model="ruleForm.USERNAME"></el-input>
+                <el-input v-model="ruleForm.USERNAME" size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="PHONE" label="电话">
-                <el-input v-model="ruleForm.PHONE"></el-input>
+                <el-input v-model="ruleForm.PHONE" size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="EMAIL" label="邮箱">
-                <el-input v-model="ruleForm.EMAIL"></el-input>
+                <el-input v-model="ruleForm.EMAIL" size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="USERSN" label="排序号">
-                <el-input v-model="ruleForm.USERSN"></el-input>
+                <el-input v-model="ruleForm.USERSN" size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="ROLEID" label="角色">
-                <el-select v-model="ruleForm.ROLEID" placeholder="请选择">
+                <el-select v-model="ruleForm.ROLEID" placeholder="请选择" size="mini">
 				    <el-option v-for="item in roles" :key="item.VALUE" :label="item.DISPLAY" :value="item.VALUE"></el-option>
 				</el-select>
             </el-form-item>
             <el-form-item prop="JOB" label="职务">
-                <el-select v-model="ruleForm.JOB" placeholder="请选择">
+                <el-select v-model="ruleForm.JOB" placeholder="请选择" size="mini">
 				    <el-option v-for="item in jobs" :key="item.VALUE" :label="item.DISPLAY" :value="item.VALUE"></el-option>
 				</el-select>
             </el-form-item>
             <el-form-item prop="DEPTID" label="部门">
-                <el-select v-model="ruleForm.DEPTID" placeholder="请选择">
+                <el-select v-model="ruleForm.DEPTID" placeholder="请选择" size="mini">
 				    <el-option v-for="item in depts" :key="item.DEPTID" :label="item.DEPTNAME" :value="item.DEPTID"></el-option>
 				</el-select>
             </el-form-item>
             <el-form-item prop="ISUSED" label="启用">
-                <el-select v-model="ruleForm.ISUSED" placeholder="请选择">
+                <el-select v-model="ruleForm.ISUSED" placeholder="请选择" size="mini">
 				    <el-option v-for="item in bools" :key="item.value" :label="item.txt" :value="item.value"></el-option>
 				</el-select>
             </el-form-item>
             <el-form-item prop="ISGAG" label="禁言">
-                <el-select v-model="ruleForm.ISGAG" placeholder="请选择">
+                <el-select v-model="ruleForm.ISGAG" placeholder="请选择" size="mini">
 				    <el-option v-for="item in bools" :key="item.value" :label="item.txt" :value="item.value"></el-option>
 				</el-select>
             </el-form-item>
@@ -66,6 +66,12 @@
 				rules: {
                     USERNAME: [
                         { required: true, message: '请输入姓名', trigger: 'blur' }
+                    ],
+                    ACCOUNT: [
+                        { required: true, message: '请输入账号', trigger: 'blur' }
+                    ],
+                    PHONE: [
+                        { required: true, message: '请输入电话', trigger: 'blur' }
                     ],
                     ISBUSINESS: [
                         { required: true, message: '请选择是否是业务科室', trigger: 'blur' }

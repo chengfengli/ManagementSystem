@@ -24,47 +24,50 @@
 							<table cellspacing="0">
 								<tr>
 									<td class="form-title">姓名</td>
-									<td><el-input v-model="condition.USERNAME"></el-input></td>
+									<td><el-input v-model="condition.USERNAME" size="mini"></el-input></td>
 									<td class="form-title">部门</td>
-									<td><el-input v-model="condition.DEPT"></el-input></td>
+									<td><el-input v-model="condition.DEPT" size="mini"></el-input></td>
 									<td class="form-title">角色</td>
-									<td><el-input v-model="condition.ROLE"></el-input></td>
+									<td><el-input v-model="condition.ROLE" size="mini"></el-input></td>
 									<td class="form-title">职务</td>
-									<td><el-input v-model="condition.JOB"></el-input></td>
+									<td><el-input v-model="condition.JOB" size="mini"></el-input></td>
 									<td style="width: 170px;">
-										<el-button @click="selectPoseson(1,10)" size="mini">查询</el-button>
-  										<el-button @click="exportEmp()" type="primary" size="mini">导出</el-button>
+										<el-button @click="selectPoseson(1,10)" type="primary" size="mini">查询</el-button>
+  										<el-button @click="exportEmp()" type="success" size="mini">导出</el-button>
 									</td>
 								</tr>
 							</table>
 						</div>
-						<el-button @click="eidtPerson('')" type="primary" size="mini">新增</el-button>
-						<el-table :data="dataPerson" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable">
-				            <el-table-column type="index" width="55"></el-table-column>
-				            <el-table-column prop="USERNAME" label="姓名" width="100"></el-table-column>
-				            <el-table-column prop="ROLENAME" label="角色" width="100"></el-table-column>
-				            <el-table-column prop="JOB" label="职务" width="150"></el-table-column>
-				            <el-table-column prop="EMAIL" label="邮箱" width="250"></el-table-column>
-				            <el-table-column prop="PHONE" label="电话" width="160"></el-table-column>
-				            <el-table-column prop="enable" label="启动" width="70">
-				            	<template scope="scope">
-				            		<span v-if="scope.row.ISUSED == 1">是</span>
-				            		<span v-else>否</span>
-				                </template>
-				            </el-table-column>
-				            <el-table-column prop="gag" label="禁言" width="70">
-				            	<template scope="scope">
-				            		<span v-if="scope.row.ISGAG == 1">是</span>
-				            		<span v-else>否</span>
-				                </template>
-				            </el-table-column>
-				            <el-table-column label="操作" width="200">
-				                <template scope="scope">
-				                    <el-button size="mini" @click="eidtPerson(scope.row.USERID)">编辑</el-button>
-				                    <el-button size="mini" type="danger" @click="delPerson(scope.row.USERID)">删除</el-button>
-				                </template>
-				            </el-table-column>
-				        </el-table>
+						<div style="border: 1px solid #ebeef5;">
+							<el-button @click="eidtPerson('')" type="text" size="mini"><i class="el-icon-circle-plus-outline"></i>新增</el-button>
+							<el-table :data="dataPerson" stripe border style="width: auto;" ref="multipleTable">
+					            <el-table-column type="index" align="center"></el-table-column>
+					            <el-table-column prop="USERNAME" label="姓名" align="center"></el-table-column>
+					            <el-table-column prop="ROLENAME" label="角色" align="center"></el-table-column>
+					            <el-table-column prop="JOB" label="职务" align="center"></el-table-column>
+					            <el-table-column prop="EMAIL" label="邮箱" align="center"></el-table-column>
+					            <el-table-column prop="PHONE" label="电话" align="center"></el-table-column>
+					            <el-table-column prop="enable" label="启动" align="center">
+					            	<template scope="scope">
+					            		<span v-if="scope.row.ISUSED == 1">是</span>
+					            		<span v-else>否</span>
+					                </template>
+					            </el-table-column>
+					            <el-table-column prop="gag" label="禁言" align="center">
+					            	<template scope="scope">
+					            		<span v-if="scope.row.ISGAG == 1">是</span>
+					            		<span v-else>否</span>
+					                </template>
+					            </el-table-column>
+					            <el-table-column label="操作" align="center">
+					                <template scope="scope">
+					                    <el-button size="mini" @click="eidtPerson(scope.row.USERID)"><i class="el-icon-edit"></i>编辑</el-button>
+					                    <el-button size="mini" type="danger" @click="delPerson(scope.row.USERID)"><i class="el-icon-delete"></i>删除</el-button>
+					                </template>
+					            </el-table-column>
+					        </el-table>
+					        <page @change="pagechangeEmp" :total="emp.total"></page>
+						</div>
 					</el-col>
 					<!--部门管理-->
 					<el-col v-if="index==2" :offset="1" :span="21">
@@ -72,54 +75,56 @@
 							<table cellspacing="0">
 								<tr>
 									<td class="form-title">名称</td>
-									<td><el-input v-model="dep.DEPTNAME"></el-input></td>
+									<td><el-input v-model="dep.DEPTNAME" size="mini"></el-input></td>
 									<td class="form-title">业务科室</td>
 									<td>
-										<el-select v-model="dep.ISBUSINESS" placeholder="请选择">
+										<el-select v-model="dep.ISBUSINESS" size="mini" placeholder="请选择">
 										    <el-option label="是" value="1"></el-option>
 										    <el-option label="否" value="0"></el-option>
 										</el-select>
 									</td>
 									<td class="form-title">归属科室</td>
-									<td><el-input v-model="dep.BELONG"></el-input></td>
+									<td><el-input v-model="dep.BELONG" size="mini"></el-input></td>
 									<td style="width: 170px;">
-										<el-button @click="selectDept(1,10)">查询</el-button>
+										<el-button @click="selectDept(1,10)" type="primary" size="mini">查询</el-button>
 									</td>
 								</tr>
 							</table>
 						</div>
-						<el-button size="mini" type="primary" @click="obj={};editDeptDialog=true;">新增</el-button>
-						<el-table :data="dataDept" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable">
-				            <el-table-column type="index" width="55"></el-table-column>
-				            <el-table-column prop="DEPTNAME" label="名称" width="100"></el-table-column>
-				            <el-table-column prop="ISBUSINESS" label="业务科室" width="150">
-				            	<template scope="scope">
-				            		<span v-if="scope.row.ISBUSINESS == 1">是</span>
-				            		<span v-else>否</span>
-				                </template>
-				            </el-table-column>
-				            <el-table-column prop="BELONG" label="归属科室" width="150"></el-table-column>
-				            <el-table-column prop="EMAIL" label="邮箱" width="250"></el-table-column>
-				            <el-table-column prop="CONTACTPHONE" label="电话" width="160"></el-table-column>
-				            <el-table-column label="操作" width="200">
-				                <template scope="scope">
-				                    <el-button size="mini" @click="editDept(scope.row.DEPTID)">编辑</el-button>
-				                    <el-button size="mini" type="danger" @click="delDept(scope.row.DEPTID)">删除</el-button>
-				                </template>
-				            </el-table-column>
-				        </el-table>
-						<page @change="pagechange" :total="deptPager.total" :limits="[5,15,20,25]"></page>
+						<div style="border: 1px solid #ebeef5;">
+							<el-button size="mini" type="text" @click="obj={};editDeptDialog=true;"><i class="el-icon-circle-plus-outline"></i>新增</el-button>
+							<el-table :data="dataDept" stripe border style="width: auto;" ref="multipleTable">
+					            <el-table-column type="index" align="center"></el-table-column>
+					            <el-table-column prop="DEPTNAME" label="名称" align="center"></el-table-column>
+					            <el-table-column prop="ISBUSINESS" label="业务科室" align="center">
+					            	<template scope="scope">
+					            		<span v-if="scope.row.ISBUSINESS == 1">是</span>
+					            		<span v-else>否</span>
+					                </template>
+					            </el-table-column>
+					            <el-table-column prop="BELONG" label="归属科室" align="center"></el-table-column>
+					            <el-table-column prop="EMAIL" label="邮箱" align="center"></el-table-column>
+					            <el-table-column prop="CONTACTPHONE" label="电话" align="center"></el-table-column>
+					            <el-table-column label="操作" align="center">
+					                <template scope="scope">
+					                    <el-button size="mini" @click="editDept(scope.row.DEPTID)"><i class="el-icon-edit"></i>编辑</el-button>
+					                    <el-button size="mini" type="danger" @click="delDept(scope.row.DEPTID)"><i class="el-icon-delete"></i>删除</el-button>
+					                </template>
+					            </el-table-column>
+					        </el-table>
+							<page @change="pagechange" :total="deptPager.total"></page>
+						</div>
 					</el-col>
 				</el-row>
 			</div>
 		</div>
 		
 		<!--员工编辑-->
-		<el-dialog title="员工编辑" :visible.sync="editPersonDialog" width="40%" :close-on-click-modal="false" :show-close="false">
+		<el-dialog title="员工编辑" :visible.sync="editPersonDialog" width="30%" :close-on-click-modal="false" :show-close="false">
 		  <edit-person v-if="editPersonDialog" @refreshEmp="selectPoseson()" @closePersonDialog="editPersonDialog=false" :empId="id"></edit-person>
 		</el-dialog>
 		<!--部门编辑-->
-		<el-dialog title="部门编辑" :visible.sync="editDeptDialog" width="40%" :close-on-click-modal="false" :show-close="false">
+		<el-dialog title="部门编辑" :visible.sync="editDeptDialog" width="30%" :close-on-click-modal="false" :show-close="false">
 		  <edit-dept v-if="editDeptDialog" @refreshDept="selectDept"  @closeDeptDialog="editDeptDialog=false" :deptId="id"></edit-dept>
 		</el-dialog>
 	</div>
@@ -162,6 +167,11 @@
             		total:0,
             		page:1,
             		pageSize:10
+            	},
+            	emp:{
+            		total:0,
+            		page:1,
+            		pageSize:10
             	}
             }
         },
@@ -179,12 +189,16 @@
         		}
         		this.$http.post('/user/userList',this.condition).then(res=>{
         			if(res.code == 10000){
+        				this.emp.total = res.data.totalSize;
         				this.dataPerson = res.data.rows;
         			}else{
         				this.$message.error(res.msg);
         				this.dataPerson = [];
         			}
         		})
+        	},
+        	pagechangeEmp(page,pageSize){
+        		this.selectPoseson(1,pageSize);
         	},
         	delPerson(id){ // 删除人员
         		this.$http.post('/user/del/'+id).then(res=>{
@@ -218,14 +232,14 @@
         	},
         	selectDept(page,pageSize) { // 部门查询
         		if(page){
-        			this.dep.page = this.deptPager.page;
-        		}else{
         			this.dep.page = page;
+        		}else{
+        			this.dep.page = this.deptPager.page;
         		}
         		if(pageSize){
-        			this.dep.pageSize = this.deptPager.pageSize;
-        		}else{
         			this.dep.pageSize = pageSize;
+        		}else{
+        			this.dep.pageSize = this.deptPager.pageSize;
         		}
         		this.$http.post('/dept/listDept',this.dep).then(res=>{
         			if(res.code == 10000){
@@ -257,8 +271,8 @@
         	loadData(index) {
 		        this.index = index;
 		    },
-		    pagechange() {
-		    	
+		    pagechange(page,pageSize) {
+		    	this.selectDept(1,pageSize);
 		    }
         },
         mounted() {
@@ -279,6 +293,10 @@
 	    background-color: #00d1b2;
 	    cursor: pointer;
 	    margin-right: 15px;
+	}
+	#personManage .data-box .el-menu{
+		border-radius: 10px;
+    	overflow: hidden;
 	}
 	#personManage .data-box .el-menu-item{
 		text-align: center;
@@ -319,11 +337,15 @@
 		border: 0;
 	}
 	#personManage .el-menu-item{
-		margin-bottom: 10px;
+		margin-bottom: 0;
 		background-color: rgb(238, 246, 246);
 	}
-	#personManage .is-active,#personManage .el-menu-item:hover{
+	#personManage .is-active{
 		background-color: #00d1b2;
+		color: #fff;
+	}
+	#personManage .el-menu-item:hover{
+		background-color: #55DBC9;
 		color: #fff;
 	}
 	

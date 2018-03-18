@@ -9,6 +9,7 @@ import '../static/css/public.css'
 Vue.use(ElementUI)
 let loadingInstance;
 Vue.config.productionTip = false
+
 axios.defaults.baseURL = httpConfig.hostURL;
 axios.defaults.withCredentials=true;
 axios.interceptors.request.use(config => {
@@ -36,6 +37,7 @@ axios.interceptors.response.use(res => {
 	
 	return Promise.reject(err);
 })
+Vue.prototype.$hostUrl = httpConfig.hostURL;
 Vue.prototype.$http = axios;
 Vue.prototype.$httpHeader = axios.defaults.headers;
 Vue.prototype.$load = Loading;

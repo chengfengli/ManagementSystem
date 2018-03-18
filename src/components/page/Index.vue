@@ -5,7 +5,7 @@
 		</div>
 		<div class="home">
 			<div class="link-list">
-				<div v-for="link in links" v-bind:key="link" class="link" @click="linkTo(link.link)">
+				<div v-for="link in links" :key="link.link" class="link" @click="linkTo(link.link)">
 					<img class="link-ico" :src="link.ico">
 					<div class="link-txt">{{link.txt}}</div>
 				</div>

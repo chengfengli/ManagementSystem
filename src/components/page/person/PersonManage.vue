@@ -32,13 +32,13 @@
 									<td class="form-title">职务</td>
 									<td><el-input v-model="condition.JOB"></el-input></td>
 									<td style="width: 170px;">
-										<el-button @click="selectPoseson" size="mini">查询</el-button>
-  										<el-button type="primary" size="mini">导出</el-button>
-  										<el-button @click="obj={};editPersonDialog=true;" type="primary" size="mini">新增</el-button>
+										<el-button @click="selectPoseson(1,10)" size="mini">查询</el-button>
+  										<el-button @click="exportEmp()" type="primary" size="mini">导出</el-button>
 									</td>
 								</tr>
 							</table>
 						</div>
+						<el-button @click="eidtPerson('')" type="primary" size="mini">新增</el-button>
 						<el-table :data="dataPerson" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable">
 				            <el-table-column type="index" width="55"></el-table-column>
 				            <el-table-column prop="USERNAME" label="姓名" width="100"></el-table-column>
@@ -60,9 +60,8 @@
 				            </el-table-column>
 				            <el-table-column label="操作" width="200">
 				                <template scope="scope">
-				                    <el-button size="mini" @click="condition.USERNAME=5;editPersonDialog=true;">编辑</el-button>
+				                    <el-button size="mini" @click="eidtPerson(scope.row.USERID)">编辑</el-button>
 				                    <el-button size="mini" type="danger" @click="delPerson(scope.row.USERID)">删除</el-button>
-				                    <el-button size="mini" type="primary" @click="add()">新增</el-button>
 				                </template>
 				            </el-table-column>
 				        </el-table>
@@ -84,24 +83,28 @@
 									<td class="form-title">归属科室</td>
 									<td><el-input v-model="dep.BELONG"></el-input></td>
 									<td style="width: 170px;">
-										<el-button>查询</el-button>
-  										<el-button type="primary">导出</el-button>
+										<el-button @click="selectDept(1,10)">查询</el-button>
 									</td>
 								</tr>
 							</table>
 						</div>
+						<el-button size="mini" type="primary" @click="obj={};editDeptDialog=true;">新增</el-button>
 						<el-table :data="dataDept" stripe border style="width: 100%;margin-top: 20px;" ref="multipleTable">
 				            <el-table-column type="index" width="55"></el-table-column>
 				            <el-table-column prop="DEPTNAME" label="名称" width="100"></el-table-column>
-				            <el-table-column prop="ISBUSINESS" label="业务科室" width="150"></el-table-column>
+				            <el-table-column prop="ISBUSINESS" label="业务科室" width="150">
+				            	<template scope="scope">
+				            		<span v-if="scope.row.ISBUSINESS == 1">是</span>
+				            		<span v-else>否</span>
+				                </template>
+				            </el-table-column>
 				            <el-table-column prop="BELONG" label="归属科室" width="150"></el-table-column>
 				            <el-table-column prop="EMAIL" label="邮箱" width="250"></el-table-column>
 				            <el-table-column prop="CONTACTPHONE" label="电话" width="160"></el-table-column>
 				            <el-table-column label="操作" width="200">
 				                <template scope="scope">
-				                    <el-button size="mini" @click="editDept(scope.row)">编辑</el-button>
+				                    <el-button size="mini" @click="editDept(scope.row.DEPTID)">编辑</el-button>
 				                    <el-button size="mini" type="danger" @click="delDept(scope.row.DEPTID)">删除</el-button>
-				                    <el-button size="mini" type="primary" @click="obj={};editDeptDialog=true;">新增</el-button>
 				                </template>
 				            </el-table-column>
 				        </el-table>
@@ -113,11 +116,11 @@
 		
 		<!--员工编辑-->
 		<el-dialog title="员工编辑" :visible.sync="editPersonDialog" width="40%" :close-on-click-modal="false" :show-close="false">
-		  <edit-person @closePersonDialog="editPersonDialog=false" :ruleForm="obj"></edit-person>
+		  <edit-person v-if="editPersonDialog" @refreshEmp="selectPoseson()" @closePersonDialog="editPersonDialog=false" :empId="id"></edit-person>
 		</el-dialog>
 		<!--部门编辑-->
 		<el-dialog title="部门编辑" :visible.sync="editDeptDialog" width="40%" :close-on-click-modal="false" :show-close="false">
-		  <edit-dept @closeDeptDialog="editDeptDialog=false" :ruleForm="obj"></edit-dept>
+		  <edit-dept v-if="editDeptDialog" @refreshDept="selectDept"  @closeDeptDialog="editDeptDialog=false" :deptId="id"></edit-dept>
 		</el-dialog>
 	</div>
 </template>
@@ -137,9 +140,9 @@
         data: function(){
             return {
             	index: 1,
-            	obj:{},
+            	id:'',
             	condition: {
-            		USERNAME: '2',
+            		USERNAME: '',
             		DEPT: '',
             		ROLE: '',
             		JOB: '',
@@ -148,20 +151,32 @@
             		DEPTNAME: '',
             		ISBUSINESS:'1',
             		BELONG: '',
+            		page:1,
+            		pageSize:10
             	},
             	dataPerson: [],
             	dataDept: [],
             	editPersonDialog: false,
             	editDeptDialog: false,
             	deptPager: {
-            		total:0
+            		total:0,
+            		page:1,
+            		pageSize:10
             	}
             }
         },
         methods: {
-        	selectPoseson(){ // 人员查询
-        		this.condition.page = this.page;
-        		this.condition.pageSize = this.pageSize;
+        	selectPoseson(page,pageSize){ // 人员查询
+        		if(page){
+        			this.condition.page = page;
+        		}else{
+        			this.condition.page = this.deptPager.page;
+        		}
+        		if(pageSize){
+        			this.condition.pageSize = pageSize;
+        		}else{
+        			this.condition.pageSize = this.deptPager.pageSize;
+        		}
         		this.$http.post('/user/userList',this.condition).then(res=>{
         			if(res.code == 10000){
         				this.dataPerson = res.data.rows;
@@ -184,15 +199,37 @@
         			}
         		})
         	},
-        	eidtPerson(data) {
-        		this.obj=data;
+        	eidtPerson(id) {
+        		this.id=id;
         		this.editPersonDialog=true;
         	},
-        	selectDept() { // 部门查询
-        		this.dep.page = this.page;
-        		this.dep.pageSize = this.pageSize;
-        		this.$http.post('/dept/listDept',this.condition).then(res=>{
+        	exportEmp(){
+//      		location.href = this.$hostUrl+'/user/export?USERNAME='+this.condition.USERNAME;
+				this.$http({
+				    method: 'post',
+				    url: '/user/export',
+				    data: {},
+				    responseType: 'blob'
+				}).then(res=>{
+					console.log(res)
+        		}).catch(err =>{
+					console.log(err)
+				})
+        	},
+        	selectDept(page,pageSize) { // 部门查询
+        		if(page){
+        			this.dep.page = this.deptPager.page;
+        		}else{
+        			this.dep.page = page;
+        		}
+        		if(pageSize){
+        			this.dep.pageSize = this.deptPager.pageSize;
+        		}else{
+        			this.dep.pageSize = pageSize;
+        		}
+        		this.$http.post('/dept/listDept',this.dep).then(res=>{
         			if(res.code == 10000){
+        				this.deptPager.total = res.data.totalSize;
         				this.dataDept = res.data.rows;
         			}else{
         				this.$message.error(res.msg);
@@ -213,8 +250,8 @@
         			}
         		})
         	},
-        	editDept(data) {
-        		this.obj=data;
+        	editDept(deptId) {
+        		this.id=deptId;
         		this.editDeptDialog=true;
         	},
         	loadData(index) {
@@ -225,8 +262,8 @@
 		    }
         },
         mounted() {
-        	this.selectPoseson();
-        	this.selectDept();
+        	this.selectPoseson(this.deptPager.page,this.deptPager.pageSize);
+        	this.selectDept(this.deptPager.page,this.deptPager.pageSize);
         }
     }
 </script>

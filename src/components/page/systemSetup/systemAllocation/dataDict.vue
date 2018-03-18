@@ -18,7 +18,7 @@
         border="true"
         :data="tableData4"
         style="width: 100%"
-        max-height="250">
+        max-height="80%">
         <el-table-column
           fixed
           prop="date"
@@ -138,13 +138,11 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    border: 1px solid red;
   }
   .dataDict .systemParam-search{
-    padding: 10px 25px;
+    padding: 15px 25px;
     box-sizing: border-box;
     max-height: 8%;
-    border: 1px solid red;
   }
   .dataDict .systemParam-search label{
     margin-right: 10px;
@@ -158,7 +156,6 @@
   }
   .dataDict .el-button{padding: 6px 23px;}
   .dataDict .el-table th,.dataDict .el-table td{text-align: center;}
-  .dataDict .systemParam-table{max-height: 80%;}
   .dataDict .systemParam-paging{
     padding-top: 40px;
     width: 100%;

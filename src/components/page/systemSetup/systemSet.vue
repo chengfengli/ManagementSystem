@@ -38,14 +38,14 @@
                                 </template>
                                 <el-menu-item-group>
                                     <!--<template slot="title">分组一</template>-->
-                                    <el-menu-item index="1-1">游客</el-menu-item>
-                                    <el-menu-item index="1-2">事件填报员</el-menu-item>
-                                    <el-menu-item index="1-3">事件处理员</el-menu-item>
-                                    <el-menu-item index="1-4">事件处理员（协助）</el-menu-item>
-                                    <el-menu-item index="1-5">事件管理</el-menu-item>
-                                    <el-menu-item index="1-6">事件管理员（协助）</el-menu-item>
-                                    <el-menu-item index="1-7">院级领导</el-menu-item>
-                                    <el-menu-item index="1-8">部门领导</el-menu-item>
+                                    <el-menu-item index="1-1" @click="openModulePage('showTourist')">游客</el-menu-item>
+                                    <el-menu-item index="1-2" @click="openModulePage('showEventForm')">事件填报员</el-menu-item>
+                                    <el-menu-item index="1-3" @click="openModulePage('showEventHandler')">事件处理员</el-menu-item>
+                                    <el-menu-item index="1-4" @click="openModulePage('showEventHandlerAbet')">事件处理员（协助）</el-menu-item>
+                                    <el-menu-item index="1-5" @click="openModulePage('showEventManage')">事件管理</el-menu-item>
+                                    <el-menu-item index="1-6" @click="openModulePage('showEventManageAbet')">事件管理员（协助）</el-menu-item>
+                                    <el-menu-item index="1-7" @click="openModulePage('showInstitutionLeader')">院级领导</el-menu-item>
+                                    <el-menu-item index="1-8" @click="openModulePage('showSectorLeader')">部门领导</el-menu-item>
                                 </el-menu-item-group>
                             </el-submenu>
                             <el-submenu index="3">
@@ -76,9 +76,19 @@
                 </el-row>
             </nav>
             <aside>
+              <!-- 系统配置 -->
                 <hospitalsInfo v-if="systemSetControl.showHospitalsInfo"></hospitalsInfo>
                 <systemParam v-if="systemSetControl.showSystemParam"></systemParam>
                 <dataDict v-if="systemSetControl.showDataDict"></dataDict>
+              <!-- 权限设置 -->
+              <tourist v-if="systemSetControl.showTourist"></tourist>
+              <eventForm v-if="systemSetControl.showEventForm"></eventForm>
+              <eventHandler v-if="systemSetControl.showEventHandler"></eventHandler>
+              <eventHandlerAbet v-if="systemSetControl.showEventHandlerAbet"></eventHandlerAbet>
+              <eventManage v-if="systemSetControl.showEventManage"></eventManage>
+              <eventManageAbet v-if="systemSetControl.showEventManageAbet"></eventManageAbet>
+              <institutionLeader v-if="systemSetControl.showInstitutionLeader"></institutionLeader>
+              <sectorLeader v-if="systemSetControl.showSectorLeader"></sectorLeader>
             </aside>
         </main>
     </div>
@@ -89,8 +99,34 @@
     import hospitalsInfo from  "./systemAllocation/hospitalsInfo"
     import systemParam from  "./systemAllocation/systemParam"
     import dataDict from  "./systemAllocation/dataDict"
+
+    import tourist from "./Permission/tourist"
+    import eventForm from "./Permission/eventForm"
+    import eventHandler from "./Permission/eventHandler"
+    import eventHandlerAbet from "./Permission/eventHandlerAbet"
+    import eventManage from "./Permission/eventManage"
+    import eventManageAbet from "./Permission/eventManageAbet"
+    import institutionLeader from "./Permission/institutionLeader"
+    import sectorLeader from "./Permission/sectorLeader"
+
     export default {
         name: "systemSet",
+      components: {
+        /* 系统配置 */
+        sysHeader,
+        hospitalsInfo,
+        systemParam,
+        dataDict,
+        /* 权限设置 */
+        tourist,
+        eventForm,
+        eventHandler,
+        eventHandlerAbet,
+        eventManage,
+        eventManageAbet,
+        institutionLeader,
+        sectorLeader
+      },
         data(){
             return{
                 //系统设置控制
@@ -103,9 +139,9 @@
                     showTourist: false,                    //游客
                     showEventForm: false,                  //事件填报员
                     showEventHandler: false,               //事件处理员
-                    showEventFormAbet: false,              //事件填报员(协助)
                     showEventHandlerAbet: false,           //事件处理员(协助)
                     showEventManage: false,                //事件管理
+                    showEventManageAbet: false,            //事件管理员(协助)
                     showInstitutionLeader: false,          //院级领导
                     showSectorLeader: false,               //部门领导
                     //事件配置
@@ -135,12 +171,7 @@
                 console.log(key, keyPath);
             }
         },
-        components: {
-            sysHeader,
-            hospitalsInfo,
-            systemParam,
-            dataDict
-        }
+
     }
 </script>
 <style>

@@ -1,5 +1,5 @@
 <template>
-
+  <article>事件处理员(协助)</article>
 </template>
 
 <script>

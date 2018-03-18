@@ -1,5 +1,5 @@
 <template>
-
+  <article>院级领导</article>
 </template>
 
 <script>

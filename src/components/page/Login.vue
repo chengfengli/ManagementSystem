@@ -4,10 +4,10 @@
     		<div class="ms-title"><img class="logo" src="../../../static/img/logo.png"><span>不良事件上报系统</span></div>
     		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
                 <el-form-item prop="ACCOUNT">
-                    <el-input id="account" v-model="ruleForm.ACCOUNT" placeholder="用户名/账号"></el-input>
+                    <el-input id="account" type="email" v-model="ruleForm.ACCOUNT" placeholder="用户名/账号"></el-input>
                 </el-form-item>
                 <el-form-item prop="PASSWORD">
-                    <el-input id="password" type="PASSWORD" placeholder="密码" v-model="ruleForm.PASSWORD" @keyup.enter.native="submitForm('ruleForm')"></el-input>
+                    <el-input id="password" type="password" placeholder="密码" v-model="ruleForm.PASSWORD" @keyup.enter.native="submitForm('ruleForm')"></el-input>
                 </el-form-item>
                 <div class="login-btn">
                     <el-button id="login-btn" type="success" @keyup.enter="submitForm('ruleForm')" @click="submitForm('ruleForm')">登录</el-button>
@@ -66,6 +66,9 @@
     #login-page .login-box{
     	display: inline-block;
     	margin-top: 15%;
+    }
+    #login-page .el-form-item{
+    	padding-bottom: 20px;
     }
     #account{
     	width: 300px;

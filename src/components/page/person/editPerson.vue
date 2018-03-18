@@ -20,7 +20,7 @@
                 <el-input v-model="ruleForm.EMAIL" size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="USERSN" label="排序号">
-                <el-input v-model="ruleForm.USERSN" size="mini"></el-input>
+                <el-input v-model="ruleForm.USERSN" type="NUMBER" min='1' size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="ROLEID" label="角色">
                 <el-select v-model="ruleForm.ROLEID" placeholder="请选择" size="mini">
@@ -71,7 +71,11 @@
                         { required: true, message: '请输入账号', trigger: 'blur' }
                     ],
                     PHONE: [
-                        { required: true, message: '请输入电话', trigger: 'blur' }
+                        { required: true, message: '请输入电话', trigger: 'blur' },
+                        { validator: this.phoneCheck, message: '手机格式错误', trigger: 'blur' }
+                    ],
+                    EMAIL: [
+                    	{ validator: this.vemail, message: '邮箱格式错误', trigger: 'blur' }
                     ],
                     ISBUSINESS: [
                         { required: true, message: '请选择是否是业务科室', trigger: 'blur' }
@@ -138,7 +142,21 @@
 		        		}
 		        	})
 				}
-			}
+			},
+			vemail(rule, value, callback) {//邮箱验证
+            	var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+            	if(value!=''){
+            		if(!reg.test(value)){
+            			callback(new Error(rule));
+            		}
+            	}
+           	},
+           	phoneCheck(rule, value, callback){
+           		var reg = new RegExp("^((13[0-9])|(17[3-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0-9]))\\d{8}$");
+            	if(!reg.test(value)){
+        			callback(new Error(rule));
+        		}
+           	}
 		},
 		mounted() {
 			this.$http.post('/dic/getDicByKey/role').then(res=>{

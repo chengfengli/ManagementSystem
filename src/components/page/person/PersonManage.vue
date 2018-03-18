@@ -33,7 +33,8 @@
 									<td><el-input v-model="condition.JOB" size="mini"></el-input></td>
 									<td style="width: 170px;">
 										<el-button @click="selectPoseson(1,10)" type="primary" size="mini">查询</el-button>
-  										<el-button @click="exportEmp()" type="success" size="mini">导出</el-button>
+  										<el-button type="success" size="mini">导出</el-button>
+  										<!-- @click="exportEmp()"-->
 									</td>
 								</tr>
 							</table>

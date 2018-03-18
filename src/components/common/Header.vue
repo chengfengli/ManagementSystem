@@ -10,7 +10,7 @@
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
-        <el-dialog title="编辑用户信息" :visible.sync="editPersonDialog" width="40%" :close-on-click-modal="false" :show-close="false">
+        <el-dialog title="编辑用户信息" :visible.sync="editPersonDialog" width="30%" :close-on-click-modal="false" :show-close="false">
 		  <user-info v-if="editPersonDialog" @refreshEmp="selectPoseson()" @closePersonDialog="editPersonDialog=false" :empId="id"></user-info>
 		</el-dialog>
     </div>

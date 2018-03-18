@@ -1,5 +1,5 @@
 <template>
-
+  <article>事件管理</article>
 </template>
 
 <script>

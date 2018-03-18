@@ -5,34 +5,53 @@
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">当前用户：{{user.USERNAME}}</span>
                 <el-dropdown-menu slot="dropdown">
-                	<el-dropdown-item command="loginout">修改个人信息</el-dropdown-item>
+                	<el-dropdown-item command="userinfo">用户信息</el-dropdown-item>
                     <el-dropdown-item command="loginout">注销</el-dropdown-item>
-                    <el-dropdown-item command="loginout">帮助手册</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
+        <el-dialog title="编辑用户信息" :visible.sync="editPersonDialog" width="40%" :close-on-click-modal="false" :show-close="false">
+		  <user-info v-if="editPersonDialog" @refreshEmp="selectPoseson()" @closePersonDialog="editPersonDialog=false" :empId="id"></user-info>
+		</el-dialog>
     </div>
 </template>
 <script>
+	import userInfo from '../common/userInfo.vue';
     export default {
+    	components:{
+			userInfo
+       	},
         data() {
             return {
-                name: ''
+                name: '',
+                editPersonDialog: false,
+                id: '',
             }
         },
         computed:{
             user(){
-            	var user = JSON.parse(localStorage.getItem('user'))
+            	var user = JSON.parse(localStorage.getItem('user'));
                 return user;
             }
         },
         methods:{
             handleCommand(command) {
                 if(command == 'loginout'){
-                    localStorage.removeItem('ms_username')
-                    this.$router.push('/login');
+                	this.$http.post('/user/logout').then(res=>{
+		        		if(res.code == 10000){
+		        			localStorage.removeItem('user');
+		        			this.$router.push('/login');
+		        		}else{
+		        			this.$message.error(res.msg);
+		        		}
+		        	})
+                }else if(command == 'userinfo'){
+                	this.editPersonDialog = true;
                 }
             }
+        },
+        mounted() {
+        	this.id = this.user.USERID;
         }
     }
 </script>

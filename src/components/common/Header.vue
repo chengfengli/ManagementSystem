@@ -51,7 +51,12 @@
             }
         },
         mounted() {
-        	this.id = this.user.USERID;
+        	if(this.user){
+        		this.id = this.user.USERID;
+        	}else{
+        		this.$router.push('/login');
+        	}
+        	
         }
     }
 </script>

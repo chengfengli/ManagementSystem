@@ -38,14 +38,10 @@
 				</el-select>
             </el-form-item>
             <el-form-item prop="ISUSED" label="启用">
-                <el-select v-model="ruleForm.ISUSED" placeholder="请选择" size="mini">
-				    <el-option v-for="item in bools" :key="item.value" :label="item.txt" :value="item.value"></el-option>
-				</el-select>
+            	<el-checkbox v-model="ruleForm.ISUSED==1" @change="isused"></el-checkbox>
             </el-form-item>
             <el-form-item prop="ISGAG" label="禁言">
-                <el-select v-model="ruleForm.ISGAG" placeholder="请选择" size="mini">
-				    <el-option v-for="item in bools" :key="item.value" :label="item.txt" :value="item.value"></el-option>
-				</el-select>
+            	<el-checkbox v-model="ruleForm.ISGAG==1" @change="isgag" ></el-checkbox>
             </el-form-item>
             <div class="btn-box">
                 <el-button type="primary" size="mini" @click="submitForm('ruleForm')">保存</el-button>
@@ -72,13 +68,6 @@
                     ],
                     PHONE: [
                         { required: true, message: '请输入电话', trigger: 'blur' },
-                        { validator: this.phoneCheck, message: '手机格式错误', trigger: 'blur' }
-                    ],
-                    EMAIL: [
-                    	{ validator: this.vemail, message: '邮箱格式错误', trigger: 'blur' }
-                    ],
-                    ISBUSINESS: [
-                        { required: true, message: '请选择是否是业务科室', trigger: 'blur' }
                     ]
                 },
                 ruleForm:{
@@ -109,6 +98,7 @@
 				this.$emit('closePersonDialog');
 			},
 			submitForm(formName) {
+				new Error('asdfadf');
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                     	var url = '';
@@ -156,6 +146,20 @@
             	if(!reg.test(value)){
         			callback(new Error(rule));
         		}
+           	},
+           	isused(value){
+           		if(value){
+           			this.ruleForm.ISUSED=1
+           		}else{
+           			this.ruleForm.ISUSED=0
+           		}
+           	},
+           	isgag(value){
+           		if(value){
+           			this.ruleForm.ISGAG=1
+           		}else{
+           			this.ruleForm.ISGAG=0
+           		}
            	}
 		},
 		mounted() {

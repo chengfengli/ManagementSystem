@@ -89,7 +89,6 @@
         	}else{
         		this.isNext = false
         	}
-        	this.pageSize = this.limits[0];
 		},
 		computed: {
 			pages(){

@@ -9,7 +9,7 @@ import '../static/css/public.css'
 Vue.use(ElementUI)
 let loadingInstance;
 Vue.config.productionTip = false
-
+window.Promise = Promise
 axios.defaults.baseURL = httpConfig.hostURL;
 axios.defaults.withCredentials=true;
 axios.interceptors.request.use(config => {

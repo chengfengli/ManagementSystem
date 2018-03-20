@@ -9,8 +9,8 @@
             </el-form-item>
             <el-form-item prop="ISBUSINESS" label="业务科室">
                 <el-select v-model="ruleForm.ISBUSINESS" placeholder="请选择" size="mini">
-				    <el-option label="是" value='1'></el-option>
-				    <el-option label="否" value='0'></el-option>
+				    <el-option label="是" value="1"></el-option>
+				    <el-option label="否" value="0"></el-option>
 				</el-select>
             </el-form-item>
             <el-form-item prop="BELONGID" label="归属科室">
@@ -36,14 +36,14 @@
 	export default{
 		name: 'editPerson',
 		props: {
-			'deptId':Number
+			'deptId':String
 		},
 		data: function() {
 			return {
 				ruleForm:{
 					DEPTNAME:'',
 					DEPTID: '',
-					ISBUSINESS: '',
+					ISBUSINESS: '0',
 					BELONGID: '',
 					EMAIL: '',
 					CONTACTPHONE: ''
@@ -103,6 +103,7 @@
             	this.$http.post('/dept/detail/'+deptId).then(res=>{
 		            		if(res.code == 10000){
 		            			this.ruleForm = res.data;
+		            			this.ruleForm.ISBUSINESS = this.ruleForm.ISBUSINESS.toString();
 		            		}else{
 		            			this.$message.error(res.msg);
 		            		}
@@ -110,9 +111,10 @@
             }
 		},
 		mounted() {
-			this.ruleForm.ISBUSINESS = '0';
 			this.selectBelongs();
-			this.selectDeptById(this.deptId);
+			if(this.deptId!=''){
+				this.selectDeptById(this.deptId);
+			}
 		}
 	}
 </script>

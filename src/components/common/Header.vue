@@ -56,7 +56,6 @@
         	}else{
         		this.$router.push('/login');
         	}
-        	
         }
     }
 </script>

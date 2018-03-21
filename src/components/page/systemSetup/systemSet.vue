@@ -196,6 +196,7 @@
 </script>
 <style>
     .systemSet{height: 100%;width: 100%;overflow: auto;}
+    .systemSet .current{border-bottom: 1px solid #E6E6E6;}
     .systemSet-main{
         display: flex;
         height: calc(100% - 85px);

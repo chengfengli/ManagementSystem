@@ -10,25 +10,24 @@
         <input/>
       </div>
       <div>
-        <el-button type="primary" size="small">查询</el-button>
+        <el-button class="systemParam-submit" type="primary" size="small">查询</el-button>
       </div>
     </section>
     <section class="systemParam-table">
       <el-table
-        border="true"
-        :data="tableData4"
-        style="width: 100%"
-        max-height="80%">
+        :data="tableData"
+        border
+        style="width: 100%">
         <el-table-column
           fixed
           prop="date"
-          label="id"
-          width="120">
+          label=""
+          width="150">
         </el-table-column>
         <el-table-column
           prop="name"
           label="标识键"
-          width="270">
+          width="220">
         </el-table-column>
         <el-table-column
           prop="province"
@@ -36,21 +35,17 @@
           width="220">
         </el-table-column>
         <el-table-column
-          prop="province"
+          prop="city"
           label="描述"
-          width="760">
+          width="500">
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作"
-          width="150">
+          width="100">
           <template slot-scope="scope">
-            <el-button
-              @click.native.prevent="deleteRow(scope.$index, tableData4)"
-              type="text"
-              size="small">
-              编辑
-            </el-button>
+            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+            <el-button type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -64,61 +59,41 @@
 <script>
   import Page from "../../../common/Page"
     export default {
-        name: "systemParam",
-        data(){
-          return{
-            tableData4: [{
-              date: '2016-05-03',
-              name: '王小虎',
-              province: '上海',
-              city: '普陀区',
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333
-            }, {
-              date: '2016-05-02',
-              name: '王小虎',
-              province: '上海',
-              city: '普陀区',
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333
-            }, {
-              date: '2016-05-04',
-              name: '王小虎',
-              province: '上海',
-              city: '普陀区',
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333
-            }, {
-              date: '2016-05-01',
-              name: '王小虎',
-              province: '上海',
-              city: '普陀区',
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333
-            }, {
-              date: '2016-05-08',
-              name: '王小虎',
-              province: '上海',
-              city: '普陀区',
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333
-            }, {
-              date: '2016-05-06',
-              name: '王小虎',
-              province: '上海',
-              city: '普陀区',
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333
-            }, {
-              date: '2016-05-07',
-              name: '王小虎',
-              province: '上海',
-              city: '普陀区',
-              address: '上海市普陀区金沙江路 1518 弄',
-              zip: 200333
-            }]
-          }
-        },
+      name: "systemParam",
+
+      data() {
+        return {
+          tableData: [{
+            date: '2016-05-03',
+            name: '王小虎',
+            province: '上海',
+            city: '普陀区',
+            address: '上海市普陀区金沙江路 1518 弄',
+            zip: 200333
+          }, {
+            date: '2016-05-02',
+            name: '王小虎',
+            province: '上海',
+            city: '普陀区',
+            address: '上海市普陀区金沙江路 1518 弄',
+            zip: 200333
+          }, {
+            date: '2016-05-04',
+            name: '王小虎',
+            province: '上海',
+            city: '普陀区',
+            address: '上海市普陀区金沙江路 1518 弄',
+            zip: 200333
+          }, {
+            date: '2016-05-01',
+            name: '王小虎',
+            province: '上海',
+            city: '普陀区',
+            address: '上海市普陀区金沙江路 1518 弄',
+            zip: 200333
+          }]
+        }
+      },
       methods:{
 
       },
@@ -149,7 +124,8 @@
     width: 120px;
     padding: 3px 0;
   }
-  .systemParam .el-button{padding: 6px 23px;}
+  .systemParam .el-button{padding: 10px 3px;}
+  .systemParam .systemParam-submit{padding: 6px 23px;box-sizing: border-box;}
   .systemParam .el-table th,.systemParam .el-table td{text-align: center;}
   .systemParam .systemParam-paging{
     padding-top: 40px;

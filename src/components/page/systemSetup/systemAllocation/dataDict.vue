@@ -10,52 +10,47 @@
         <input/>
       </div>
       <div>
-        <el-button type="primary" size="small">查询</el-button>
+        <el-button type="primary" class="dataDict-submit" size="small">查询</el-button>
       </div>
     </section>
     <section class="systemParam-table">
       <el-table
-        border="true"
-        :data="tableData4"
-        style="width: 100%"
-        max-height="80%">
+        :data="tableData"
+        border
+        style="width: 100%">
         <el-table-column
           fixed
           prop="date"
-          label="id"
+          label=""
           width="100">
         </el-table-column>
         <el-table-column
           prop="name"
           label="标识键"
-          width="250">
+          width="220">
         </el-table-column>
         <el-table-column
           prop="province"
           label="值"
-          width="200">
+          width="170">
         </el-table-column>
         <el-table-column
           prop="province"
           label="显示值"
-          width="200">
+          width="170">
         </el-table-column>
         <el-table-column
-          prop="province"
+          prop="city"
           label="描述"
-          width="620">
+          width="460">
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作"
-          width="150">
+          width="100">
           <template slot-scope="scope">
-            <el-button
-              @click.native.prevent="deleteRow(scope.$index, tableData4)"
-              type="text"
-              size="small">
-              编辑
-            </el-button>
+            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+            <el-button type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -70,9 +65,9 @@
   import Page from "../../../common/Page"
   export default {
     name: "dataDict",
-    data(){
-      return{
-        tableData4: [{
+    data() {
+      return {
+        tableData: [{
           date: '2016-05-03',
           name: '王小虎',
           province: '上海',
@@ -95,27 +90,6 @@
           zip: 200333
         }, {
           date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-07',
           name: '王小虎',
           province: '上海',
           city: '普陀区',
@@ -154,7 +128,8 @@
     width: 120px;
     padding: 3px 0;
   }
-  .dataDict .el-button{padding: 6px 23px;}
+  .dataDict .el-button{padding: 10px 3px;box-sizing: border-box;}
+  .dataDict .dataDict-submit{padding: 6px 23px;}
   .dataDict .el-table th,.dataDict .el-table td{text-align: center;}
   .dataDict .systemParam-paging{
     padding-top: 40px;

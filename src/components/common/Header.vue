@@ -18,6 +18,7 @@
 <script>
 	import userInfo from '../common/userInfo.vue';
     export default {
+      name: "Header",
     	components:{
 			userInfo
        	},
@@ -55,10 +56,9 @@
         }
     }
 </script>
-<style scoped>
+<style>
     .header {
         position: relative;
-        box-sizing: border-box;
         width: 100%;
         height: 50px;
         font-size: 22px;

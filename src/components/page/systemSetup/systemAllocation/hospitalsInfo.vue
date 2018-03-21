@@ -1,22 +1,22 @@
 <template>
     <div class="hospitalsInfo">
         <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="医院名称">
-                <el-input v-model="form.name"></el-input>
-            </el-form-item>
-          <el-form-item label="床位数量">
-            <el-input v-model="form.name"></el-input>
+          <el-form-item label="医院名称" class="b-m10">
+              <el-input size="mini" v-model="form.name"></el-input>
           </el-form-item>
-          <el-form-item label="医院地址">
-            <el-input v-model="form.name"></el-input>
+          <el-form-item label="床位数量" class="b-m10">
+            <el-input size="mini" v-model="form.name"></el-input>
           </el-form-item>
-          <el-form-item label="邮编">
-            <el-input v-model="form.name"></el-input>
+          <el-form-item label="医院地址" class="b-m10">
+            <el-input size="mini" v-model="form.name"></el-input>
           </el-form-item>
-          <el-form-item label="电话">
-            <el-input v-model="form.name"></el-input>
+          <el-form-item label="邮编" class="b-m10">
+            <el-input size="mini" v-model="form.name"></el-input>
           </el-form-item>
-          <el-form-item label="医院等级">
+          <el-form-item label="电话" class="b-m10" style="margin-bottom: 13px;">
+            <el-input size="mini" v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="医院等级" size="mini">
             <el-select v-model="value" placeholder="请选择">
               <el-option
                 v-for="item in options"
@@ -26,7 +26,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="医院属性">
+          <el-form-item label="医院属性" size="mini">
             <el-select v-model="value" placeholder="请选择">
               <el-option
                 v-for="item in options"
@@ -36,7 +36,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="医院功能">
+          <el-form-item label="医院功能"  size="mini">
             <el-select v-model="value" placeholder="请选择">
               <el-option
                 v-for="item in options"
@@ -46,7 +46,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="医院性质">
+          <el-form-item label="医院性质" size="mini">
             <el-select v-model="value" placeholder="请选择">
               <el-option
                 v-for="item in options"
@@ -129,6 +129,7 @@ export default {
       margin: auto;
       padding-top: 50px;
     }
+    .hospitalsInfo .b-m10{margin-bottom: 6px;}
     .hospitalsInfo .action-btn section{
       flex:1;
       padding: 10px 40px;

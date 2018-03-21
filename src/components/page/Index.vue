@@ -1,7 +1,7 @@
 <template>
 	<div id="index">
 		<div id="heade">
-			<el-head></el-head>
+			<elHead></elHead>
 		</div>
 		<div class="home">
 			<div class="link-list">

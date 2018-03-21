@@ -1,10 +1,10 @@
 <template>
-
+  <article>输血事件</article>
 </template>
 
 <script>
     export default {
-        name: "transfusion-event.vue"
+        name: "transfusionEvent.vue"
     }
 </script>
 

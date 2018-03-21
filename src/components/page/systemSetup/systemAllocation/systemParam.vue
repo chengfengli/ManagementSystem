@@ -23,22 +23,22 @@
           fixed
           prop="date"
           label="id"
-          width="100">
+          width="120">
         </el-table-column>
         <el-table-column
           prop="name"
           label="标识键"
-          width="250">
+          width="270">
         </el-table-column>
         <el-table-column
           prop="province"
           label="值"
-          width="200">
+          width="220">
         </el-table-column>
         <el-table-column
           prop="province"
           label="描述"
-          width="620">
+          width="760">
         </el-table-column>
         <el-table-column
           fixed="right"

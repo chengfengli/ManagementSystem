@@ -2,6 +2,12 @@
     <div class="systemSet">
         <header>
             <sysHeader></sysHeader>
+            <div class="current">
+              <el-breadcrumb separator-class="el-icon-arrow-right">
+                <el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
+                <el-breadcrumb-item>系统设置</el-breadcrumb-item>
+              </el-breadcrumb>
+            </div>
         </header>
         <main class="systemSet-main">
             <nav>
@@ -55,9 +61,9 @@
                                 </template>
                                 <el-menu-item-group>
                                     <!--<template slot="title">分组一</template>-->
-                                    <el-menu-item index="1-1">医疗器械事件</el-menu-item>
-                                    <el-menu-item index="1-2">输血事件</el-menu-item>
-                                    <el-menu-item index="1-3">药物不良反应事件</el-menu-item>
+                                    <el-menu-item index="1-1" @click="openModulePage('showMedicalDevice')">医疗器械事件</el-menu-item>
+                                    <el-menu-item index="1-2" @click="openModulePage('showTransfusionEvent')">输血事件</el-menu-item>
+                                    <el-menu-item index="1-3" @click="openModulePage('showAdrEvent')">药物不良反应事件</el-menu-item>
                                 </el-menu-item-group>
                             </el-submenu>
                             <el-submenu index="4">
@@ -77,9 +83,9 @@
             </nav>
             <aside>
               <!-- 系统配置 -->
-                <hospitalsInfo v-if="systemSetControl.showHospitalsInfo"></hospitalsInfo>
-                <systemParam v-if="systemSetControl.showSystemParam"></systemParam>
-                <dataDict v-if="systemSetControl.showDataDict"></dataDict>
+              <hospitalsInfo v-if="systemSetControl.showHospitalsInfo"></hospitalsInfo>
+              <systemParam v-if="systemSetControl.showSystemParam"></systemParam>
+              <dataDict v-if="systemSetControl.showDataDict"></dataDict>
               <!-- 权限设置 -->
               <tourist v-if="systemSetControl.showTourist"></tourist>
               <eventForm v-if="systemSetControl.showEventForm"></eventForm>
@@ -89,6 +95,10 @@
               <eventManageAbet v-if="systemSetControl.showEventManageAbet"></eventManageAbet>
               <institutionLeader v-if="systemSetControl.showInstitutionLeader"></institutionLeader>
               <sectorLeader v-if="systemSetControl.showSectorLeader"></sectorLeader>
+              <!-- 事件设置 -->
+              <medicalDevice v-if="systemSetControl.showMedicalDevice"></medicalDevice>
+              <transfusionEvent v-if="systemSetControl.showTransfusionEvent"></transfusionEvent>
+              <adrEvent v-if="systemSetControl.showAdrEvent"></adrEvent>
             </aside>
         </main>
     </div>
@@ -96,10 +106,11 @@
 <script>
     import sysHeader from  '../../common/Header.vue';
     //加载子组件
+    /* 系统配置 */
     import hospitalsInfo from  "./systemAllocation/hospitalsInfo"
     import systemParam from  "./systemAllocation/systemParam"
     import dataDict from  "./systemAllocation/dataDict"
-
+    /* 权限设置 */
     import tourist from "./Permission/tourist"
     import eventForm from "./Permission/eventForm"
     import eventHandler from "./Permission/eventHandler"
@@ -108,6 +119,11 @@
     import eventManageAbet from "./Permission/eventManageAbet"
     import institutionLeader from "./Permission/institutionLeader"
     import sectorLeader from "./Permission/sectorLeader"
+    /* 事件配置 */
+    import medicalDevice from "./eventAllocation/medicalDevice"
+    import transfusionEvent from "./eventAllocation/transfusionEvent"
+    import adrEvent from "./eventAllocation/adrEvent"
+
 
     export default {
         name: "systemSet",
@@ -125,7 +141,11 @@
         eventManage,
         eventManageAbet,
         institutionLeader,
-        sectorLeader
+        sectorLeader,
+        /* 事件配置 */
+        medicalDevice,
+        transfusionEvent,
+        adrEvent
       },
         data(){
             return{
@@ -146,7 +166,7 @@
                     showSectorLeader: false,               //部门领导
                     //事件配置
                     showMedicalDevice: false,              //医疗器械事件
-                    showTransfusionEvent: false,           //输血 事件
+                    showTransfusionEvent: false,           //输血事件
                     showAdrEvent: false,                   //药物不良反应事件
                     //模块配置
                     showGeneralCase: false,                //一般情况
@@ -175,21 +195,20 @@
     }
 </script>
 <style>
-    .systemSet{height: 100%;width: 100%;}
+    .systemSet{height: 100%;width: 100%;overflow: auto;}
     .systemSet-main{
         display: flex;
-        height: calc(100% - 73px);
+        height: calc(100% - 85px);
         width: 100%;
-        overflow: hidden;
     }
+    .systemSet .current{padding-left: 22px;}
     .systemSet-main nav,.systemSet-main aside{
       height: 100%;
       width: 100%;
-      overflow: hidden;
       position: relative;
     }
-    .systemSet-main nav{flex: 3;height: 100%;}
-    .systemSet-main aside{flex: 7;}
-    .systemSet-main .tac, .systemSet-main .el-col-24, .el-menu{height: 100%;}
+    .systemSet-main nav{flex:  2;height: 100%;}
+    .systemSet-main aside{flex: 8;}
+    .systemSet-main .tac, .systemSet-main .el-col-24, .el-menu{height: 100%;overflow: auto;}
 
 </style>

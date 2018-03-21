@@ -23,10 +23,10 @@ html,body,#app{
 }
 
 .current{
-	font-size: 14px;
-    margin-top: 0px;
-    padding: 10px 0 10px 15px;
-    color: #ccc;
+  font-size: 14px;
+  margin-top: 0px;
+  padding: 10px 0 10px 15px;
+  color: #ccc;
 }
 .current a{
 	font-weight: bold;

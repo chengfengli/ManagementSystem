@@ -64,7 +64,7 @@
 			addAnnouncement,
 			addType,
 			Page
-       },
+       	},
         data: function(){
             return {
             	tabPosition: 'right',

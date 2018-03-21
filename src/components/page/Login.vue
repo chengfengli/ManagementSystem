@@ -6,7 +6,7 @@
     			<span>Rui Rui technology co., Ltd.</span>
     		</div>
     		<div class="login-box">
-    			<div class="loginbg"></div>
+    			<div class="loginbg"><img src="../../../static/img/login/2.png"/></div>
     			<div class="logincon">
     				<div class="logincon_01">不良事件上报系统</div>
     				<table>
@@ -84,9 +84,14 @@
     }
     #login-page .login-body .loginbg{
 	    float: left;
-	    width: 617px;
-	    height: 514px;
-	    background: url(../../assets/images/login/2.png);
+	}
+	@media screen and (max-width: 1366px) {
+	    #login-page .login-body .loginbg img{
+		    width: 500px;
+		}
+		#login-page .login-body .login-box{
+			margin-top: 50px;
+		}
 	}
 	#login-page .login-body .logincon{
 		color: #FFF;

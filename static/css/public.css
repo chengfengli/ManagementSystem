@@ -42,18 +42,11 @@ html,body,#app{
 }
 
 /*分页*/
-.pageComponet .el-input--mini .el-input__inner {
-    height: 16px !important;
-    line-height: 16px !important;
+.el-pagination{
+	margin-top: 0;
 }
-.pageComponet .el-button--mini{
-	padding: 2px 5px;
-}
-.pageComponet .el-input__suffix{
-	right: 0px;
-}
-.pageComponet  .el-input--suffix .el-input__inner {
-    padding-right: 20px;
+.el-pagination__editor.el-input .el-input__inner{
+    height: 20px;
 }
 
 /*表格*/

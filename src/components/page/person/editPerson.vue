@@ -20,7 +20,7 @@
                 <el-input v-model="ruleForm.EMAIL" size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="USERSN" label="排序号">
-                <el-input v-model="ruleForm.USERSN" size="mini"></el-input>
+                <el-input v-model="ruleForm.USERSN" type="NUMBER" min='1' size="mini"></el-input>
             </el-form-item>
             <el-form-item prop="ROLEID" label="角色">
                 <el-select v-model="ruleForm.ROLEID" placeholder="请选择" size="mini">
@@ -38,17 +38,13 @@
 				</el-select>
             </el-form-item>
             <el-form-item prop="ISUSED" label="启用">
-                <el-select v-model="ruleForm.ISUSED" placeholder="请选择" size="mini">
-				    <el-option v-for="item in bools" :key="item.value" :label="item.txt" :value="item.value"></el-option>
-				</el-select>
+            	<el-checkbox v-model="ruleForm.ISUSED==1" @change="isused"></el-checkbox>
             </el-form-item>
             <el-form-item prop="ISGAG" label="禁言">
-                <el-select v-model="ruleForm.ISGAG" placeholder="请选择" size="mini">
-				    <el-option v-for="item in bools" :key="item.value" :label="item.txt" :value="item.value"></el-option>
-				</el-select>
+            	<el-checkbox v-model="ruleForm.ISGAG==1" @change="isgag" ></el-checkbox>
             </el-form-item>
             <div class="btn-box">
-                <el-button type="primary" size="mini" @click="submitForm('ruleForm')">保存</el-button>
+                <el-button type="primary" size="mini" @click="submitForm()">保存</el-button>
             	<el-button @click="cancel" size="mini">取消</el-button>
             </div>
         </el-form>
@@ -65,16 +61,13 @@
 			return {
 				rules: {
                     USERNAME: [
-                        { required: true, message: '请输入姓名', trigger: 'blur' }
+                        { required: true }
                     ],
                     ACCOUNT: [
-                        { required: true, message: '请输入账号', trigger: 'blur' }
+                        { required: true }
                     ],
                     PHONE: [
-                        { required: true, message: '请输入电话', trigger: 'blur' }
-                    ],
-                    ISBUSINESS: [
-                        { required: true, message: '请选择是否是业务科室', trigger: 'blur' }
+                        { required: true },
                     ]
                 },
                 ruleForm:{
@@ -91,10 +84,6 @@
                 	ISUSED: '',
                 	ISGAG: ''
                 },
-                bools: [
-                	{txt:'是',value:1},
-                	{txt:'否',value:0}
-                ],
                 jobs:[],
                 roles:[],
                 depts:[]
@@ -105,28 +94,46 @@
 				this.$emit('closePersonDialog');
 			},
 			submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                    	var url = '';
-                    	if(this.ruleForm.USERID == ''){
-                    		url = '/user/create'
-                    	}else{
-                    		url = '/user/update/'+this.ruleForm.USERID
-                    	}
-                    	this.$http.post(url,this.ruleForm).then(res=>{
-			        		if(res.code == 10000){
-		            			this.$emit('closePersonDialog');
-		            			this.$message({
-						          	message: res.msg,
-						          	type: 'success'
-						        });
-		            			this.$emit("refreshEmp");
-		            		}else{
-		            			this.$message.error(res.msg);
-		            		}
-			        	})
-                    }
-				})
+				if(this.$validation(this.ruleForm.ACCOUNT,'required')){
+            		this.$message.error('请输入账号');
+            		return;
+            	}
+            	if(this.$validation(this.ruleForm.USERNAME,'required')){
+            		this.$message.error('请输入姓名');
+            		return;
+            	}
+            	if(this.$validation(this.ruleForm.PHONE,'required')){
+            		this.$message.error('请输入电话');
+            		return;
+            	}
+            	if(!this.$validation(this.ruleForm.PHONE,'phone')){
+            		this.$message.error('电话格式有误');
+            		return;
+            	}
+            	if(!this.$validation(this.ruleForm.EMAIL,'required')){
+            		if(!this.$validation(this.ruleForm.EMAIL,'email')){
+	            		this.$message.error('邮箱格式有误');
+	            		return;
+	            	}
+            	}
+                var url = '';
+            	if(this.ruleForm.USERID == ''){
+            		url = '/user/create'
+            	}else{
+            		url = '/user/update/'+this.ruleForm.USERID
+            	}
+            	this.$http.post(url,this.ruleForm).then(res=>{
+	        		if(res.code == 10000){
+            			this.$emit('closePersonDialog');
+            			this.$message({
+				          	message: res.msg,
+				          	type: 'success'
+				        });
+            			this.$emit("refreshEmp");
+            		}else{
+            			this.$message.error(res.msg);
+            		}
+	        	})
 			},
 			selectEmptById(id) {
 				if(id!=''){
@@ -138,7 +145,21 @@
 		        		}
 		        	})
 				}
-			}
+			},
+           	isused(value){
+           		if(value){
+           			this.ruleForm.ISUSED=1
+           		}else{
+           			this.ruleForm.ISUSED=0
+           		}
+           	},
+           	isgag(value){
+           		if(value){
+           			this.ruleForm.ISGAG=1
+           		}else{
+           			this.ruleForm.ISGAG=0
+           		}
+           	}
 		},
 		mounted() {
 			this.$http.post('/dic/getDicByKey/role').then(res=>{

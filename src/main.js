@@ -9,7 +9,7 @@ import '../static/css/public.css'
 Vue.use(ElementUI)
 let loadingInstance;
 Vue.config.productionTip = false
-
+window.Promise = Promise
 axios.defaults.baseURL = httpConfig.hostURL;
 axios.defaults.withCredentials=true;
 axios.interceptors.request.use(config => {
@@ -41,6 +41,31 @@ Vue.prototype.$hostUrl = httpConfig.hostURL;
 Vue.prototype.$http = axios;
 Vue.prototype.$httpHeader = axios.defaults.headers;
 Vue.prototype.$load = Loading;
+Vue.prototype.$validation = function(val,type){
+	if(val != null && val != undefined){
+    	val = val.toString();
+	}
+	var bool = true;
+	if(type=='required'){
+	    if(val == null || val == undefined || val == '' || val.trim() == ''){
+	        bool = true;
+	    }else{
+	        bool = false;
+	    }
+	}else if(type=='email'){
+		var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
+    	if(!reg.test(val)){
+			bool = false;
+		}
+	}else if(type=='phone'){
+		var reg = new RegExp("^((13[0-9])|(17[3-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0-9]))\\d{8}$");
+    	if(!reg.test(val)){
+			bool = false;
+		}
+	}
+	return bool;
+	
+}
 new Vue({
   el: '#app',
   router,

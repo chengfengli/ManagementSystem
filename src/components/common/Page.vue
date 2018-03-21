@@ -33,17 +33,14 @@
 			total: {
 				type :Number, //总记录数
             	default : 0
-			},
-			limits: {
-				type: Array,
-				default: [10,20,30,50] //每页数量
 			}
 		},
 		data: function(){
             return {
             	isPrev: false,// 是否有上一页
             	isNext: false,// 是否有下一页
-				pageSize: 10
+				pageSize: 10,
+				limits: [10,20,30,50]
             }
         },
         methods: {
@@ -92,7 +89,6 @@
         	}else{
         		this.isNext = false
         	}
-        	this.pageSize = this.limits[0];
 		},
 		computed: {
 			pages(){

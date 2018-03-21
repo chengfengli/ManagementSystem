@@ -5,7 +5,7 @@
 		</div>
 		<div class="home">
 			<div class="link-list">
-				<div v-for="link in links" :key="link.link" class="link" @click="linkTo(link.link)">
+				<div v-for="link in links" :key="link.txt" class="link" @click="linkTo(link.link)">
 					<img class="link-ico" :src="link.ico">
 					<div class="link-txt">{{link.txt}}</div>
 				</div>
@@ -26,7 +26,7 @@
             		{txt:'个人通知',ico:'./static/img/index/notice.png',link:'notice'},
             		{txt:'公告',ico:'./static/img/index/announcement.png',link:'announcement'},
             		{txt:'发布公告',ico:'./static/img/index/announcementMana.png',link:'announcementMana'},
-            		{txt:'事件中心',ico:'./static/img/index/event_center.png',link:'login'},
+            		{txt:'事件中心',ico:'./static/img/index/event_center.png',link:'eventCenter'},
             		{txt:'事件填报',ico:'./static/img/index/event_tianbao.png',link:'login'},
             		{txt:'我的事件',ico:'./static/img/index/my_event.png',link:'login'},
             		{txt:'事件处理',ico:'./static/img/index/event_tianbao.png',link:'login'},

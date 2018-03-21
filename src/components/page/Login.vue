@@ -1,18 +1,27 @@
 <template>
     <div id="login-page">
-    	<div class="login-box">
-    		<div class="ms-title"><img class="logo" src="../../../static/img/logo.png"><span>不良事件上报系统</span></div>
-    		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px">
-                <el-form-item prop="ACCOUNT">
-                    <el-input id="account" type="email" v-model="ruleForm.ACCOUNT" placeholder="用户名/账号"></el-input>
-                </el-form-item>
-                <el-form-item prop="PASSWORD">
-                    <el-input id="password" type="password" placeholder="密码" v-model="ruleForm.PASSWORD" @keyup.enter.native="submitForm('ruleForm')"></el-input>
-                </el-form-item>
-                <div class="login-btn">
-                    <el-button id="login-btn" type="success" @keyup.enter="submitForm('ruleForm')" @click="submitForm('ruleForm')">登录</el-button>
-                </div>
-            </el-form>
+    	<div class="login-body">
+    		<div class="title">
+    			锐锐科技有限公司<br />
+    			<span>Rui Rui technology co., Ltd.</span>
+    		</div>
+    		<div class="login-box">
+    			<div class="loginbg"></div>
+    			<div class="logincon">
+    				<div class="logincon_01">不良事件上报系统</div>
+    				<table>
+    					<tr>
+    						<td><img src="../../../static/img/login/headp.png"/></td>
+    						<td><input id="account" type="text" v-model="ruleForm.ACCOUNT" placeholder="用户名/账号"/></td>
+    					</tr>
+    					<tr>
+    						<td><img src="../../../static/img/login/password.png"/></td>
+    						<td><input id="password" type="password" v-model="ruleForm.PASSWORD" placeholder="密码" /></td>
+    					</tr>
+    				</table>
+    				<div class="logincon_04" @click="submitForm"><a href="javascript:void(0)">登录</a></div>
+    			</div>
+    		</div>
     	</div>
     </div>
 </template>
@@ -24,32 +33,28 @@
                 ruleForm: {
                     ACCOUNT: 'pubing',
                     PASSWORD: '123456'
-                },
-                rules: {
-                    ACCOUNT: [
-                        { required: true, message: '请输入用户名', trigger: 'blur' }
-                    ],
-                    PASSWORD: [
-                        { required: true, message: '请输入密码', trigger: 'blur' }
-                    ]
                 }
             }
         },
         methods: {
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        this.$http.post('/user/login',this.ruleForm).then(res=>{
-		            		if(res.code == 10000){
-		            			this.$httpHeader.sessionId = res.data.token;
-		            			localStorage.setItem('user',JSON.stringify(res.data.user))
-		            			this.$router.push('/index');
-		            		}else{
-		            			this.$message.error(res.msg);
-		            		}
-		            	})
-                    }
-                });
+            submitForm() {
+            	if(this.$validation(this.ruleForm.ACCOUNT,'required')){
+            		this.$message.error('请输入账号');
+            		return;
+            	}
+            	if(this.$validation(this.ruleForm.PASSWORD,'required')){
+            		this.$message.error('请输入密码');
+            		return;
+            	}
+                this.$http.post('/user/login',this.ruleForm).then(res=>{
+            		if(res.code == 10000){
+            			this.$httpHeader.sessionId = res.data.token;
+            			localStorage.setItem('user',JSON.stringify(res.data.user))
+            			this.$router.push('/index');
+            		}else{
+            			this.$message.error(res.msg);
+            		}
+            	})
             }
         }
     }
@@ -60,30 +65,69 @@
     	position: relative;
         width:100%;
         height:100%;
-        background-color: rgba(56, 157, 170, 0.82);
-        text-align: center;
+        background: url(../../assets/images/login/indexbg.png)  no-repeat center #44c3f0;
     }
-    #login-page .login-box{
-    	display: inline-block;
-    	margin-top: 15%;
+    #login-page .login-body{
+    	width: 1200px;
+    	margin: 0 auto;
     }
-    #login-page .el-form-item{
-    	padding-bottom: 20px;
+    #login-page .login-body .title{
+    	font-size: 30px;
+	    color: white;
+	    padding-top: 20px;
     }
-    #account{
-    	width: 300px;
+    #login-page .login-body .title span{
+	    font-size: 19px;
     }
-    .ms-title{
-        margin-bottom: 20px;
-        text-align: center;
-        font-size:30px;
-        color: #fff;
+    #login-page .login-body .login-box{
+	    margin-top: 100px;
     }
-    .ms-title .logo{
-    	position: relative;
-    	top: 13px;
+    #login-page .login-body .loginbg{
+	    float: left;
+	    width: 617px;
+	    height: 514px;
+	    background: url(../../assets/images/login/2.png);
+	}
+	#login-page .login-body .logincon{
+		color: #FFF;
+		float: right;
+		width: 420px;
+	    background: #2ca3dc;
+	    border-radius: 5px;
+	    opacity: 0.7;
+	    padding: 50px 40px;
+	}
+    #login-page .login-body .logincon_01{
+    	    font-size: 34px;
+		    letter-spacing: 0.5em;
     }
-    #login-btn{
+    #login-page .login-body .logincon table{
     	width: 100%;
+	    margin-top: 30px;
+    }#login-page .login-body .logincon table td{
+    	padding-bottom: 30px;
+    }
+    #login-page .login-body .logincon table td:nth-child(1){
+    	width: 33px;
+    }
+    #login-page .login-body .logincon table input{
+    	height: 43px;
+	    width: 332px;
+	    margin-left: 20px;
+	    border: 1px solid #5f87ab;
+	    padding: 0 5px;
+    }
+    #login-page .login-body .logincon .logincon_04{
+    	background: #0477d0;
+	    margin-top: 28px;
+	    width: 400px;
+	    height: 40px;
+	    text-align: center;
+	    line-height: 40px;
+    }
+    #login-page .login-body .logincon .logincon_04 a{
+    	text-decoration: none;
+		color: white;
+		font-size: 14px;
     }
 </style>

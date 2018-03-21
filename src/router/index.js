@@ -47,5 +47,10 @@ export default new Router({
             path: '/personManage',
             component: resolve => require(['../components/page/person/PersonManage.vue'], resolve)
         },
+        /*事件中心*/
+        {
+            path: '/eventCenter',
+            component: resolve => require(['../components/page/eventCenter/eventCenter.vue'], resolve)
+        },
     ]
 })

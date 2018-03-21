@@ -44,7 +44,7 @@
             	<el-checkbox v-model="ruleForm.ISGAG==1" @change="isgag" ></el-checkbox>
             </el-form-item>
             <div class="btn-box">
-                <el-button type="primary" size="mini" @click="submitForm('ruleForm')">保存</el-button>
+                <el-button type="primary" size="mini" @click="submitForm()">保存</el-button>
             	<el-button @click="cancel" size="mini">取消</el-button>
             </div>
         </el-form>
@@ -61,13 +61,13 @@
 			return {
 				rules: {
                     USERNAME: [
-                        { required: true, message: '请输入姓名', trigger: 'blur' }
+                        { required: true }
                     ],
                     ACCOUNT: [
-                        { required: true, message: '请输入账号', trigger: 'blur' }
+                        { required: true }
                     ],
                     PHONE: [
-                        { required: true, message: '请输入电话', trigger: 'blur' },
+                        { required: true },
                     ]
                 },
                 ruleForm:{
@@ -84,10 +84,6 @@
                 	ISUSED: '',
                 	ISGAG: ''
                 },
-                bools: [
-                	{txt:'是',value:1},
-                	{txt:'否',value:0}
-                ],
                 jobs:[],
                 roles:[],
                 depts:[]
@@ -98,29 +94,46 @@
 				this.$emit('closePersonDialog');
 			},
 			submitForm(formName) {
-				new Error('asdfadf');
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                    	var url = '';
-                    	if(this.ruleForm.USERID == ''){
-                    		url = '/user/create'
-                    	}else{
-                    		url = '/user/update/'+this.ruleForm.USERID
-                    	}
-                    	this.$http.post(url,this.ruleForm).then(res=>{
-			        		if(res.code == 10000){
-		            			this.$emit('closePersonDialog');
-		            			this.$message({
-						          	message: res.msg,
-						          	type: 'success'
-						        });
-		            			this.$emit("refreshEmp");
-		            		}else{
-		            			this.$message.error(res.msg);
-		            		}
-			        	})
-                    }
-				})
+				if(this.$validation(this.ruleForm.ACCOUNT,'required')){
+            		this.$message.error('请输入账号');
+            		return;
+            	}
+            	if(this.$validation(this.ruleForm.USERNAME,'required')){
+            		this.$message.error('请输入姓名');
+            		return;
+            	}
+            	if(this.$validation(this.ruleForm.PHONE,'required')){
+            		this.$message.error('请输入电话');
+            		return;
+            	}
+            	if(!this.$validation(this.ruleForm.PHONE,'phone')){
+            		this.$message.error('电话格式有误');
+            		return;
+            	}
+            	if(!this.$validation(this.ruleForm.EMAIL,'required')){
+            		if(!this.$validation(this.ruleForm.EMAIL,'email')){
+	            		this.$message.error('邮箱格式有误');
+	            		return;
+	            	}
+            	}
+                var url = '';
+            	if(this.ruleForm.USERID == ''){
+            		url = '/user/create'
+            	}else{
+            		url = '/user/update/'+this.ruleForm.USERID
+            	}
+            	this.$http.post(url,this.ruleForm).then(res=>{
+	        		if(res.code == 10000){
+            			this.$emit('closePersonDialog');
+            			this.$message({
+				          	message: res.msg,
+				          	type: 'success'
+				        });
+            			this.$emit("refreshEmp");
+            		}else{
+            			this.$message.error(res.msg);
+            		}
+	        	})
 			},
 			selectEmptById(id) {
 				if(id!=''){
@@ -133,20 +146,6 @@
 		        	})
 				}
 			},
-			vemail(rule, value, callback) {//邮箱验证
-            	var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$");
-            	if(value!=''){
-            		if(!reg.test(value)){
-            			callback(new Error(rule));
-            		}
-            	}
-           	},
-           	phoneCheck(rule, value, callback){
-           		var reg = new RegExp("^((13[0-9])|(17[3-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0-9]))\\d{8}$");
-            	if(!reg.test(value)){
-        			callback(new Error(rule));
-        		}
-           	},
            	isused(value){
            		if(value){
            			this.ruleForm.ISUSED=1

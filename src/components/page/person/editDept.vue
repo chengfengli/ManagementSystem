@@ -25,7 +25,7 @@
                 <el-input v-model="ruleForm.CONTACTPHONE" size="mini"></el-input>
             </el-form-item>
             <div class="btn-box">
-                <el-button type="primary" size="mini" @keyup.enter="submitForm('ruleForm')" @click="submitForm('ruleForm')">保存</el-button>
+                <el-button type="primary" size="mini" @keyup.enter="submitForm()" @click="submitForm()">保存</el-button>
             	<el-button @click="cancel" size="mini">取消</el-button>
             </div>
         </el-form>
@@ -50,10 +50,10 @@
 				},
                 rules: {
                     DEPTNAME: [
-                        { required: true, message: '请输入部门名称', trigger: 'blur' }
+                        { required: true }
                     ],
                     ISBUSINESS: [
-                        { required: true, message: '请选择是否是业务科室', trigger: 'blur' }
+                        { required: true }
                     ]
                 },
                 belongs:[]
@@ -64,31 +64,31 @@
 				this.$emit('closeDeptDialog');
 			},
 			submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                    	if(!this.ruleForm.BELONGID){
-							this.ruleForm.BELONGID = 0;
-						}
-                    	var url = '';
-                    	if(this.ruleForm.DEPTID == ''){
-                    		url = '/dept/create';
-                    	}else{
-                    		url = '/dept/detail/'+this.ruleForm.DEPTID;
-                    	}
-                        this.$http.post(url,this.ruleForm).then(res=>{
-		            		if(res.code == 10000){
-		            			this.$emit('closeDeptDialog');
-		            			this.$message({
-						          	message: res.msg,
-						          	type: 'success'
-						        });
-		            			this.$emit("refreshDept");
-		            		}else{
-		            			this.$message.error(res.msg);
-		            		}
-		            	})
-                    }
-                });
+				if(this.$validation(this.ruleForm.DEPTNAME,'required')){
+            		this.$message.error('请输入部门名称');
+            		return;
+            	}
+                if(!this.ruleForm.BELONGID){
+					this.ruleForm.BELONGID = 0;
+				}
+            	var url = '';
+            	if(this.ruleForm.DEPTID == ''){
+            		url = '/dept/create';
+            	}else{
+            		url = '/dept/detail/'+this.ruleForm.DEPTID;
+            	}
+                this.$http.post(url,this.ruleForm).then(res=>{
+            		if(res.code == 10000){
+            			this.$emit('closeDeptDialog');
+            			this.$message({
+				          	message: res.msg,
+				          	type: 'success'
+				        });
+            			this.$emit("refreshDept");
+            		}else{
+            			this.$message.error(res.msg);
+            		}
+            	})
             },
             selectBelongs() {
             	this.$http.post('/dept/list',{BELONGID: 0}).then(res=>{

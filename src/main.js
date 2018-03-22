@@ -17,14 +17,16 @@ axios.interceptors.request.use(config => {
 		background: 'rgba(0,0,0,0.3)'
 	});
 	return config;
-})
+}),err => {
+	console.log(err);
+}
 axios.interceptors.response.use(res => {
 	loadingInstance.close();
 	if(res.data.code == 10008){
 		location.href = '#/login'
 		return null;
 	}else{
-		return res.data;	
+		return res.data;
 	}
 },err => {
 	loadingInstance.close();

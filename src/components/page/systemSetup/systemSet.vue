@@ -73,8 +73,8 @@
                                 </template>
                                 <el-menu-item-group>
                                     <!--<template slot="title">分组一</template>-->
-                                    <el-menu-item index="1-1">一般情况</el-menu-item>
-                                    <el-menu-item index="1-2">现场情况</el-menu-item>
+                                    <el-menu-item index="1-1" @click="openModulePage('showGeneralCase')">一般情况</el-menu-item>
+                                    <el-menu-item index="1-2" @click="openModulePage('showSiteConditions')">现场情况</el-menu-item>
                                 </el-menu-item-group>
                             </el-submenu>
                         </el-menu>
@@ -99,6 +99,9 @@
               <medicalDevice v-if="systemSetControl.showMedicalDevice"></medicalDevice>
               <transfusionEvent v-if="systemSetControl.showTransfusionEvent"></transfusionEvent>
               <adrEvent v-if="systemSetControl.showAdrEvent"></adrEvent>
+              <!-- 模块配置 -->
+              <generalCase v-if="systemSetControl.showGeneralCase"></generalCase>
+              <siteConditions v-if="systemSetControl.showSiteConditions"></siteConditions>
             </aside>
         </main>
     </div>
@@ -123,7 +126,9 @@
     import medicalDevice from "./eventAllocation/medicalDevice"
     import transfusionEvent from "./eventAllocation/transfusionEvent"
     import adrEvent from "./eventAllocation/adrEvent"
-
+    /* 模块配置 */
+    import generalCase from "./moduleAllocation/generalCase"
+    import siteConditions from "./moduleAllocation/siteConditions"
 
     export default {
         name: "systemSet",
@@ -145,7 +150,10 @@
         /* 事件配置 */
         medicalDevice,
         transfusionEvent,
-        adrEvent
+        adrEvent,
+        /* 模块配置 */
+        generalCase,
+        siteConditions
       },
         data(){
             return{
@@ -195,7 +203,7 @@
     }
 </script>
 <style>
-    .systemSet{height: 100%;width: 100%;overflow: auto;}
+    .systemSet{height: 100%;width: 100%;overflow: hidden;}
     .systemSet .current{border-bottom: 1px solid #E6E6E6;}
     .systemSet-main{
         display: flex;

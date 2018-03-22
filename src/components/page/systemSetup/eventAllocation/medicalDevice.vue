@@ -71,7 +71,6 @@
   .medicalDevice .conditions section{width: 100%;padding: 6px 0;text-align: center;}
   .medicalDevice .container{
     flex: 9;
-    overflow: hidden;
   }
   .medicalDevice .conditions-active:hover{cursor: pointer;background: #666;}
   .medicalDevice .medicalDevice-h{
@@ -83,7 +82,7 @@
     border-bottom: 1px solid #E6E6E6;
     position: absolute;
     top: 15px;
-    left: 0;
+    left: 20px;
   }
   .medicalDevice .medicalDevice-btn div{
     display: inline-block;

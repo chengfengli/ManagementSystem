@@ -87,7 +87,7 @@
 								<td>点击量({{item.clickCount}})</td>
 							</tr>
 						</table>
-						<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+						<!--<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>-->
 				    </el-tab-pane>
 				</el-tabs>
 			</div>

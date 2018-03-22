@@ -55,7 +55,7 @@
             			this.$message.error(res.msg);
             		}
             	}).catch(function (error) {//加上catch
-                  console.log(error);
+                  	console.log(error);
                 })
             }
         }

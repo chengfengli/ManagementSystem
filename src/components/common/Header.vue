@@ -39,12 +39,14 @@
             handleCommand(command) {
                 if(command == 'loginout'){
                 	this.$http.post('/user/logout').then(res=>{
-		        		if(res.code == 10000){
-		        			localStorage.removeItem('user');
-		        			this.$router.push('/login');
-		        		}else{
-		        			this.$message.error(res.msg);
-		        		}
+                		if(res){
+                			if(res.code == 10000){
+			        			localStorage.removeItem('user');
+			        			this.$router.push('/login');
+			        		}else{
+			        			this.$message.error(res.msg);
+			        		}
+                		}
 		        	})
                 }else if(command == 'userinfo'){
                 	this.editPersonDialog = true;

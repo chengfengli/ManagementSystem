@@ -86,3 +86,37 @@ html,body,#app{
 }
 /* h5标签hack */
 header,nav,main,footer,section,article,aside{display: block;}
+
+/* 阿里矢量图标 https: */
+@font-face {
+  font-family: 'proFont';  /* project id 602476 */
+  src: url('//at.alicdn.com/t/font_602476_bigshw9lucq8h0k9.eot');
+  src: url('//at.alicdn.com/t/font_602476_bigshw9lucq8h0k9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_602476_bigshw9lucq8h0k9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_602476_bigshw9lucq8h0k9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_602476_bigshw9lucq8h0k9.svg#proFont') format('svg');
+}
+/* 配合阿里矢量图使用*/
+.proFont{
+  font-family: proFont;
+  font-weight:normal;
+  font-style: normal;
+}
+
+/* ------设置浮动------ */
+.set-right{
+  float: right;
+}
+.set-left{
+  float: left;
+}
+/* ------清除浮动------ */
+.clear-fix{zoom:1;}
+.clear-fix:after{
+  content:"";
+  display:block;
+  height:0;
+  line-height:0;
+  clear:both;
+  visibility:hidden;
+}

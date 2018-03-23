@@ -7,7 +7,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/login'
+            redirect: '/index'
         },
         {
             path: '/login',
@@ -52,15 +52,10 @@ export default new Router({
             path: '/eventCenter',
             component: resolve => require(['../components/page/eventCenter/eventCenter.vue'], resolve)
         },
-        /*事件填报*/
+        /* 事件列表 */
         {
-            path: '/eventFill',
-            component: resolve => require(['../components/page/eventFill/eventFill.vue'], resolve)
-        },
-        /*统计分析*/
-        {
-            path: '/statistics',
-            component: resolve => require(['../components/page/statistics/statistics.vue'], resolve)
+          path: '/eventList',
+          component: resolve => require(['../components/page/eventList/eventList.vue'], resolve)
         },
     ]
 })

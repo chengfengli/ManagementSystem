@@ -122,7 +122,11 @@
 				    url: '/user/export',
 				    data: params,
 				}).then(res=>{
-					console.log(res)
+					if(res.code==10000){
+						location.href = res.data.downPath;
+					}else{
+						this.$message.error(res.msg);
+					}
         		}).catch(err =>{
 					console.log(err)
 				})

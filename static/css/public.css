@@ -120,3 +120,11 @@ header,nav,main,footer,section,article,aside{display: block;}
   clear:both;
   visibility:hidden;
 }
+/*多选下拉框*/
+.el-select .el-tag{
+	margin: 5px 0 0px 6px;
+	height: 13px;
+}
+.el-tag--mini{
+	line-height: 10px;
+}

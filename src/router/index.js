@@ -57,5 +57,21 @@ export default new Router({
           path: '/eventList',
           component: resolve => require(['../components/page/eventList/eventList.vue'], resolve)
         },
+        /* 统计分析 */
+        {
+          path: '/statistics',
+          component: resolve => require(['../components/page/statistics/statistics.vue'], resolve)
+        },
+        /* 事件填报 */
+        {
+          path: '/eventFillIndex',
+          component: resolve => require(['../components/page/eventFill/Index.vue'], resolve)
+        },
+        /* 事件填报 */
+        {
+          path: '/eventFill',
+          name: 'eventFill',
+          component: resolve => require(['../components/page/eventFill/eventFill.vue'], resolve)
+        },
     ]
 })

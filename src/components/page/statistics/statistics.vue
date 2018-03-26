@@ -30,16 +30,15 @@
        	},
 		data: function(){
             return {
-            	dataList:[
-            		{id:1,title: '事件类型',remakes: '事件的描述信息'},
-            		{id:2,title: '事件类型',remakes: '事件的描述信息'},
-            		{id:3,title: '事件类型',remakes: '事件的描述信息'}
-            	]
+            	dataList:[]
             }
         },
         methods: {
         },
 		mounted() {
+			for(var i=0;i<10;i++){
+				this.dataList.push({id:i,title: '事件类型',remakes: '事件的描述信息'})
+			}
 		}
 	}
 </script>
@@ -51,12 +50,6 @@
 	}
 	#statistics-page .container table{
 		width: 100%;
-	}
-	#statistics-page .container tr:nth-child(odd){
-		background-color: #FAFAFA;
-	}
-	#statistics-page .container tr:hover{
-		background-color: #F5F7FA;
 	}
 	#statistics-page .container td{
 		padding: 5px;

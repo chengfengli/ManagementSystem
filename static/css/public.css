@@ -3,6 +3,9 @@
 	padding: 0;
 	font-size: 12px;
 }
+a{
+	text-decoration: none;
+}
 html,body,#app{
 	height: 100%;
 }
@@ -55,6 +58,18 @@ html,body,#app{
 }
 .el-table .cell{
 	padding: 0;
+}
+table{
+	width: 100%;
+}
+table td{
+	padding: 5px 10px;
+}
+table tr:nth-child(odd){
+	background-color: #C0C0C0;
+}
+table tr:hover{
+	background-color: #CCCCCC !important;
 }
 
 /*菜单*/
@@ -127,4 +142,9 @@ header,nav,main,footer,section,article,aside{display: block;}
 }
 .el-tag--mini{
 	line-height: 10px;
+}
+
+/*body*/
+.body{
+	margin: 0 20px;
 }

@@ -25,7 +25,7 @@
   import fishboneMsa from "./fishboneMsa"
   import personAdvice from "./personAdvice"
   export default {
-    name: "eventList",
+    name: "eventProcessing",
     data() {
       return{
         monitorBtn: {

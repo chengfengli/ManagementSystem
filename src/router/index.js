@@ -52,10 +52,15 @@ export default new Router({
             path: '/eventCenter',
             component: resolve => require(['../components/page/eventCenter/eventCenter.vue'], resolve)
         },
+        /* 事件处理 */
+        {
+          path: '/eventProcessing',
+          component: resolve => require(['../components/page/eventProcessing/eventProcessing.vue'], resolve)
+        },
         /* 事件列表 */
         {
           path: '/eventList',
-          component: resolve => require(['../components/page/eventList/eventList.vue'], resolve)
+          component: resolve => require(['../components/page/eventProcessing/eventList.vue'], resolve)
         },
     ]
 })

@@ -38,25 +38,26 @@
         },
         methods: {
             submitForm() {
-            	if(this.$validation(this.ruleForm.ACCOUNT,'required')){
-            		this.$message.error('请输入账号');
-            		return;
-            	}
-            	if(this.$validation(this.ruleForm.PASSWORD,'required')){
-            		this.$message.error('请输入密码');
-            		return;
-            	}
-                this.$http.post('/user/login',this.ruleForm).then(res=>{
-            		if(res.code == 10000){
-            			this.$httpHeader.sessionId = res.data.token;
-            			localStorage.setItem('user',JSON.stringify(res.data.user))
-            			this.$router.push('/index');
-            		}else{
-            			this.$message.error(res.msg);
-            		}
-            	}).catch(function (error) {//加上catch
-                  	console.log(error);
-                })
+              this.$router.push('/index');
+                // if(this.$validation(this.ruleForm.ACCOUNT,'required')){
+            		// this.$message.error('请输入账号');
+            		// return;
+                // }
+                // if(this.$validation(this.ruleForm.PASSWORD,'required')){
+            		// this.$message.error('请输入密码');
+            		// return;
+                // }
+                // this.$http.post('/user/login',this.ruleForm).then(res=>{
+            		// if(res.code == 10000){
+            		// 	this.$httpHeader.sessionId = res.data.token;
+            		// 	localStorage.setItem('user',JSON.stringify(res.data.user))
+            		// 	this.$router.push('/index');
+            		// }else{
+            		// 	this.$message.error(res.msg);
+            		// }
+                // }).catch(function (error) {//加上catch
+                //   	console.log(error);
+                // })
             }
         }
     }

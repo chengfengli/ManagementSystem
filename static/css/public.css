@@ -62,15 +62,6 @@ html,body,#app{
 table{
 	width: 100%;
 }
-table td{
-	padding: 5px 10px;
-}
-table tr:nth-child(odd){
-	background-color: #C0C0C0;
-}
-table tr:hover{
-	background-color: #CCCCCC !important;
-}
 
 /*菜单*/
 .el-menu-item, .el-submenu__title{
@@ -147,4 +138,9 @@ header,nav,main,footer,section,article,aside{display: block;}
 /*body*/
 .body{
 	margin: 0 20px;
+}
+
+/*下拉框中小角*/
+.el-popper[x-placement^=bottom] .popper__arrow{
+	top:0;
 }

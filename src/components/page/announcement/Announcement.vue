@@ -21,7 +21,8 @@
 								<td>点击量({{item.clickCount}})</td>
 							</tr>
 						</table>
-						<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
+							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 				    </el-tab-pane>
 				    <!--流程制度-->
 				    <el-tab-pane label="流程制度" name="flow">
@@ -32,7 +33,8 @@
 								<td>点击量({{item.clickCount}})</td>
 							</tr>
 						</table>
-						<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
+							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 				    </el-tab-pane>
 				    <!--部门公告-->
 				    <el-tab-pane label="部门公告" name="dep">
@@ -43,7 +45,8 @@
 								<td>点击量({{item.clickCount}})</td>
 							</tr>
 						</table>
-						<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
+							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 				    </el-tab-pane>
 				    <!--器械事件-->
 				    <el-tab-pane label="事件公告" name="event">
@@ -54,7 +57,8 @@
 								<td>点击量({{item.clickCount}})</td>
 							</tr>
 						</table>
-						<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
+							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 				    </el-tab-pane>
 				    <!--器械事件-->
 				    <el-tab-pane label="器械事件" name="deviceIncidents">
@@ -65,7 +69,8 @@
 								<td>点击量({{item.clickCount}})</td>
 							</tr>
 						</table>
-						<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
+							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 				    </el-tab-pane>
 				    <!--系统公告-->
 				    <el-tab-pane label="系统公告" name="systemBulletin">
@@ -76,7 +81,8 @@
 								<td>点击量({{item.clickCount}})</td>
 							</tr>
 						</table>
-						<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
+							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 				    </el-tab-pane>
 				    <!--药物事件-->
 				    <el-tab-pane label="药物事件" name="drugIncidents">
@@ -87,7 +93,8 @@
 								<td>点击量({{item.clickCount}})</td>
 							</tr>
 						</table>
-						<!--<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>-->
+						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
+							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 				    </el-tab-pane>
 				</el-tabs>
 			</div>
@@ -105,7 +112,9 @@
             return {
             	activeName: 'new',
             	newNoticeList:[],
-            	currentPage: 1,
+            	page:1,
+            	pageSize: 10,
+            	total:100
             }
         },
         methods: {

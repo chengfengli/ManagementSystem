@@ -12,7 +12,7 @@
 			</div>
 			<div class="data-box">
 				<table cellspacing="0" @mouseleave="show=-1">
-					<tr v-for="item in list" v-bind:key="item" @mouseover="showDel(item.id)" @click="details(item.id)">
+					<tr v-for="item in list" :keys="item.id" @mouseover="showDel(item.id)" @click="details(item.id)">
 						<td>{{item.name}}</td>
 						<td><a v-if="show == item.id" class="del-btn" href="javascript:void(0)" @click="del(item.id)">删除</a></td>
 						<td>
@@ -21,7 +21,8 @@
 						</td>
 					</tr>
 				</table>
-				<el-pagination :current-page="currentPage" layout="prev, pager, next" :total="1000" @current-change="currengChange"></el-pagination>
+				<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page"
+	        	:page-sizes="[10,20,30,50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 			</div>
 		</div>
 	</div>
@@ -37,36 +38,43 @@
             return {
             	show: -1,
             	list: [],
-            	currentPage:1
+            	page:1,
+            	pageSize: 10,
+            	total:100
             }
         },
         methods: {
-        	getDataCount() {
+        	changeSize(pageSize) {
         		
         	},
-        	initDate(page) {// 加载数据
+        	changePage(page) {
         		
         	},
         	showDel(index) {
         		this.show = index;
         	},
         	del(id) {// 删除
-        		alert('del')
+        		this.$confirm('确定删除该数据吗?', '温馨提示', {
+		          	confirmButtonText: '确定',
+		          	cancelButtonText: '取消',
+		          	type: 'warning',
+		          	showClose: false,
+		          	center: true
+		        }).then(res => {
+		          this.$message({
+		            type: 'success',
+		            message: '删除成功!'
+		          });
+		        }).catch(res=>{});
         	},
         	details(id) {// 详情
         		this.currentPage = id;
-        	},
-        	currengChange(currentPage) {// 翻页
-        		alert(currentPage)
         	}
         },
         mounted() {
         	for(var i=1;i<11;i++){
         		this.list.push({id:i,name: "张三",title: '本周开会的通知',message: '请各位同事准时参加！'})
         	}
-        	this.$http.post('/dic/dics',{page:1,pageSize:10}).then(res=>{
-        		
-        	})
         }
     }
 </script>

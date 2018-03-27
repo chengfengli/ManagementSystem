@@ -1,5 +1,5 @@
 <template>
-
+  <div>track-report</div>
 </template>
 
 <script>

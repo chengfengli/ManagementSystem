@@ -1,5 +1,5 @@
 <template>
-
+  <div>fishbone-msa</div>
 </template>
 
 <script>

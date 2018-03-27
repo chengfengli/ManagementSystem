@@ -5,6 +5,9 @@
 }
 html,body,#app{
 	height: 100%;
+  min-width: 1048px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .no-border{
 	border: 0;

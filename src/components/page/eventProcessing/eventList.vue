@@ -1,12 +1,13 @@
 <template>
   <div class="eventList">
     <section class="eventList-h">
+      <sysHeader></sysHeader>
       <eventHeader @monitorActivePage="monitorActivePage" :monitorBtn="monitorBtn"></eventHeader>
     </section>
     <section class="eventList-m">
       <basicInfo v-if="monitorBtn.showBasicInfo" ></basicInfo>
-      <eventAbstract v-if="monitorBtn.showEventAbstract"></eventAbstract>
-      <eventReport v-if="monitorBtn.showEventReport"></eventReport>
+      <eventAbstract v-if="monitorBtn.showAbstract"></eventAbstract>
+      <eventReport v-if="monitorBtn.showReport"></eventReport>
       <msaReport v-if="monitorBtn.showMsaReport" ></msaReport>
       <trackReport v-if="monitorBtn.showTrackReport" ></trackReport>
       <fishboneMsa v-if="monitorBtn.showFishboneMsa" ></fishboneMsa>
@@ -16,6 +17,7 @@
 </template>
 
 <script>
+  import sysHeader from  '../../common/Header.vue';
   import eventHeader from "./eventHeader"
   import basicInfo from "./basicInfo"
   import eventAbstract from "./eventAbstract"
@@ -25,13 +27,13 @@
   import fishboneMsa from "./fishboneMsa"
   import personAdvice from "./personAdvice"
   export default {
-    name: "eventProcessing",
+    name: "eventList",
     data() {
       return{
         monitorBtn: {
           showBasicInfo: true,
-          showEventAbstract: false,
-          showEventReport: false,
+          showAbstract: false,
+          showReport: false,
           showMsaReport: false,
           showTrackReport: false,
           showFishboneMsa: false,
@@ -45,11 +47,14 @@
         for(let i in this.monitorBtn){
           if(i == activePageName){
             this.monitorBtn[i] = true;
-          }else {this.monitorBtn[i] = false;}
+          }else {
+            this.monitorBtn[i] = false;
+          }
         }
       },
     },
     components: {
+      sysHeader,
       eventHeader,
       basicInfo,
       eventAbstract,
@@ -68,8 +73,7 @@
     width: 100%;
   }
   .eventList .eventList-m{
-    height: calc(100% - 70px);
+    height: calc(100% - 100px);
     width: 100%;
-    padding-top: 70px;
   }
 </style>

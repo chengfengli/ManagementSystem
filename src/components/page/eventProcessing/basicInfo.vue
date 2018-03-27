@@ -1,7 +1,7 @@
 <template>
     <div class="basicInfo">
-      <article style="height: 40%;margin-top: 11px;">
-        <section class="basicInfo-grade" >
+      <article style="height: 40%;">
+        <section class="basicInfo-grade" style="padding: 20px 0;box-sizing: border-box;" >
           <aside class="clear-fix" style="text-align: left;">
             <div class="set-left">
               <label>事件ID:</label>
@@ -17,7 +17,7 @@
             <div class="set-right">送床</div>
           </aside>
           <aside style="margin-top: 40px;">
-            <section style="display: inline-block;padding: 50px;box-sizing: border-box;border: 1px solid #797979;border-radius: 50%;">
+            <section style="display: inline-block;padding: 25px;box-sizing: border-box;border: 1px solid #797979;border-radius: 50%;">
               <i class="proFont" style="font-size: 45px;">&#xe62c;</i>
             </section>
             <section style="display: inline-block;margin-left: 30px;">
@@ -94,6 +94,9 @@
         value3: null,
         radio: 3
       }
+    },
+    components: {
+
     }
   }
 </script>
@@ -104,11 +107,11 @@
     width: 100%;
     overflow: hidden;
     position: relative;
+
   }
   .basicInfo article{display: flex;}
   .basicInfo .basicInfo-grade{
     flex: 3;
-    padding: 45px 0;
     box-sizing: border-box;
     border-left: 1px solid #797979;
     border-right: 1px solid #797979;

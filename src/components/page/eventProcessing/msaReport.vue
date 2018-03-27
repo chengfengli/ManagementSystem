@@ -1,5 +1,5 @@
 <template>
-
+  <div>msa-report</div>
 </template>
 
 <script>

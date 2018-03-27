@@ -2,7 +2,7 @@
     <div class="header">
         <div class="logo"><img src="../../../static/img/logo.png"><span class="sysname">不良事件上报系统</span></div>
         <div class="user-info">
-            <el-dropdown trigger="click" @command="handleCommand">
+            <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">当前用户：{{user.USERNAME}}</span>
                 <el-dropdown-menu slot="dropdown">
                 	<el-dropdown-item command="userinfo">用户信息</el-dropdown-item>
@@ -70,7 +70,8 @@
         font-size: 22px;
         line-height: 50px;
         color: #fff;
-        background-color: #00d1b2;
+        background-color: #00d1b2; 
+        
     }
     .header .logo{
         float: left;
@@ -103,4 +104,8 @@
     .el-dropdown-menu__item{
         text-align: center;
     }
+    /*下拉菜单*/
+	.el-dropdown-menu{
+		top: 37px !important;
+	}
 </style>

@@ -177,12 +177,6 @@
         	});
         	this.initDate(this.form);
         	this.statistics();
-        	this.$http.post('/event/fillTypes').then(res=>{//初始化事件等级
-        		if(res.code == 10000){
-        		}else{
-        			this.$message.error(res.msg);
-        		}
-        	});
 		}
 	}
 </script>

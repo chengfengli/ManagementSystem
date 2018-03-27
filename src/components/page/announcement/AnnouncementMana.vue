@@ -37,7 +37,8 @@
 								<td class="click-cunt">点击量({{item.clickCount}})</td>
 							</tr>
 						</table>
-						<page :page="1" @change="pagechange" :total="total" :limits="[5,10,15,20,25]" :pageSize="20"></page>
+						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
+							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 					</el-col>
 				</el-row>
 			</div>
@@ -47,7 +48,7 @@
 		  <add-announcement @closeDialog="addAnnouncementDialog=false"></add-announcement>
 		</el-dialog>
 		<!--新增分类-->
-		<el-dialog title="新增分类" :visible.sync="addTypeDialog" width="40%" :close-on-click-modal="false" :show-close="false">
+		<el-dialog title="新增分类" :visible.sync="addTypeDialog" width="270px" :close-on-click-modal="false" :show-close="false">
 		  <add-type @closeDialog="addTypeDialog=false"></add-type>
 		</el-dialog>
 	</div>
@@ -57,22 +58,21 @@
 	import elHead from '../../common/Header.vue';
 	import addAnnouncement from '../announcement/addAnnouncement.vue';
 	import addType from '../announcement/addType.vue';
-	import Page from '../../common/Page.vue';
 	export default {
 		components:{
 			elHead,
 			addAnnouncement,
 			addType,
-			Page
        	},
         data: function(){
             return {
             	tabPosition: 'right',
             	activeName: 'new',
             	newNoticeList:[],
-            	currentPage: 1,
             	addAnnouncementDialog: false,
             	addTypeDialog: false,
+            	page: 1,
+            	pageSize: 10,
             	total: 100
             }
         },
@@ -83,9 +83,25 @@
 	        addAnnouncement() {
 	        	
 	        },
-	        pagechange(page,pageSize) {
+	        changeSize(pageSize) {
+	        	
+	        },
+	        changePage(page) {
+	        	
 	        },
 	        delType() {
+	        	this.$confirm('确定删除该数据吗?', '温馨提示', {
+		          	confirmButtonText: '确定',
+		          	cancelButtonText: '取消',
+		          	type: 'warning',
+		          	showClose: false,
+		          	center: true
+		        }).then(() => {
+		          this.$message({
+		            type: 'success',
+		            message: '删除成功!'
+		          });
+		        }).catch(res=>{});
 	        }
         },
         mounted() {

@@ -1,14 +1,17 @@
 <template>
 	<!--发布公告-->
 	<div id="addAnnouncement">
-		<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px">
-            <el-form-item prop="DEPTNAME" label="内容">
+		<el-form label-width="80px">
+			<el-form-item label="标题">
+			    <el-input v-model="form.NAME" size="mini"></el-input>
+			</el-form-item>
+            <el-form-item prop="CONTENT" label="内容">
             </el-form-item>
-            <el-form-item label-width="0px">
-                <textarea id="editor"></textarea>
+            <el-form-item label-width="40px">
+                <textarea id="editor">{{form.CONTENT}}</textarea>
             </el-form-item>
             <div class="btn-box">
-                <el-button type="primary" size="mini" @keyup.enter="submitForm('ruleForm')" @click="submitForm('ruleForm')">保存</el-button>
+                <el-button type="primary" size="mini" @click="submitForm()">保存</el-button>
             	<el-button @click="cancel" size="mini">取消</el-button>
             </div>
         </el-form>
@@ -22,13 +25,25 @@
 		data: function(){
             return {
                 editor:null,
-                ruleForm:{},
-                rules:{}
+                form:{
+                	NAME: '',
+                	CONTENT: ''
+                }
             }
         },
         methods: {
         	cancel() {
         		this.$emit('closeDialog');
+        	},
+        	submitForm() {
+        		if(this.$validation(this.form.NAME,'required')){
+        			this.$message.error('请输入公告标题');
+            		return;
+        		}
+        		if(this.$validation(this.editor.getData(),'required')){
+        			this.$message.error('请输入公告内容');
+            		return;
+        		}
         	}
         },
 		mounted() {
@@ -40,6 +55,7 @@
 <style>
 	#addAnnouncement .btn-box{
 		text-align: center;
+		margin:20px 0;
 	}
 	#addAnnouncement .el-button{
 		width: 30%;

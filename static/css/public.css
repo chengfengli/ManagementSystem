@@ -3,6 +3,9 @@
 	padding: 0;
 	font-size: 12px;
 }
+a{
+	text-decoration: none;
+}
 html,body,#app{
 	height: 100%;
   min-width: 1048px;
@@ -58,6 +61,9 @@ html,body,#app{
 }
 .el-table .cell{
 	padding: 0;
+}
+table{
+	width: 100%;
 }
 
 /*菜单*/
@@ -130,4 +136,14 @@ header,nav,main,footer,section,article,aside{display: block;}
 }
 .el-tag--mini{
 	line-height: 10px;
+}
+
+/*body*/
+.body{
+	margin: 0 20px;
+}
+
+/*下拉框中小角*/
+.el-popper[x-placement^=bottom] .popper__arrow{
+	top:0;
 }

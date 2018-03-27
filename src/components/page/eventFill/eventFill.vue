@@ -7,10 +7,11 @@
 			<div class="current">
 				<el-breadcrumb separator-class="el-icon-arrow-right">
 				  	<el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
-				  	<el-breadcrumb-item>事件填报</el-breadcrumb-item>
+				  	<el-breadcrumb-item :to="{ path: 'eventFillIndex' }">事件填报</el-breadcrumb-item>
+				  	<el-breadcrumb-item>填报页面</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class="container">
+			<div class="body">
 				<div class="btn-box">
 					<el-button id="temporary-btn" type="primary" size="mini">暂存</el-button>
 					<el-button id="submit-btn" type="primary" size="mini">提交</el-button>
@@ -41,15 +42,15 @@
         methods: {
         },
 		mounted() {
+			var obj = this.$route.query;
+			alert(obj.id)
 		}
 	}
 </script>
 
 <style scoped>
-	#eventFill-page .container{
+	#eventFill-page .body{
 		position: relative;
-		width: 90%;
-		margin: 0 auto;
 	}
 	#eventFill-page .btn-box{
 		position: absolute;

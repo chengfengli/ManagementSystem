@@ -12,17 +12,29 @@
 				</el-breadcrumb>
 			</div>
 			<div class="body">
-				<div class="btn-box">
+				<ul id="ancho-box">
+					<li><a href="#1">医疗事件</a></li>
+					<li><a href="#2">事件情况描述</a></li>
+					<li><a href="#3">一般情况</a></li>
+					<li><a href="#3">现场情况</a></li>
+				</ul>
+				<div id="form-box">
+					<el-collapse v-model="activeNames">
+						<a name="1"></a>
+					  	<el-collapse-item title="一致性 Consistency" name="1">
+					    	<div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+					    	<div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+					  	</el-collapse-item>
+					  	<el-collapse-item title="一致性 Consistency" name="2">
+					    	<div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
+					    	<div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
+					  	</el-collapse-item>
+					</el-collapse>
+				</div>
+				<!--<div class="btn-box">
 					<el-button id="temporary-btn" type="primary" size="mini">暂存</el-button>
 					<el-button id="submit-btn" type="primary" size="mini">提交</el-button>
-				</div>
-				<el-tabs v-model="activeName" type="card">
-				    <el-tab-pane label="医疗事件" name="first">医疗事件</el-tab-pane>
-				    <el-tab-pane label="事件情况描述" name="second">事件情况描述</el-tab-pane>
-				    <el-tab-pane label="一般情况" name="third">一般情况</el-tab-pane>
-				    <el-tab-pane label="现场情况" name="fourth">现场情况</el-tab-pane>
-				    <el-tab-pane label="其他情况" name="other">其他情况</el-tab-pane>
-			  	</el-tabs>
+				</div>-->
 			</div>
 		</div>
 	</div>
@@ -36,7 +48,8 @@
        	},
 		data: function(){
             return {
-            	activeName: 'first'
+            	activeName: 'first',
+            	activeNames: ['1']
             }
         },
         methods: {
@@ -58,6 +71,22 @@
 <style scoped>
 	#eventFill-page .body{
 		position: relative;
+	}
+	#ancho-box{
+		list-style: none;
+		position: fixed;
+		top: 100px;
+	}
+	#ancho-box a{
+		font-size: 14px;
+		padding: 10px 5px;
+		display: block;
+		border: 1px solid red;
+	}
+	#form-box{
+		margin-left: 200px;
+		border: 1px solid;
+		margin-top: 20px;
 	}
 	#eventFill-page .btn-box{
 		position: absolute;

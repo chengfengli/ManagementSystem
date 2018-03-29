@@ -43,7 +43,14 @@
         },
 		mounted() {
 			var obj = this.$route.query;
-			alert(obj.id)
+			this.$http.post('/event/initFillPage/'+obj.id).then(res=>{
+//      		if(res.code == 10000){
+//      			this.dataList = res.data;
+//      		}else{
+//      			this.$message.error(res.msg);
+//      		}
+        	});
+			
 		}
 	}
 </script>

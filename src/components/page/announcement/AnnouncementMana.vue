@@ -18,8 +18,8 @@
 				</div>
 				<el-row class="tac">
 					<el-col :span="2">
-					    <el-menu default-active="1" class="el-menu-vertical-demo">
-						    <el-menu-item index="1">事件公告</el-menu-item>
+					    <el-menu default-active="1" class="el-menu-vertical-demo" @select="select">
+						    <el-menu-item @click="select(1)" index="1">事件公告</el-menu-item>
 						    <el-menu-item index="2">流程制度</el-menu-item>
 						    <el-menu-item index="3">器械事件</el-menu-item>
 						    <el-menu-item index="4">部门公告</el-menu-item>
@@ -79,6 +79,9 @@
         methods: {
 	        details(id) {
 	        	this.$message(id.toString());
+	        },
+	        select(index) {
+	        	alert(index)
 	        },
 	        addAnnouncement() {
 	        	

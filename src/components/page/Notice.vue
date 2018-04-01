@@ -81,15 +81,25 @@
 							this.$message.error(res.msg);
 						}
 					}).catch(function(error) { //加上catch
-						console.log(error);
+						this.$message.error(error);
 					})
 		        }).catch(res=>{});
         	},
-        	details(id,type) {// 详情
-        		if(id==1){
-        			
-        		}else if(id==2){
-        			
+        	details(id,type) {// 阅读通知
+        		this.$http.post('/notice/read/'+id).then(res => {
+					if(res.code == 10000) {
+						this.dataInit();
+					} else {
+						this.$message.error(res.msg);
+					}
+				}).catch(function(error) {
+					this.$message.error(error);
+				})
+        		if(id==2){
+        			this.$message({
+        				type:'success',
+        				message:'页面未绑定'
+        			});
         		}
         	},
         	dataInit() {
@@ -101,7 +111,7 @@
 						this.$message.error(res.msg);
 					}
 				}).catch(function(error) {
-					console.log(error);
+					this.$message.error(error);
 				})
         	}
         },

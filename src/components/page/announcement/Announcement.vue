@@ -14,7 +14,7 @@
 				<el-row class="tac">
 					<el-col :span="2">
 					    <el-menu :default-active="defaultIndex" class="el-menu-vertical-demo" @select="select">
-						    <el-menu-item v-for="item in typeList" :keys="item.ID" :index="item.ID">{{item.NAME}}</el-menu-item>
+						    <el-menu-item v-for="item in typeList" :keys="item.ID" :index="item.ID.toString()">{{item.NAME}}</el-menu-item>
 					    </el-menu>
 					</el-col>
 					<el-col :span="21" :offset="1">
@@ -35,23 +35,22 @@
 		</div>
 		<!--公告详情-->
 		<el-dialog title="公告详情" :visible.sync="addAnnouncementDialog" width="40%" :close-on-click-modal="false" :show-close="false">
-			<el-form label-width="80px">
+			<el-form v-if="notice!=null" label-width="80px">
 				<el-form-item label="标题">
-				    
+				    {{notice.TITLE}}
 				</el-form-item>
 				<el-form-item label="发布时间">
-				    
+				    {{notice.PUBLISHDATE}}
 				</el-form-item>
 				<el-form-item label="置顶">
-				    
+				    <span v-if="notice.TOP==0">未置顶</span>
+				    <span v-else>置顶</span>
 				</el-form-item>
 	            <el-form-item prop="CONTENT" label="内容">
-	            </el-form-item>
-	            <el-form-item label-width="40px">
-	                
+	            	<div style="line-height: 20px;padding-top: 10px;">{{notice.CONTENT}}</div>
 	            </el-form-item>
 	            <div class="btn-box">
-	            	<el-button @click="addAnnouncementDialog=false" size="mini">关闭</el-button>
+	            	<el-button @click="close" size="mini">关闭</el-button>
 	            </div>
 	        </el-form>
 		</el-dialog>
@@ -66,32 +65,39 @@
        },
         data: function(){
             return {
-            	activeName: 'new',
             	typeList:[],
             	afficheList:[],
             	defaultIndex: null,
             	page:1,
             	pageSize: 10,
             	total:0,
-            	addAnnouncementDialog: false
+            	addAnnouncementDialog: false,
+            	notice:null
             }
         },
         methods: {
 		    select(index) {
+		    	this.defaultIndex = index;
 	        	this.afficheListInit(index);
 	        },
-		    currengChange(currentPage) {// 翻页
-        		alert(currentPage)
+	        changeSize(pageSize) {
+	        	this.pageSize = pageSize;
+	        	this.afficheListInit(this.defaultIndex);
+	        },
+	        changePage(page) {
+	        	this.page = page;
+	        	this.afficheListInit(this.defaultIndex);
 	        },
 	        details(id) {
 	        	this.$http.post('/affiche/detail/'+id).then(res => {
 					if(res.code == 10000) {
 						this.addAnnouncementDialog = true;
+						this.notice = res.data;
 					} else {
 						this.$message.error(res.msg);
 					}
 				}).catch(function(error) {
-					console.log(error);
+					this.$message.error(error);
 				})
 	        },
 	        typeListInit() {// 获取类型
@@ -99,14 +105,14 @@
 					if(res.code == 10000) {
 						this.typeList = res.data;
 						if(res.data.length!=0){
-							this.defaultIndex = res.data[0].ID;
+							this.defaultIndex = res.data[0].ID.toString();
 							this.afficheListInit(this.defaultIndex);
 						}
 					} else {
 						this.$message.error(res.msg);
 					}
 				}).catch(function(error) {
-					console.log(error);
+					this.$message.error(error);
 				})
 	        },
 	        afficheListInit(typeId) {// 根据类型获取对应的数据
@@ -118,9 +124,13 @@
 						this.$message.error(res.msg);
 					}
 				}).catch(function(error) {
-					console.log(error);
+					this.$message.error(error);
 				})
-	        }
+	      	},
+	      	close() {
+	      		this.addAnnouncementDialog = false;
+	      		this.notice = null;
+	      	}
         },
         mounted() {
 			this.typeListInit();

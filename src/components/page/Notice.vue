@@ -12,12 +12,19 @@
 			</div>
 			<div class="data-box">
 				<table cellspacing="0" @mouseleave="show=-1">
-					<tr v-for="item in list" :keys="item.id" @mouseover="showDel(item.id)" @click="details(item.id)">
-						<td>{{item.name}}</td>
-						<td><a v-if="show == item.id" class="del-btn" href="javascript:void(0)" @click="del(item.id)">删除</a></td>
+					<tr v-for="item in list" :keys="item.ID" @mouseover="showDel(item.ID)" @click="details(item.ID,item.TYPE)">
+						<td class="user-name">
+							{{item.SENDER}}
+							<div class="send-time">2018-09-15 15:23</div>
+						</td>
 						<td>
-							<div class="title">{{item.title}}</div>
-							<div class="txt">留言：{{item.message}}</div>
+							<span v-if="item.READ==1" class="status readed"></span>
+							<span v-else class="status unread"></span>
+							<a v-if="show == item.ID" class="del-btn" href="javascript:void(0)" @click="del(item.ID)">删除</a>
+						</td>
+						<td>
+							<div class="title">{{item.TITLE}}</div>
+							<div class="txt">留言：{{item.LW}}给你发送了一条事件类型建议的消息，请您处理。给你发送了一条事件类型建议的消息，请您处理。给你发送了一条事件类型建议的消息，请您处理。ASDAD ASDADSA</div>
 						</td>
 					</tr>
 				</table>
@@ -40,17 +47,19 @@
             	list: [],
             	page:1,
             	pageSize: 10,
-            	total:100
+            	total:0
             }
         },
         methods: {
         	changeSize(pageSize) {
-        		
+        		this.pageSize = pageSize;
+        		this.dataInit();
         	},
         	changePage(page) {
-        		
+        		this.page = page;
+        		this.dataInit();
         	},
-        	showDel(index) {
+        	showDel(index) {//显示删除按钮
         		this.show = index;
         	},
         	del(id) {// 删除
@@ -61,20 +70,53 @@
 		          	showClose: false,
 		          	center: true
 		        }).then(res => {
-		          this.$message({
-		            type: 'success',
-		            message: '删除成功!'
-		          });
+		        	this.$http.post('/notice/del/'+id).then(res => {
+						if(res.code == 10000) {
+							this.$message({
+					            type: 'success',
+					            message: '删除成功!'
+					        });
+					        this.dataInit();
+						} else {
+							this.$message.error(res.msg);
+						}
+					}).catch(function(error) { //加上catch
+						this.$message.error(error);
+					})
 		        }).catch(res=>{});
         	},
-        	details(id) {// 详情
-        		this.currentPage = id;
+        	details(id,type) {// 阅读通知
+        		this.$http.post('/notice/read/'+id).then(res => {
+					if(res.code == 10000) {
+						this.dataInit();
+					} else {
+						this.$message.error(res.msg);
+					}
+				}).catch(function(error) {
+					this.$message.error(error);
+				})
+        		if(id==2){
+        			this.$message({
+        				type:'success',
+        				message:'页面未绑定'
+        			});
+        		}
+        	},
+        	dataInit() {
+        		this.$http.post('/notice/list',{page:this.page,pageSize:this.pageSize}).then(res => {
+					if(res.code == 10000) {
+						this.list = res.data.rows;
+						this.total = res.data.totalSize;
+					} else {
+						this.$message.error(res.msg);
+					}
+				}).catch(function(error) {
+					this.$message.error(error);
+				})
         	}
         },
         mounted() {
-        	for(var i=1;i<11;i++){
-        		this.list.push({id:i,name: "张三",title: '本周开会的通知',message: '请各位同事准时参加！'})
-        	}
+        	this.dataInit();
         }
     }
 </script>
@@ -93,6 +135,7 @@
 	#notice .data-box table tr .title{
 		font-size: 16px;
     	font-weight: bold;
+    	cursor: pointer;
 	}
 	#notice .data-box table tr .txt{
 		font-size: 14px;
@@ -108,5 +151,24 @@
 	}
 	#notice .data-box table td:nth-child(2){
 		width: 50px;
+	}
+	#notice .user-name{
+		width: 130px;
+	}
+	#notice .send-time{
+		color: #ccc;
+	}
+	/*阅读状态*/
+	#notice .status{
+		display: inline-block;
+		height: 10px;
+		width: 10px;
+		border-radius: 50%;
+	}
+	#notice .readed{
+		background-color: green;
+	}
+	#notice .unread{
+		background-color: red;
 	}
 </style>

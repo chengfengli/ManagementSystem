@@ -11,94 +11,49 @@
 				</el-breadcrumb>
 			</div>
 			<div class="data-box">
-				<el-tabs v-model="activeName" @tab-click="handleClick">
-					<!--最新公告-->
-				    <el-tab-pane label="最新公告" name="new">
-				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
-								<td>{{item.time}}</td>
-								<td>{{item.title}}</td>
-								<td>点击量({{item.clickCount}})</td>
+				<el-row class="tac">
+					<el-col :span="2">
+					    <el-menu :default-active="defaultIndex" class="el-menu-vertical-demo" @select="select">
+						    <el-menu-item v-for="item in typeList" :keys="item.ID" :index="item.ID.toString()">{{item.NAME}}</el-menu-item>
+					    </el-menu>
+					</el-col>
+					<el-col :span="21" :offset="1">
+						<table cellspacing="0">
+							<tr v-for="item in afficheList" :key="item.ID" @click="details(item.ID)">
+								<td class="time">{{item.PUBLISHDATE}}</td>
+								<td class="title">{{item.TITLE}}</td>
+								<td class="btn"></td>
+								<td class="sender">{{item.PUSHER}}</td>
+								<td class="click-cunt">点击量({{item.CLICKS}})</td>
 							</tr>
 						</table>
 						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
 							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-				    </el-tab-pane>
-				    <!--流程制度-->
-				    <el-tab-pane label="流程制度" name="flow">
-				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
-								<td>{{item.time}}</td>
-								<td>{{item.title}}</td>
-								<td>点击量({{item.clickCount}})</td>
-							</tr>
-						</table>
-						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
-							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-				    </el-tab-pane>
-				    <!--部门公告-->
-				    <el-tab-pane label="部门公告" name="dep">
-				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
-								<td>{{item.time}}</td>
-								<td>{{item.title}}</td>
-								<td>点击量({{item.clickCount}})</td>
-							</tr>
-						</table>
-						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
-							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-				    </el-tab-pane>
-				    <!--器械事件-->
-				    <el-tab-pane label="事件公告" name="event">
-				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
-								<td>{{item.time}}</td>
-								<td>{{item.title}}</td>
-								<td>点击量({{item.clickCount}})</td>
-							</tr>
-						</table>
-						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
-							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-				    </el-tab-pane>
-				    <!--器械事件-->
-				    <el-tab-pane label="器械事件" name="deviceIncidents">
-				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
-								<td>{{item.time}}</td>
-								<td>{{item.title}}</td>
-								<td>点击量({{item.clickCount}})</td>
-							</tr>
-						</table>
-						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
-							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-				    </el-tab-pane>
-				    <!--系统公告-->
-				    <el-tab-pane label="系统公告" name="systemBulletin">
-				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
-								<td>{{item.time}}</td>
-								<td>{{item.title}}</td>
-								<td>点击量({{item.clickCount}})</td>
-							</tr>
-						</table>
-						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
-							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-				    </el-tab-pane>
-				    <!--药物事件-->
-				    <el-tab-pane label="药物事件" name="drugIncidents">
-				    	<table cellspacing="0" @mouseleave="show=-1">
-							<tr v-for="item in newNoticeList" v-bind:key="item" @click="details(item.id)">
-								<td>{{item.time}}</td>
-								<td>{{item.title}}</td>
-								<td>点击量({{item.clickCount}})</td>
-							</tr>
-						</table>
-						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
-							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-				    </el-tab-pane>
-				</el-tabs>
+					</el-col>
+				</el-row>
 			</div>
 		</div>
+		<!--公告详情-->
+		<el-dialog title="公告详情" :visible.sync="addAnnouncementDialog" width="40%" :close-on-click-modal="false" :show-close="false">
+			<el-form v-if="notice!=null" label-width="80px">
+				<el-form-item label="标题">
+				    {{notice.TITLE}}
+				</el-form-item>
+				<el-form-item label="发布时间">
+				    {{notice.PUBLISHDATE}}
+				</el-form-item>
+				<el-form-item label="置顶">
+				    <span v-if="notice.TOP==0">未置顶</span>
+				    <span v-else>置顶</span>
+				</el-form-item>
+	            <el-form-item prop="CONTENT" label="内容">
+	            	<div style="line-height: 20px;padding-top: 10px;">{{notice.CONTENT}}</div>
+	            </el-form-item>
+	            <div class="btn-box">
+	            	<el-button @click="close" size="mini">关闭</el-button>
+	            </div>
+	        </el-form>
+		</el-dialog>
 	</div>
 </template>
 
@@ -110,31 +65,75 @@
        },
         data: function(){
             return {
-            	activeName: 'new',
-            	newNoticeList:[],
+            	typeList:[],
+            	afficheList:[],
+            	defaultIndex: null,
             	page:1,
             	pageSize: 10,
-            	total:100
+            	total:0,
+            	addAnnouncementDialog: false,
+            	notice:null
             }
         },
         methods: {
-        	handleClick(tab, event) {
-        		console.log(tab.name);
-		    },
-		    getNewNotice(){
-		    	
-		    },
-		    currengChange(currentPage) {// 翻页
-        		alert(currentPage)
+		    select(index) {
+		    	this.defaultIndex = index;
+	        	this.afficheListInit(index);
+	        },
+	        changeSize(pageSize) {
+	        	this.pageSize = pageSize;
+	        	this.afficheListInit(this.defaultIndex);
+	        },
+	        changePage(page) {
+	        	this.page = page;
+	        	this.afficheListInit(this.defaultIndex);
 	        },
 	        details(id) {
-	        	this.$message(id.toString());
+	        	this.$http.post('/affiche/detail/'+id).then(res => {
+					if(res.code == 10000) {
+						this.addAnnouncementDialog = true;
+						this.notice = res.data;
+					} else {
+						this.$message.error(res.msg);
+					}
+				}).catch(function(error) {
+					this.$message.error(error);
+				})
 	        },
+	        typeListInit() {// 获取类型
+	        	this.$http.post('/affiche/listType').then(res => {
+					if(res.code == 10000) {
+						this.typeList = res.data;
+						if(res.data.length!=0){
+							this.defaultIndex = res.data[0].ID.toString();
+							this.afficheListInit(this.defaultIndex);
+						}
+					} else {
+						this.$message.error(res.msg);
+					}
+				}).catch(function(error) {
+					this.$message.error(error);
+				})
+	        },
+	        afficheListInit(typeId) {// 根据类型获取对应的数据
+	        	this.$http.post('/affiche/list/'+typeId,{page:this.page,pageSize:this.pageSize}).then(res => {
+					if(res.code == 10000) {
+						this.total = res.data.totalPage;
+						this.afficheList = res.data.rows;
+					} else {
+						this.$message.error(res.msg);
+					}
+				}).catch(function(error) {
+					this.$message.error(error);
+				})
+	      	},
+	      	close() {
+	      		this.addAnnouncementDialog = false;
+	      		this.notice = null;
+	      	}
         },
         mounted() {
-        	for(var i=1;i<11;i++){
-        		this.newNoticeList.push({id:i,time: "2018/10/10",title: '本周开会的通知',clickCount: 20})
-        	}
+			this.typeListInit();
         }
     }
 </script>
@@ -142,6 +141,28 @@
 <style scoped>
 	#announcement .data-box{
 		margin: 0 20px;
+		min-width: 1300px;
+	}
+	#announcement .data-box .el-tag{
+	    cursor: pointer;
+	}
+	#announcement .data-box .el-menu-item{
+		text-align: center;
+	}
+	#announcement .el-menu{
+		background-color: transparent;
+		border: 0;
+	}
+	#announcement .el-menu-item{
+		margin-bottom: 10px;
+		background-color: rgb(238, 246, 246);
+	}
+	#announcement .is-active,#announcement .el-menu-item:hover{
+		background-color: #00d1b2;
+		color: #fff;
+	}
+	#announcement .data-box .el-col-2{
+		min-width: 100px;
 	}
 	#announcement .data-box table{
 		width: 100%;
@@ -164,5 +185,9 @@
 	}
 	#announcement .data-box table td:nth-child(3){
 		font-size: 12px;	
+	}
+	#announcement .btn-box{
+		text-align: center;
+		margin:20px 0;
 	}
 </style>

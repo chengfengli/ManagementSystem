@@ -50,7 +50,7 @@
       </el-table>
     </section>
     <section class="systemParam-paging">
-      <el-pagination @size-change="changePageSize" @current-change="currentPage" :current-page="searchData.page"
+      <el-pagination class="pagination" @size-change="changePageSize" @current-change="currentPage" :current-page="searchData.page"
                      :page-sizes="[10,20,30,50]" :page-size="searchData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="searchData.total">
       </el-pagination>
     </section>
@@ -220,4 +220,5 @@
     max-height: 10%;
     text-align: center;
   }
+  .systemParam .systemParam-paging .pagination{margin-bottom: 30px;}
 </style>

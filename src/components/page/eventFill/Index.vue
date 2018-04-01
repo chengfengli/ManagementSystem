@@ -49,7 +49,7 @@
         	}
         },
 		mounted() {
-			this.$http.post('/event/fillTypes').then(res=>{//初始化事件等级
+			this.$http.post('/event/fillTypes').then(res=>{
         		if(res.code == 10000){
         			this.dataList = res.data;
         		}else{

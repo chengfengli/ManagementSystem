@@ -60,7 +60,7 @@
       </el-table>
     </section>
     <section class="systemParam-paging">
-      <el-pagination @size-change="changePageSize" @current-change="currentPage" :current-page="dictData.page"
+      <el-pagination class="pagination" @size-change="changePageSize" @current-change="currentPage" :current-page="dictData.page"
                      :page-sizes="[10,20,30,50]" :page-size="dictData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="dictData.total">
       </el-pagination>
     </section>
@@ -272,4 +272,5 @@
     max-height: 10%;
     text-align: center;
   }
+  .dataDict .systemParam-paging .pagination{margin-bottom: 30px;}
 </style>

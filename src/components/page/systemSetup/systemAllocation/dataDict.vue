@@ -3,44 +3,48 @@
     <section class="systemParam-search">
       <div>
         <label>标识键</label>
-        <input/>
+        <input v-model="searchKEY"/>
       </div>
       <div>
         <label>描述</label>
-        <input/>
+        <input v-model="searchMARK"/>
       </div>
       <div>
-        <el-button type="primary" class="dataDict-submit" size="small">查询</el-button>
+        <label>显示值</label>
+        <input v-model="searchShow"/>
+      </div>
+      <div>
+        <el-button @click="searchSubmit" type="primary" class="dataDict-submit" size="small">查询</el-button>
       </div>
     </section>
     <section class="systemParam-table">
       <el-table
-        :data="tableData"
+        :data="dataList"
         border
         style="width: 100%">
         <el-table-column
           fixed
-          prop="date"
+          prop="ROW_ID"
           label=""
           width="100">
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="KEY"
           label="标识键"
           width="220">
         </el-table-column>
         <el-table-column
-          prop="province"
+          prop="VALUE"
           label="值"
           width="170">
         </el-table-column>
         <el-table-column
-          prop="province"
+          prop="DISPLAY"
           label="显示值"
           width="170">
         </el-table-column>
         <el-table-column
-          prop="city"
+          prop="MARK"
           label="描述"
           width="460">
         </el-table-column>
@@ -49,15 +53,39 @@
           label="操作"
           width="100">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
-            <el-button type="text" size="small">编辑</el-button>
+            <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
+            <el-button @click="deleteData(scope.row)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </section>
     <section class="systemParam-paging">
-      <Page></Page>
+      <el-pagination @size-change="changePageSize" @current-change="currentPage" :current-page="dictData.page"
+                     :page-sizes="[10,20,30,50]" :page-size="dictData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="dictData.total">
+      </el-pagination>
     </section>
+    <div class="window-dialog" v-if="showDialog">
+      <section>
+        <label>标识键</label>
+        <input v-model="recurrence.KEY "/>
+      </section>
+      <section>
+        <label>值</label>
+        <input v-model="recurrence.VALUE"/>
+      </section>
+      <section>
+        <label>显示值</label>
+        <input v-model="recurrence.DISPLAY"/>
+      </section>
+      <section>
+        <label>描述</label>
+        <textarea v-model="recurrence.MARK"></textarea>
+      </section>
+      <section style="text-align: center;">
+        <el-button @click="modifyBtn" class="btn" type="danger">确定</el-button>
+        <el-button class="btn" type="info" @click="showDialog = false">取消</el-button>
+      </section>
+    </div>
   </article>
 </template>
 
@@ -67,39 +95,113 @@
     name: "dataDict",
     data() {
       return {
-        tableData: [{
-          date: '2016-05-03',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          province: '上海',
-          city: '普陀区',
-          address: '上海市普陀区金沙江路 1518 弄',
-          zip: 200333
-        }]
+        showDialog: false,
+        recurrence: {},
+        searchKEY: "",
+        searchMARK: "",
+        searchShow: "",
+        dictData: {
+          total: 0,
+          page: 1,
+          pageSize: 10,
+          KEY: "",
+          MARK: "",
+          DISPLAY: ""
+        },
+        dataList: []
       }
     },
+    mounted(){
+      this.initDict(this.dictData);
+    },
     methods:{
-
+      deleteData: function (tabData) {
+        this.$confirm('确认删除该条数据？', '提示!', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$http.post('/dic/del/'+ tabData.CFGID, tabData.CFGID).then(res => {
+            if (res.code == 10000) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              this.showDialog = false;
+              this.initDict(this.dictData);
+            } else {
+              this.$message.error(res.msg);
+            }
+          }).catch(function (error) {//加上catch
+            console.log(error);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+       /* this.$http.post('/dic/del/'+ tabData.CFGID, tabData.CFGID).then(res => {
+          if (res.code == 10000) {
+            this.showDialog = false;
+            this.initSystemData(this.searchData);
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });*/
+      },
+      modifyBtn: function () {
+        var data = {
+          id: this.recurrence.CFGID,
+          KEY: this.recurrence.KEY,
+          MARK:this.recurrence.MARK,
+          DISPLAY:this.recurrence.DISPLAY,
+          value: this.recurrence.VALUE
+        }
+        this.$http.post('/dic/update/'+ this.recurrence.CFGID, data).then(res => {
+          if (res.code == 10000) {
+            this.showDialog = false;
+            this.initSystemData(this.searchData);
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      handleClick: function (tabData) {
+        this.showDialog = true;
+        this.recurrence = tabData;
+        console.log(this.recurrence)
+      },
+      searchSubmit: function () {
+        this.dictData.KEY = this.searchKEY;
+        this.dictData.MARK = this.searchMARK;
+        this.dictData.DISPLAY = this.searchShow;
+        this.initDict(this.dictData);
+      },
+      initDict: function (data) {
+        this.$http.post('/dic/dics', data).then(res => {
+          if (res.code == 10000) {
+            this.dictData.total = res.data.totalSize;
+            this.dataList = res.data.rows;
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      currentPage: function (currentPage) {    //页码数量
+        this.dictData.page = currentPage;
+        this.initDict(this.dictData);
+      },
+      changePageSize: function (pageSize) {   //每页数量
+        this.dictData.pageSize = pageSize;
+        this.initDict(this.dictData);
+      },
     },
     components: {
       Page
@@ -108,6 +210,39 @@
 </script>
 
 <style>
+  .window-dialog{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    box-sizing: border-box;
+    background: white;
+    border: 1px solid #ccc;
+    z-index: 100;
+  }
+  .window-dialog section label{width: 40px;text-align: right;display: inline-block;margin-right: 15px;}
+  .window-dialog section input,
+  .window-dialog section textarea{
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    min-width: 230px;
+  }
+  .window-dialog section .dialog-span{
+    display: inline-block;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    min-width: 230px;
+  }
+  .window-dialog section textarea{vertical-align: center;}
+  .window-dialog .btn{
+    padding: 10px 25px!important;
+  }
+
+
   .dataDict{
     width: 100%;
     height: 100%;

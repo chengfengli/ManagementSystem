@@ -29,18 +29,11 @@
                                     <el-menu-item index="1-2" @click="openModulePage('showSystemParam')">系统参数</el-menu-item>
                                     <el-menu-item index="1-3" @click="openModulePage('showDataDict')">数据字典</el-menu-item>
                                 </el-menu-item-group>
-                             <!--   <el-menu-item-group title="分组2">
-                                    <el-menu-item index="1-3">医院信息</el-menu-item>
-                                </el-menu-item-group>-->
-                              <!--  <el-submenu index="1-4">
-                                    <template slot="title">选项4</template>
-                                    <el-menu-item index="1-4-1">选项1</el-menu-item>
-                                </el-submenu>-->
                             </el-submenu>
                             <el-submenu index="2">
                                 <template slot="title">
                                     <i class="el-icon-menu"></i>
-                                    <span>系统配置</span>
+                                    <span>权限设置</span>
                                 </template>
                                 <el-menu-item-group>
                                     <!--<template slot="title">分组一</template>-->
@@ -217,7 +210,7 @@
       position: relative;
     }
     .systemSet-main nav{flex:  2;height: 100%;}
-    .systemSet-main aside{flex: 8;}
+    .systemSet-main aside{flex: 8;width: 100%;}
     .systemSet-main .tac, .systemSet-main .el-col-24, .el-menu{height: 100%;overflow: auto;}
 
 </style>

@@ -26,8 +26,11 @@
 								<td class="sender">{{item.PUSHER}}</td>
 								<td class="click-cunt">点击量({{item.CLICKS}})</td>
 							</tr>
+							<tr v-if="total==0">
+								<td style="text-align: center;color: #ccc;">暂无数据</td>
+							</tr>
 						</table>
-						<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
+						<el-pagination v-if="total!=0" @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
 							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 					</el-col>
 				</el-row>
@@ -35,19 +38,19 @@
 		</div>
 		<!--公告详情-->
 		<el-dialog title="公告详情" :visible.sync="addAnnouncementDialog" width="40%" :close-on-click-modal="false" :show-close="false">
-			<el-form v-if="notice!=null" label-width="80px">
-				<el-form-item label="标题">
+			<el-form v-if="notice!=null" label-width="90px">
+				<el-form-item label="标题：">
 				    {{notice.TITLE}}
 				</el-form-item>
-				<el-form-item label="发布时间">
+				<el-form-item label="发布时间：">
 				    {{notice.PUBLISHDATE}}
 				</el-form-item>
-				<el-form-item label="置顶">
+				<el-form-item label="置顶：">
 				    <span v-if="notice.TOP==0">未置顶</span>
 				    <span v-else>置顶</span>
 				</el-form-item>
-	            <el-form-item prop="CONTENT" label="内容">
-	            	<div style="line-height: 20px;padding-top: 10px;">{{notice.CONTENT}}</div>
+	            <el-form-item prop="CONTENT" label="内容：">
+	            	<div style="line-height: 20px;padding-top: 10px;" v-html="notice.CONTENT"></div>
 	            </el-form-item>
 	            <div class="btn-box">
 	            	<el-button @click="close" size="mini">关闭</el-button>

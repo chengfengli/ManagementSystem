@@ -60,8 +60,10 @@
       </el-table>
     </section>
     <section class="systemParam-paging">
-      <el-pagination class="pagination" @size-change="changePageSize" @current-change="currentPage" :current-page="dictData.page"
-                     :page-sizes="[10,20,30,50]" :page-size="dictData.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="dictData.total">
+      <el-pagination class="pagination" @size-change="changePageSize" @current-change="currentPage"
+                     :current-page="dictData.page"
+                     :page-sizes="[10,20,30,50]" :page-size="dictData.pageSize"
+                     layout="total, sizes, prev, pager, next, jumper" :total="dictData.total">
       </el-pagination>
     </section>
     <div class="window-dialog" v-if="showDialog">
@@ -91,6 +93,7 @@
 
 <script>
   import Page from "../../../common/Page"
+
   export default {
     name: "dataDict",
     data() {
@@ -111,17 +114,17 @@
         dataList: []
       }
     },
-    mounted(){
+    mounted() {
       this.initDict(this.dictData);
     },
-    methods:{
+    methods: {
       deleteData: function (tabData) {
         this.$confirm('确认删除该条数据？', '提示!', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$http.post('/dic/del/'+ tabData.CFGID, tabData.CFGID).then(res => {
+          this.$http.post('/dic/del/' + tabData.CFGID, tabData.CFGID).then(res => {
             if (res.code == 10000) {
               this.$message({
                 type: 'success',
@@ -141,26 +144,26 @@
             message: '已取消删除'
           });
         });
-       /* this.$http.post('/dic/del/'+ tabData.CFGID, tabData.CFGID).then(res => {
-          if (res.code == 10000) {
-            this.showDialog = false;
-            this.initSystemData(this.searchData);
-          } else {
-            this.$message.error(res.msg);
-          }
-        }).catch(function (error) {//加上catch
-          console.log(error);
-        });*/
+        /* this.$http.post('/dic/del/'+ tabData.CFGID, tabData.CFGID).then(res => {
+           if (res.code == 10000) {
+             this.showDialog = false;
+             this.initSystemData(this.searchData);
+           } else {
+             this.$message.error(res.msg);
+           }
+         }).catch(function (error) {//加上catch
+           console.log(error);
+         });*/
       },
       modifyBtn: function () {
         var data = {
           id: this.recurrence.CFGID,
           KEY: this.recurrence.KEY,
-          MARK:this.recurrence.MARK,
-          DISPLAY:this.recurrence.DISPLAY,
+          MARK: this.recurrence.MARK,
+          DISPLAY: this.recurrence.DISPLAY,
           value: this.recurrence.VALUE
         }
-        this.$http.post('/dic/update/'+ this.recurrence.CFGID, data).then(res => {
+        this.$http.post('/dic/update/' + this.recurrence.CFGID, data).then(res => {
           if (res.code == 10000) {
             this.$message.success("提交成功！");
             this.showDialog = false;
@@ -211,7 +214,7 @@
 </script>
 
 <style>
-  .window-dialog{
+  .window-dialog {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -222,56 +225,88 @@
     border: 1px solid #ccc;
     z-index: 100;
   }
-  .window-dialog section label{width: 40px;text-align: right;display: inline-block;margin-right: 15px;}
+
+  .window-dialog section label {
+    width: 40px;
+    text-align: right;
+    display: inline-block;
+    margin-right: 15px;
+  }
+
   .window-dialog section input,
-  .window-dialog section textarea{
+  .window-dialog section textarea {
     padding: 5px 10px;
     box-sizing: border-box;
     border: 1px solid #ccc;
     margin-bottom: 20px;
     min-width: 230px;
   }
-  .window-dialog section .dialog-span{
+
+  .window-dialog section .dialog-span {
     display: inline-block;
     padding: 5px 10px;
     box-sizing: border-box;
     margin-bottom: 20px;
     min-width: 230px;
   }
-  .window-dialog section textarea{vertical-align: center;}
-  .window-dialog .btn{
-    padding: 10px 25px!important;
+
+  .window-dialog section textarea {
+    vertical-align: center;
   }
 
+  .window-dialog .btn {
+    padding: 10px 25px !important;
+  }
 
-  .dataDict{
+  .dataDict {
     width: 100%;
     height: 100%;
     overflow: auto;
   }
-  .dataDict .systemParam-search{
+
+  .dataDict .systemParam-search {
     padding: 15px 25px;
     box-sizing: border-box;
     max-height: 8%;
   }
-  .dataDict .systemParam-search label{
+
+  .dataDict .systemParam-search label {
     margin-right: 10px;
-    text-align: right!important;
-    width: 50px!important;
+    text-align: right !important;
+    width: 50px !important;
   }
-  .dataDict .systemParam-search div{display: inline-block;margin-right: 30px;}
-  .dataDict .systemParam-search input{
+
+  .dataDict .systemParam-search div {
+    display: inline-block;
+    margin-right: 30px;
+  }
+
+  .dataDict .systemParam-search input {
     width: 120px;
     padding: 3px 0;
   }
-  .dataDict .el-button{padding: 10px 3px;box-sizing: border-box;}
-  .dataDict .dataDict-submit{padding: 6px 23px;}
-  .dataDict .el-table th,.dataDict .el-table td{text-align: center;}
-  .dataDict .systemParam-paging{
+
+  .dataDict .el-button {
+    padding: 10px 3px;
+    box-sizing: border-box;
+  }
+
+  .dataDict .dataDict-submit {
+    padding: 6px 23px;
+  }
+
+  .dataDict .el-table th, .dataDict .el-table td {
+    text-align: center;
+  }
+
+  .dataDict .systemParam-paging {
     padding-top: 40px;
     width: 100%;
     max-height: 10%;
     text-align: center;
   }
-  .dataDict .systemParam-paging .pagination{margin-bottom: 30px;}
+
+  .dataDict .systemParam-paging .pagination {
+    margin-bottom: 30px;
+  }
 </style>

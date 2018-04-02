@@ -57,8 +57,7 @@
         </el-select>
       </el-form-item>
       <article class="action-btn">
-        <section @click="resetSubmit" style="background: #e6a23c;border: 1px solid #e6a23c;">重置</section>
-        <section style="background: #909399;border: 1px solid #909399;">取消</section>
+        <section @click="resetSubmit" style="background: #e6a23c;border: 1px solid #e6a23c;">提交</section>
       </article>
     </el-form>
   </div>
@@ -184,6 +183,7 @@
         if(!resetData.contactphone || resetData.contactphone == "") return this.$message.error("电话不能为空！");
         this.$http.post('/cfg/updateHospital', resetData).then(res => {
           if (res.code == 10000) {
+            this.$message.success("提交成功！");
             this.initData();
             this.selectInitData();
           }else {
@@ -206,37 +206,30 @@
     max-width: 70%;
     min-width: 50%;
   }
-
   .hospitalsInfo .el-select {
     width: 100%;
   }
-
   .hospitalsInfo .el-button {
     padding: 12px 60px;
   }
-
   .hospitalsInfo .action-btn {
     display: flex;
     max-width: 400px;
-    margin: auto;
+    text-align: left;
     padding-top: 50px;
   }
-
   .hospitalsInfo .b-m10 {
     margin-bottom: 6px;
   }
-
   .hospitalsInfo .action-btn section {
     flex: 1;
     padding: 10px 40px;
     box-sizing: border-box;
     text-align: center;
     max-width: 150px;
-    margin: auto;
     border-radius: 5px;
     color: white;
   }
-
   .hospitalsInfo .action-btn section:hover {
     opacity: 0.8;
     cursor: pointer;

@@ -27,22 +27,22 @@
         <el-table-column
           prop="KEY"
           label="标识键"
-          width="220">
+          width="350">
         </el-table-column>
         <el-table-column
           prop="VALUE"
           label="值"
-          width="220">
+          :max-width="220">
         </el-table-column>
         <el-table-column
           prop="MARK"
           label="描述"
-          width="500">
+          :max-width="650">
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作"
-          width="100">
+          width="130">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
           </template>
@@ -68,8 +68,8 @@
         <textarea v-model="recurrence.MARK"></textarea>
       </section>
       <section style="text-align: center;">
-        <el-button @click="modifyBtn" class="btn" type="danger">确定</el-button>
-        <el-button class="btn" type="info" @click="showDialog = false">取消</el-button>
+        <el-button @click="modifyBtn" class="btn" type="danger">提交</el-button>
+        <el-button class="btn" type="info" @click="cancelBtn">取消</el-button>
       </section>
     </div>
   </article>
@@ -103,6 +103,10 @@
         this.initSystemData(this.searchData);
       },
       methods:{
+        cancelBtn: function () {
+          this.showDialog = false;
+          this.initSystemData(this.searchData);
+        },
         modifyBtn: function () {
           var data = {
             id: this.recurrence.CFGID,
@@ -111,6 +115,7 @@
           }
           this.$http.post('/cfg/update/'+ this.recurrence.CFGID, data).then(res => {
             if (res.code == 10000) {
+              this.$message.success("提交成功！");
               this.showDialog = false;
               this.initSystemData(this.searchData);
             } else {

@@ -26,32 +26,32 @@
           fixed
           prop="ROW_ID"
           label=""
-          width="100">
+          :max-width="100">
         </el-table-column>
         <el-table-column
           prop="KEY"
           label="标识键"
-          width="220">
+          :max-width="300">
         </el-table-column>
         <el-table-column
           prop="VALUE"
           label="值"
-          width="170">
+          :max-width="200">
         </el-table-column>
         <el-table-column
           prop="DISPLAY"
           label="显示值"
-          width="170">
+          :max-width="200">
         </el-table-column>
         <el-table-column
           prop="MARK"
           label="描述"
-          width="460">
+          :max-width="550">
         </el-table-column>
         <el-table-column
           fixed="right"
           label="操作"
-          width="100">
+          :max-width="130">
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="small">编辑</el-button>
             <el-button @click="deleteData(scope.row)" type="text" size="small">删除</el-button>
@@ -82,7 +82,7 @@
         <textarea v-model="recurrence.MARK"></textarea>
       </section>
       <section style="text-align: center;">
-        <el-button @click="modifyBtn" class="btn" type="danger">确定</el-button>
+        <el-button @click="modifyBtn" class="btn" type="danger">提交</el-button>
         <el-button class="btn" type="info" @click="showDialog = false">取消</el-button>
       </section>
     </div>
@@ -162,6 +162,7 @@
         }
         this.$http.post('/dic/update/'+ this.recurrence.CFGID, data).then(res => {
           if (res.code == 10000) {
+            this.$message.success("提交成功！");
             this.showDialog = false;
             this.initSystemData(this.searchData);
           } else {

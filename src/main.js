@@ -46,6 +46,7 @@ Vue.prototype.$load = Loading;
 Vue.prototype.$validation = function(val,type){
 	if(val != null && val != undefined){
     	val = val.toString();
+    	val = val.toLowerCase();
 	}
 	var bool = true;
 	if(type=='required'){

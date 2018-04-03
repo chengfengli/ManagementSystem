@@ -1,5 +1,6 @@
 <template>
   <article class="tourist">
+    <div @click="monitoRadio">1151515</div>
     <section class="tourist-tip">注：当用户以游客身份进入此事件， 且事件在勾选的状态下，允许进行的操作</section>
     <section class="tourist-table">
       <div class="tourist-title">
@@ -7,68 +8,33 @@
       </div>
       <div class="tourist-checkbox">
         <aside class="action">
-          <div v-for="item in permisMenuData.rows">
+          <div v-for="item in tableData.rows">
             {{ item.PERMISSIONNAME }}
           </div>
         </aside>
         <aside class="chechBox">
-          <div class="select-ck" v-for="ck in permisMenuData.rows">
-            <div class="ck-btn" >
-              <el-checkbox v-model="ck.ABANDON"></el-checkbox>
+          <div class="select-ck" v-for="ck in tableData.rows">
+            <div class="ck-btn">
+              <el-checkbox v-model="ck.ABANDON" :label="null" @change="monitoRadio(ck.ABANDON)" ></el-checkbox>
             </div>
             <div class="ck-btn" >
-              <el-checkbox v-model="ck.REJECTFILL"></el-checkbox>
+              <el-checkbox v-model="ck.REJECTFILL" :label="null" @change="monitoRadio(ck.REJECTFILL)"></el-checkbox>
             </div>
             <div class="ck-btn" >
-              <el-checkbox v-model="ck.WAITDEAL"></el-checkbox>
+              <el-checkbox v-model="ck.WAITDEAL" :label="null" @change="monitoRadio(ck.WAITDEAL)"></el-checkbox>
             </div>
             <div class="ck-btn" >
-              <el-checkbox v-model="ck.REJECTDEAL"></el-checkbox>
+              <el-checkbox v-model="ck.REJECTDEAL" :label="null" @change="monitoRadio(ck.REJECTDEAL)"></el-checkbox>
             </div>
             <div class="ck-btn" >
-              <el-checkbox v-model="ck.WAITCLOSE"></el-checkbox>
+              <el-checkbox v-model="ck.WAITCLOSE" :label="null" @change="monitoRadio(ck.WAITCLOSE)"></el-checkbox>
             </div>
             <div class="ck-btn" >
-              <el-checkbox v-model="ck.CLOSED"></el-checkbox>
+              <el-checkbox v-model="ck.CLOSED" :label="null" @change="monitoRadio(ck.CLOSED)"></el-checkbox>
             </div>
           </div>
         </aside>
       </div>
-      <!--<el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-        <el-table-column
-          prop="date"
-          label="功能"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="废弃"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="驳回填报">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="等待处理">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="驳回处理">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="等待结案">
-        </el-table-column>
-        <el-table-column
-          prop="address"
-          label="已结案">
-        </el-table-column>
-      </el-table>-->
     </section>
   </article>
 </template>
@@ -78,16 +44,23 @@
     name: "tourist",
     data() {
       return {
+        ttt: true,
+        radio: false,
         tabTitle: ['功能', '废弃', '驳回填报', '等待处理', '驳回处理', '等待结案', '已结案'],
+        tableData: []
       }
     },
-    mounted(){
-      console.log(this.permisMenuData);
+    props: ["menuData"],
+    mounted: function(){
+      console.log(this.menuData)
+      this.tableData = this.menuData;
     },
     methods: {
-
+      monitoRadio: function (ck) {
+        console.log(ck)
+      },
     },
-    props: ["permisMenuData"]
+
   }
 </script>
 
@@ -114,17 +87,17 @@
   }
   .tourist .tourist-checkbox .action div{
     flex: 1;
-    padding: 10px 0;
+    padding: 13px 0;
     border: 1px solid #EBEEF5;
   }
   .tourist .tourist-title div{
     flex: 1;
-    padding: 10px 0;
+    padding: 13px 0;
     border: 1px solid #EBEEF5;
   }
   .select-ck div{
     flex: 1;
-    padding: 10px 0;
+    padding: 11.64px 0;
     border: 1px solid #EBEEF5;
   }
 </style>

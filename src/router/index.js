@@ -78,5 +78,11 @@ export default new Router({
           name: 'eventFill',
           component: resolve => require(['../components/page/eventFill/eventFill.vue'], resolve)
         },
+        /* 权限设置通用页面 */
+        {
+          path: '/eventFill',
+          name: 'eventFill',
+          component: resolve => require(['../components/page/eventFill/eventFill.vue'], resolve)
+        },
     ]
 })

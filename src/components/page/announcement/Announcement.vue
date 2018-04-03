@@ -45,10 +45,6 @@
 				<el-form-item label="发布时间：">
 				    {{notice.PUBLISHDATE}}
 				</el-form-item>
-				<el-form-item label="置顶：">
-				    <span v-if="notice.TOP==0">未置顶</span>
-				    <span v-else>置顶</span>
-				</el-form-item>
 	            <el-form-item prop="CONTENT" label="内容：">
 	            	<div style="line-height: 20px;padding-top: 10px;" v-html="notice.CONTENT"></div>
 	            </el-form-item>

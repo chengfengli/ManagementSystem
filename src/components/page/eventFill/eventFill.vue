@@ -20,43 +20,43 @@
 					<el-collapse v-model="activeNames">
 					  	<el-collapse-item v-for="item in dataList" :keys="item.MODID" :id="item.MODID" :title="item.MODNAME" :name="item.MODID">
 					    	<el-form label-width="80px">
-					    		<el-form-item label="单行">
-					                <el-input size="mini"></el-input>
-					            </el-form-item>
-					            <el-form-item label="数字">
-					                <el-input type="NUMBER" min='1' size="mini"></el-input>
-					            </el-form-item>
-					            <el-form-item label="多行">
-					                <el-input type="textarea"></el-input>
-					            </el-form-item>
-					            <el-form-item label="日期">
-					                <el-date-picker type="date" placeholder="选择日期" size="mini"></el-date-picker>
-					            </el-form-item>
-					            <el-form-item label="日期时间">
-					                <el-date-picker type="datetime" placeholder="选择日期" size="mini"></el-date-picker>
-					            </el-form-item>
-					            <!--<el-form-item label="下拉">
-					                <el-select placeholder="请选择" size="mini">
-									</el-select>
-					            </el-form-item>-->
-					            <el-form-item label="单选">
-					            	<el-radio-group>
+					    		<el-form-item v-for="ele in item.ELES" :keys="ele.ELEID" :label="ele.LABEL">
+					    			<hr v-if="ele.ELETYPE==2">
+					    			
+					                <el-input v-if="ele.ELETYPE==3" size="mini"></el-input>
+					                
+					                <el-input v-if="ele.ELETYPE==4" type="textarea"></el-input>
+					                
+					                <el-radio-group v-if="ele.ELETYPE==5">
 									    <el-radio :label="3">备选项</el-radio>
-									    <el-radio :label="6">备选项</el-radio>
-									    <el-radio :label="9">备选项</el-radio>
 									</el-radio-group>
-					            </el-form-item>
-					            <el-form-item label="多选">
-					            	<el-checkbox-group>
-									    <el-checkbox :label="1">多选一</el-checkbox>
-									    <el-checkbox :label="2">多选二</el-checkbox>
+									
+									<el-date-picker v-if="ele.ELETYPE==6" type="date" placeholder="选择日期" size="mini"></el-date-picker>
+									
+									<el-form-item v-if="ele.ELETYPE==7" label="日期时间">
+						                <el-date-picker type="datetime" placeholder="选择日期" size="mini"></el-date-picker>
+						            </el-form-item>
+						            
+						            <el-select v-model="value" v-if="ele.ELETYPE==8" placeholder="请选择" size="mini">
+						            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
+									</el-select>
+									
+									<el-select v-model="values" v-if="ele.ELETYPE==9" multiple placeholder="请选择" size="mini">
+						            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
+									</el-select>
+						            
+						            <el-radio-group v-if="ele.ELETYPE==10">
+									    <el-radio v-for="radio in ele.DATASOURCEVAL" :keys="radio.VALUE" :label="radio.VALUE">{{radio.DISPLAY}}</el-radio>
+									</el-radio-group>
+									
+									<el-checkbox-group v-if="ele.ELETYPE==11">
+									    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="1">{{checkbox.DISPLAY}}</el-checkbox>
 									</el-checkbox-group>
-					            </el-form-item>
-					            <el-form-item label="上传">
-					            	<el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" multiple>
+									
+									<el-upload v-if="ele.ELETYPE==12" class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" multiple>
 									  <el-button size="mini" type="primary">点击上传</el-button>
 									</el-upload>
-					            </el-form-item>
+					           </el-form-item>
 					    	</el-form>
 					  	</el-collapse-item>
 					</el-collapse>
@@ -87,7 +87,9 @@
             	isactive:0,
             	isactiveClass:'isactive',
             	noactiveClass:null,
-            	name: 'sadf'
+            	name: 'sadf',
+            	value:'',
+            	values:[]
             }
         },
         methods: {

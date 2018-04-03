@@ -123,7 +123,7 @@
 	        	this.afficheListInit();
 	        },
 	        delType() {//删除类型
-	        	this.$confirm('确定删除该数据吗?', '温馨提示', {
+	        	this.$confirm('确定删除当前选中的分类吗?', '温馨提示', {
 		          	confirmButtonText: '确定',
 		          	cancelButtonText: '取消',
 		          	type: 'warning',

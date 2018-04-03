@@ -62,7 +62,7 @@
             	id:'',
             	dep: {
             		DEPTNAME: '',
-            		ISBUSINESS:'1',
+            		ISBUSINESS:null,
             		BELONG: '',
             		total:0,
             		page:1,
@@ -88,17 +88,25 @@
         		})
         	},
         	delDept(id){ // 删除部门
-        		this.$http.post('/dept/del/'+id).then(res=>{
-        			if(res.code == 10000){
-        				this.$message({
-				          	message: res.msg,
-				          	type: 'success'
-				        });
-        				this.selectDept();
-        			}else{
-        				this.$message.error(res.msg);
-        			}
-        		})
+        		this.$confirm('确定删除该数据吗?', '温馨提示', {
+		          	confirmButtonText: '确定',
+		          	cancelButtonText: '取消',
+		          	type: 'warning',
+		          	showClose: false,
+		          	center: true
+		        }).then(() => {
+		        	this.$http.post('/dept/del/'+id).then(res=>{
+	        			if(res.code == 10000){
+	        				this.$message({
+					          	message: res.msg,
+					          	type: 'success'
+					        });
+	        				this.selectDept();
+	        			}else{
+	        				this.$message.error(res.msg);
+	        			}
+	        		})
+		        }).catch(res=>{});
         	},
         	editDept(deptId) {
         		this.id=deptId;

@@ -103,8 +103,6 @@
 		mounted() {
 			this.editor = CKEDITOR.replace("editor", {height: "200px", width: "100%", toolbar: "Full"});
 			this.form.TYPE = this.type;
-			
-			console.log(this.obj)
 			if(this.obj!=null){
 				this.form=this.obj;
 				this.editor.setData(this.form.CONTENT);

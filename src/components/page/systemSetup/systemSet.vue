@@ -80,7 +80,7 @@
         <systemParam v-if="systemSetControl.showSystemParam"></systemParam>
         <dataDict v-if="systemSetControl.showDataDict"></dataDict>
         <!-- 权限设置 -->
-        <permisPage v-if="showPermisPage" :menuData="menuData" @refreshPermis="refreshPermis"></permisPage>
+        <permisPage v-if="showPermisPage" :menuData="menuData" :noticeTitle="noticeTitle" @refreshPermis="refreshPermis"></permisPage>
         <!--<tourist v-if="systemSetControl.showTourist"></tourist>
         <eventForm v-if="systemSetControl.showEventForm"></eventForm>
         <eventHandler v-if="systemSetControl.showEventHandler"></eventHandler>
@@ -156,6 +156,7 @@
     },
     data() {
       return {
+        noticeTitle: "",
         permisNeedId: "",
         indexOne: "1",
         indexTwo: "2",
@@ -249,6 +250,8 @@
       },
       //监听权限菜单点击事件数据
       permisMonitor: function (item) {
+        console.log(item)
+        this.noticeTitle = item.ROLENAME;
         this.showPermisPage = false;
         for (let i in this.systemSetControl){
           this.systemSetControl[i] = false;

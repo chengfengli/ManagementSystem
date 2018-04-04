@@ -1,6 +1,6 @@
 <template>
   <article class="tourist">
-    <section class="tourist-tip">注：当用户以游客身份进入此事件， 且事件在勾选的状态下，允许进行的操作</section>
+    <section class="tourist-tip">注：当用户以 ({{ noticeTitle }}) 身份进入此事件， 且事件在勾选的状态下，允许进行的操作</section>
     <section class="tourist-table">
     <div class="tourist-title">
       <div v-for="title in tabTitle">{{ title }}</div>
@@ -13,23 +13,23 @@
       </aside>
       <aside class="chechBox" >
         <div class="select-ck" v-for="ck in tableData.rows">
-          <div class="ck-btn">
-            <el-checkbox v-model="ck.ABANDON" :label="ABANDON" @change="monitoRadio(ck.ABANDON, ABANDON,ck.PERMISSIONID)" ></el-checkbox>
+          <div>
+            <el-checkbox class="ck-btn" v-model="ck.ABANDON" :label="ABANDON" @change="monitoRadio(ck.ABANDON, ABANDON,ck.PERMISSIONID)" ></el-checkbox>
           </div>
-          <div class="ck-btn" >
-            <el-checkbox v-model="ck.REJECTFILL" :label="REJECTFILL" @change="monitoRadio(ck.REJECTFILL, REJECTFILL,ck.PERMISSIONID)"></el-checkbox>
+          <div >
+            <el-checkbox class="ck-btn"  v-model="ck.REJECTFILL" :label="REJECTFILL" @change="monitoRadio(ck.REJECTFILL, REJECTFILL,ck.PERMISSIONID)"></el-checkbox>
           </div>
-          <div class="ck-btn" >
-            <el-checkbox v-model="ck.WAITDEAL" :label="WAITDEAL" @change="monitoRadio(ck.WAITDEAL, WAITDEAL,ck.PERMISSIONID)"></el-checkbox>
+          <div>
+            <el-checkbox class="ck-btn" v-model="ck.WAITDEAL" :label="WAITDEAL" @change="monitoRadio(ck.WAITDEAL, WAITDEAL,ck.PERMISSIONID)"></el-checkbox>
           </div>
-          <div class="ck-btn" >
-            <el-checkbox v-model="ck.REJECTDEAL" :label="REJECTDEAL" @change="monitoRadio(ck.REJECTDEAL, REJECTDEAL,ck.PERMISSIONID)"></el-checkbox>
+          <div>
+            <el-checkbox class="ck-btn" v-model="ck.REJECTDEAL" :label="REJECTDEAL" @change="monitoRadio(ck.REJECTDEAL, REJECTDEAL,ck.PERMISSIONID)"></el-checkbox>
           </div>
-          <div class="ck-btn" >
-            <el-checkbox v-model="ck.WAITCLOSE" :label="WAITCLOSE" @change="monitoRadio(ck.WAITCLOSE, WAITCLOSE,ck.PERMISSIONID)"></el-checkbox>
+          <div>
+            <el-checkbox class="ck-btn" v-model="ck.WAITCLOSE" :label="WAITCLOSE" @change="monitoRadio(ck.WAITCLOSE, WAITCLOSE,ck.PERMISSIONID)"></el-checkbox>
           </div>
-          <div class="ck-btn" >
-            <el-checkbox v-model="ck.CLOSED" :label="CLOSED" @change="monitoRadio(ck.CLOSED, CLOSED,ck.PERMISSIONID)"></el-checkbox>
+          <div>
+            <el-checkbox class="ck-btn" v-model="ck.CLOSED" :label="CLOSED" @change="monitoRadio(ck.CLOSED, CLOSED,ck.PERMISSIONID)"></el-checkbox>
           </div>
         </div>
       </aside>
@@ -54,7 +54,7 @@
         tableData: []
       }
     },
-    props: ["menuData"],
+    props: ["menuData", "noticeTitle"],
     mounted: function(){
       this.tableData = this.menuData;
       console.log(this.tableData.rows.length)
@@ -96,10 +96,10 @@
         this.$http.post('permission/update/' + data.permissionid, data).then(res => {
           if (res.code == 10000) {
             this.$emit("refreshPermis");
-            this.$message({
+         /*   this.$message({
               type: 'success',
               message: '修改成功!'
-            });
+            });*/
           } else {
             this.$message.error(res.msg);
           }
@@ -133,21 +133,23 @@
 
   .tourist .tourist-title div{
     flex: 1;
-    padding: 13px 0;
+    height: 43px!important;
+    line-height: 43px!important;
     border: 1px solid #EBEEF5;
   }
   .tourist .tourist-checkbox .action div{
     flex: 1;
-    height: 43px;
-    line-height: 43px;
+    height: 43px!important;
+    line-height: 43px!important;
     border: 1px solid #EBEEF5;
   }
   .select-ck div{
     flex: 1;
-    height: 43px;
+    height: 43px!important;
+    line-height: 43px!important;
     border: 1px solid #EBEEF5;
-    line-height: 43px;
   }
+  .select-ck div .ck-btn{padding:0!important;}
   .chechBox .el-checkbox__label{display: none;}
   .tourist .not-data{
     padding: 50px 0;

@@ -36,7 +36,7 @@
                   <span>权限设置</span>
                 </template>
                 <el-menu-item-group>  <!-- index="1-1" -->
-                  <el-menu-item :index="indexTwo + '-' + i" v-for="(item, i) in permisMenu"  @click="permisMonitor(item)" >{{ item.ROLENAME }}{{ i }}</el-menu-item>
+                  <el-menu-item :index="indexTwo + '-' + i" v-for="(item, i) in permisMenu"  @click="permisMonitor(item)" >{{ item.ROLENAME }}</el-menu-item>
                   <!--<el-menu-item index="1-1" @click="openModulePage('showTourist')">游客</el-menu-item>
                   <el-menu-item index="1-2" @click="openModulePage('showEventForm')">事件填报员</el-menu-item>
                   <el-menu-item index="1-3" @click="openModulePage('showEventHandler')">事件处理员</el-menu-item>
@@ -80,7 +80,7 @@
         <systemParam v-if="systemSetControl.showSystemParam"></systemParam>
         <dataDict v-if="systemSetControl.showDataDict"></dataDict>
         <!-- 权限设置 -->
-        <permisPage v-if="showPermisPage" :permisMenuData="permisMenuData"></permisPage>
+        <permisPage v-if="showPermisPage" :menuData="menuData" :noticeTitle="noticeTitle" @refreshPermis="refreshPermis"></permisPage>
         <!--<tourist v-if="systemSetControl.showTourist"></tourist>
         <eventForm v-if="systemSetControl.showEventForm"></eventForm>
         <eventHandler v-if="systemSetControl.showEventHandler"></eventHandler>
@@ -156,19 +156,21 @@
     },
     data() {
       return {
+        noticeTitle: "",
+        permisNeedId: "",
         indexOne: "1",
         indexTwo: "2",
         indexThree: "3",
         indexFour: "4",
-        //权限设置
-        showPermisPage: false,
         //系统设置控制
+        showPermisPage: false,
         systemSetControl: {
           //系统配置
           showHospitalsInfo: false,              //医院信息
           showSystemParam: false,                //系统参数
           showDataDict: false,                   //数据字典
-
+          //权限设置
+         /* showPermisPage: false,*/
          /* showTourist: false,                    //游客
           showEventForm: false,                  //事件填报员
           showEventHandler: false,               //事件处理员
@@ -187,7 +189,7 @@
         },
         permisMenu: [],
         permisMenulenght: 1,
-        permisMenuData: [],
+        menuData: [],
         permisSearch: {
           roleid: '',
           page: 1,
@@ -196,12 +198,14 @@
       }
     },
     methods: {
-      //监听权限菜单点击事件数据
-      permisMonitor: function (item) {
-        this.showPermisPage = false;
-        this.showPermisPage = true;
-        this.permisSearch.roleid = item.ROLEID;
-        this.$http.post('/permissions/'+ item.ROLEID, this.permisSearch).then(res => {
+      //刷新权限组件数据
+      refreshPermis: function () {
+        console.log(this.permisNeedId);
+        this.initPermisData(this.permisNeedId);
+      },
+      //初始化权限组件数据
+      initPermisData: function (id) {
+        this.$http.post('/permissions/'+ id, this.permisSearch).then(res => {
           if (res.code == 10000) {
             for(let i of res.data.rows){
               if(i.ABANDON == 1){
@@ -209,16 +213,52 @@
               }else {
                 i.ABANDON = false;
               }
-              console.log(i.ABANDON)
+              if(i.REJECTFILL == 1){
+                i.REJECTFILL = true;
+              }else {
+                i.REJECTFILL = false;
+              }
+              if(i.WAITDEAL == 1){
+                i.WAITDEAL = true;
+              }else {
+                i.WAITDEAL = false;
+              }
+              if(i.REJECTDEAL == 1){
+                i.REJECTDEAL = true;
+              }else {
+                i.REJECTDEAL = false;
+              }
+              if(i.WAITCLOSE == 1){
+                i.WAITCLOSE = true;
+              }else {
+                i.WAITCLOSE = false;
+              }
+              if(i.CLOSED == 1){
+                i.CLOSED = true;
+              }else {
+                i.CLOSED = false;
+              }
             }
-            this.permisMenuData = res.data;
-            console.log(this.permisMenuData);
+            this.menuData = res.data;
+            this.showPermisPage = true;
           } else {
             this.$message.error(res.msg);
           }
         }).catch(function (error) {//加上catch
           console.log(error);
         });
+      },
+      //监听权限菜单点击事件数据
+      permisMonitor: function (item) {
+        console.log(item)
+        this.noticeTitle = item.ROLENAME;
+        this.showPermisPage = false;
+        for (let i in this.systemSetControl){
+          this.systemSetControl[i] = false;
+        }
+        this.permisSearch.roleid = item.ROLEID;
+        this.permisNeedId = item.ROLEID;
+        this.initPermisData(item.ROLEID)
       },
       //初始化权限菜单
       initPermisMenu: function () {
@@ -233,6 +273,7 @@
         });
       },
       openModulePage: function (moduleName) {
+        this.showPermisPage = false;
         for (let i in this.systemSetControl) {
           if (i == moduleName) {
             this.systemSetControl[i] = true;

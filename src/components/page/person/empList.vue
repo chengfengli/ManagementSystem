@@ -40,7 +40,7 @@
 	            		<span v-else>否</span>
 	                </template>
 	            </el-table-column>
-	            <el-table-column label="操作" align="center">
+	            <el-table-column label="操作" align="center" width="160">
 	                <template scope="scope">
 	                    <el-button size="mini" @click="eidtPerson(scope.row.USERID)"><i class="el-icon-edit"></i>编辑</el-button>
 	                    <el-button size="mini" type="danger" @click="delPerson(scope.row.USERID)"><i class="el-icon-delete"></i>删除</el-button>

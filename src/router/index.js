@@ -7,15 +7,11 @@ export default new Router({
     routes: [
         {
             path: '/',
-            redirect: '/form'
+            redirect: '/login'
         },
         {
             path: '/login',
             component: resolve => require(['../components/page/Login.vue'], resolve)
-        },
-        {
-            path: '/form',
-            component: resolve => require(['../components/page/form.vue'], resolve)
         },
         {
             path: '/index',

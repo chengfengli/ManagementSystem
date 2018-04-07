@@ -43,9 +43,7 @@
 									</el-select>
 						            
 						            <el-radio-group v-if="ele.ELETYPE==10" v-model="form['ele_'+ele.ELEID]">
-									    <!--<el-radio v-for="radio in ele.DATASOURCEVAL" :keys="radio.VALUE" :label="radio.VALUE">{{radio.DISPLAY}}</el-radio>-->
-									    <el-radio :label="3">备选项</el-radio>
-    									<el-radio :label="6">备选项</el-radio>
+									    <el-radio v-for="radio in ele.DATASOURCEVAL" :keys="radio.VALUE" :label="radio.VALUE">{{radio.DISPLAY}}</el-radio>
 									</el-radio-group>
 									
 									<el-checkbox-group v-if="ele.ELETYPE==11">
@@ -62,7 +60,7 @@
 				</div>
 				<div class="btn-box">
 					<el-button id="temporary-btn" type="primary" @click="save" size="mini">暂存</el-button>
-					<el-button id="submit-btn" type="primary" size="mini">提交</el-button>
+					<el-button id="submit-btn" type="primary" @click="submit" size="mini">提交</el-button>
 				</div>
 			</div>
 		</div>
@@ -98,12 +96,19 @@
         		var list = [];
         		for(var key in this.form){
         			var new_key = key.substring(key.lastIndexOf('_')+1);
-        			list.push({ELEID:new_key,VAL:this.form[key]});
+        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
         		}
-        		data.VALUES=JSON.stringify(list);
+        		data.VALUES=list;
+        		this.$http.post('/event/tempStorage/',data).then(res=>{
+	        		if(res.code == 10000){
+	        			
+	        		}else{
+	        			this.$message.error(res.msg);
+	        		}
+	        	});
         	},
         	submit() {// 提交
-        		
+        		this.$message.error('开发中...');
         	}
         },
 		mounted() {
@@ -113,6 +118,7 @@
         			var list = res.data.DATA;
         			this.type = res.data.TYPE;
         			var temp_form = {};
+        			this.isactive = list[0].MODID;
         			for(var i in list){
         				this.activeNames.push(list[i].MODID);
         				for(var j in list[i].ELES){

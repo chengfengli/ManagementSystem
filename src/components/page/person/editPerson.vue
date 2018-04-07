@@ -34,7 +34,7 @@
             </el-form-item>
             <el-form-item prop="DEPTID" label="部门">
                 <el-select v-model="ruleForm.DEPTID" placeholder="请选择" size="mini">
-				    <el-option v-for="item in depts" :key="item.DEPTID" :label="item.DEPTNAME" :value="item.DEPTID"></el-option>
+				    <el-option v-for="item in depts" :key="item.VALUE" :label="item.DISPLAY" :value="item.VALUE"></el-option>
 				</el-select>
             </el-form-item>
             <el-form-item prop="ISUSED" label="启用">
@@ -176,7 +176,7 @@
         			this.$message.error(res.msg);
         		}
         	})
-			this.$http.post('/dept/list',{BELONGID:null}).then(res=>{
+			this.$http.post('/dic/getDicByKey/dept').then(res=>{
         		if(res.code == 10000){
         			this.depts = res.data;
         		}else{

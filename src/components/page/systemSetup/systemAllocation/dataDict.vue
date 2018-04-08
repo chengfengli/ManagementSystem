@@ -144,16 +144,6 @@
             message: '已取消删除'
           });
         });
-        /* this.$http.post('/dic/del/'+ tabData.CFGID, tabData.CFGID).then(res => {
-           if (res.code == 10000) {
-             this.showDialog = false;
-             this.initSystemData(this.searchData);
-           } else {
-             this.$message.error(res.msg);
-           }
-         }).catch(function (error) {//加上catch
-           console.log(error);
-         });*/
       },
       modifyBtn: function () {
         var data = {

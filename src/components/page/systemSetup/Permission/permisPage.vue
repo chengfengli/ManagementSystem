@@ -1,11 +1,11 @@
 <template>
-  <article class="tourist">
-    <section class="tourist-tip">注：当用户以 ({{ noticeTitle }}) 身份进入此事件， 且事件在勾选的状态下，允许进行的操作</section>
+  <article id="tourist">
+    <section class="tourist-tip">注：当用户以 <span style="color: red;">{{ noticeTitle }}</span> 身份进入此事件， 且事件在勾选的状态下，允许进行的操作</section>
     <section class="tourist-table">
-    <div class="tourist-title">
+    <div class="touristTitle">
       <div v-for="title in tabTitle">{{ title }}</div>
     </div>
-    <div class="tourist-checkbox">
+    <div class="touristCheckbox">
       <aside class="action">
         <div v-for="item in tableData.rows">
           {{ item.PERMISSIONNAME }}
@@ -57,11 +57,9 @@
     props: ["menuData", "noticeTitle"],
     mounted: function(){
       this.tableData = this.menuData;
-      console.log(this.tableData.rows.length)
     },
     methods: {
       monitoRadio: function (ck,name, id) {
-        console.log(ck + "-"+  name);
         if(ck == true){
           ck = 1;
         }else {ck = 0;}
@@ -92,7 +90,6 @@
         if(name == this.CLOSED){
           data.CLOSED = ck;
         }
-        console.log(data)
         this.$http.post('permission/update/' + data.permissionid, data).then(res => {
           if (res.code == 10000) {
             this.$emit("refreshPermis");
@@ -112,32 +109,32 @@
 </script>
 
 <style>
-  .tourist {
+  #tourist {
     height: 100%;
     width: 100%;
     overflow: auto;
   }
-  .tourist .tourist-tip {
+  #tourist .tourist-tip {
     padding: 13px 20px;
     box-sizing: border-box;
   }
-  .tourist .tourist-title, .tourist .tourist-checkbox {
+  #tourist .touristTitle, #tourist .touristCheckbox {
     display: flex;
     text-align: center;
   }
-  .tourist .tourist-checkbox .action{flex: 1;}
-  .tourist .tourist-checkbox .chechBox{flex: 6;}
-  .tourist .tourist-checkbox .chechBox .select-ck{
+  #tourist .touristCheckbox .action{flex: 1;}
+  #tourist .touristCheckbox .chechBox{flex: 6;}
+  #tourist .touristCheckbox .chechBox .select-ck{
     display: flex;
   }
 
-  .tourist .tourist-title div{
+  #tourist .touristTitle div{
     flex: 1;
     height: 43px!important;
     line-height: 43px!important;
     border: 1px solid #EBEEF5;
   }
-  .tourist .tourist-checkbox .action div{
+  #tourist .touristCheckbox .action div{
     flex: 1;
     height: 43px!important;
     line-height: 43px!important;
@@ -151,7 +148,7 @@
   }
   .select-ck div .ck-btn{padding:0!important;}
   .chechBox .el-checkbox__label{display: none;}
-  .tourist .not-data{
+  #tourist .not-data{
     padding: 50px 0;
     text-align: center;
     font-size: 15px;

@@ -23,8 +23,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(res => {
 	loadingInstance.close();
 	if(res.data.code == 10008){
-		location.href = '#/login'
-		return null;
+		return window.location.href = '#/login';
 	}else{
 		return res.data;
 	}
@@ -36,7 +35,7 @@ axios.interceptors.response.use(res => {
 //	}else{
 //		Message.error({message:'其它异常',type:'error'});
 //	}
-	
+
 	return Promise.reject(err);
 })
 Vue.prototype.$hostUrl = httpConfig.hostURL;
@@ -67,7 +66,7 @@ Vue.prototype.$validation = function(val,type){
 		}
 	}
 	return bool;
-	
+
 }
 new Vue({
   el: '#app',

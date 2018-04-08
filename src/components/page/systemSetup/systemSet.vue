@@ -36,38 +36,26 @@
                   <span>权限设置</span>
                 </template>
                 <el-menu-item-group>  <!-- index="1-1" -->
-                  <el-menu-item :index="indexTwo + '-' + i" v-for="(item, i) in permisMenu"  @click="permisMonitor(item)" >{{ item.ROLENAME }}</el-menu-item>
-                  <!--<el-menu-item index="1-1" @click="openModulePage('showTourist')">游客</el-menu-item>
-                  <el-menu-item index="1-2" @click="openModulePage('showEventForm')">事件填报员</el-menu-item>
-                  <el-menu-item index="1-3" @click="openModulePage('showEventHandler')">事件处理员</el-menu-item>
-                  <el-menu-item index="1-4" @click="openModulePage('showEventHandlerAbet')">事件处理员（协助）</el-menu-item>
-                  <el-menu-item index="1-5" @click="openModulePage('showEventManage')">事件管理</el-menu-item>
-                  <el-menu-item index="1-7" @click="openModulePage('showInstitutionLeader')">院级领导</el-menu-item>
-                  <el-menu-item index="1-6" @click="openModulePage('showEventManageAbet')">事件管理员（协助）</el-menu-item>
-                  <el-menu-item index="1-8" @click="openModulePage('showSectorLeader')">部门领导</el-menu-item>-->
+                  <el-menu-item :index="indexTwo+'-'+i" v-for="(item, i) in permisMenu"  @click="permisMonitor(item)" >{{ item.ROLENAME }}</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
-              <el-submenu index="3">
+              <el-submenu :index="indexThree">
                 <template slot="title">
                   <i class="el-icon-menu"></i>
                   <span>事件配置</span>
                 </template>
                 <el-menu-item-group>
-                  <!--<template slot="title">分组一</template>-->
-                  <el-menu-item index="3-1" @click="openModulePage('showMedicalDevice')">医疗器械事件</el-menu-item>
-                  <el-menu-item index="3-2" @click="openModulePage('showTransfusionEvent')">输血事件</el-menu-item>
-                  <el-menu-item index="3-3" @click="openModulePage('showAdrEvent')">药物不良反应事件</el-menu-item>
+                  <el-menu-item v-for="(item, i) in eventConfig" :index="indexThree+'-'+i" @click="eventMonitor(item)">{{ item.TYPENAME }}</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
-              <el-submenu index="4">
+              <el-submenu :index="indexFour">
                 <template slot="title">
                   <i class="el-icon-menu"></i>
                   <span>模块配置</span>
                 </template>
                 <el-menu-item-group>
                   <!--<template slot="title">分组一</template>-->
-                  <el-menu-item index="4-1" @click="openModulePage('showGeneralCase')">一般情况</el-menu-item>
-                  <el-menu-item index="4-2" @click="openModulePage('showSiteConditions')">现场情况</el-menu-item>
+                  <el-menu-item v-for="(item, i) in moduleConfig" :index="indexFour+'-'+i" @click="moduleMonitor(item)">{{ item.NAME }}</el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>
@@ -81,21 +69,10 @@
         <dataDict v-if="systemSetControl.showDataDict"></dataDict>
         <!-- 权限设置 -->
         <permisPage v-if="showPermisPage" :menuData="menuData" :noticeTitle="noticeTitle" @refreshPermis="refreshPermis"></permisPage>
-        <!--<tourist v-if="systemSetControl.showTourist"></tourist>
-        <eventForm v-if="systemSetControl.showEventForm"></eventForm>
-        <eventHandler v-if="systemSetControl.showEventHandler"></eventHandler>
-        <eventHandlerAbet v-if="systemSetControl.showEventHandlerAbet"></eventHandlerAbet>
-        <eventManage v-if="systemSetControl.showEventManage"></eventManage>
-        <eventManageAbet v-if="systemSetControl.showEventManageAbet"></eventManageAbet>
-        <institutionLeader v-if="systemSetControl.showInstitutionLeader"></institutionLeader>
-        <sectorLeader v-if="systemSetControl.showSectorLeader"></sectorLeader>-->
-        <!-- 事件设置 -->
-        <medicalDevice v-if="systemSetControl.showMedicalDevice"></medicalDevice>
-        <transfusionEvent v-if="systemSetControl.showTransfusionEvent"></transfusionEvent>
-        <adrEvent v-if="systemSetControl.showAdrEvent"></adrEvent>
+        <!-- 事件配置 -->
+        <eventConfig v-if="showEventConfig" :twoEventMenu="twoEventMenu"></eventConfig>
         <!-- 模块配置 -->
-        <generalCase v-if="systemSetControl.showGeneralCase"></generalCase>
-        <siteConditions v-if="systemSetControl.showSiteConditions"></siteConditions>
+        <moduleCfg v-if="showModuleConfig" :moduleTwoMenu="moduleTwoMenu"></moduleCfg>
       </aside>
     </main>
   </div>
@@ -118,12 +95,9 @@
   import institutionLeader from "./Permission/institutionLeader"
   import sectorLeader from "./Permission/sectorLeader"
   /* 事件配置 */
-  import medicalDevice from "./eventAllocation/medicalDevice"
-  import transfusionEvent from "./eventAllocation/transfusionEvent"
-  import adrEvent from "./eventAllocation/adrEvent"
+  import eventConfig from "./eventConfig/eventConfig"
   /* 模块配置 */
-  import generalCase from "./moduleAllocation/generalCase"
-  import siteConditions from "./moduleAllocation/siteConditions"
+  import moduleCfg from "./moduleCfg/moduleCfg"
 
   export default {
     name: "systemSet",
@@ -135,24 +109,15 @@
       dataDict,
       /* 权限设置 */
       permisPage,
-      tourist,
-      eventForm,
-      eventHandler,
-      eventHandlerAbet,
-      eventManage,
-      eventManageAbet,
-      institutionLeader,
-      sectorLeader,
       /* 事件配置 */
-      medicalDevice,
-      transfusionEvent,
-      adrEvent,
+      eventConfig,
       /* 模块配置 */
-      generalCase,
-      siteConditions
+      moduleCfg
     },
     mounted() {
       this.initPermisMenu();
+      this.initEventConfig();
+      this.initModuleData();
     },
     data() {
       return {
@@ -162,33 +127,26 @@
         indexTwo: "2",
         indexThree: "3",
         indexFour: "4",
-        //系统设置控制
-        showPermisPage: false,
         systemSetControl: {
           //系统配置
           showHospitalsInfo: false,              //医院信息
           showSystemParam: false,                //系统参数
           showDataDict: false,                   //数据字典
-          //权限设置
-         /* showPermisPage: false,*/
-         /* showTourist: false,                    //游客
-          showEventForm: false,                  //事件填报员
-          showEventHandler: false,               //事件处理员
-          showEventHandlerAbet: false,           //事件处理员(协助)
-          showEventManage: false,                //事件管理
-          showEventManageAbet: false,            //事件管理员(协助)
-          showInstitutionLeader: false,          //院级领导
-          showSectorLeader: false,               //部门领导*/
-          //事件配置
-          showMedicalDevice: false,              //医疗器械事件
-          showTransfusionEvent: false,           //输血事件
-          showAdrEvent: false,                   //药物不良反应事件
           //模块配置
-          showGeneralCase: false,                //一般情况
-          showSiteConditions: false              //现场情况
+          /*showGeneralCase: false,                //一般情况
+          showSiteConditions: false              //现场情况*/
         },
+        //系统设置控制
+        showPermisPage: false,
         permisMenu: [],
-        permisMenulenght: 1,
+        //事件配置
+        showEventConfig: false,
+        eventConfig: [],
+        twoEventMenu: [],
+        //模块配置
+        showModuleConfig: false,
+        moduleConfig: [],
+        moduleTwoMenu: [],
         menuData: [],
         permisSearch: {
           roleid: '',
@@ -198,9 +156,76 @@
       }
     },
     methods: {
+      //监听模块配置
+      moduleMonitor: function (item) {
+        this.showPermisPage = false;
+        this.showEventConfig = false;
+        for (let i in this.systemSetControl){
+          this.systemSetControl[i] = false;
+        }
+        var data = {ID: item.ID}
+        this.$http.post('/module/elements/'+ item.ID, data).then(res => {
+          if (res.code == 10000) {
+            this.showModuleConfig = true;
+            this.moduleTwoMenu = res.data;
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      //初始化模块配置
+      initModuleData: function () {
+        this.$http.post('/module/modules').then(res => {
+          if (res.code == 10000) {
+            this.moduleConfig = res.data;
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      //监听事件配置点击事件数据
+      eventMonitor: function (item) {
+        this.showPermisPage = false;
+        this.showModuleConfig = false;
+        for (let i in this.systemSetControl){
+          this.systemSetControl[i] = false;
+        }
+        this.initEventData(item.EVENTTYPEID);
+      },
+      initEventData: function (id) {
+        this.showEventConfig = false;
+        var data = {
+          parentid: id
+        }
+        this.$http.post('/event/childType/'+ id, data).then(res => {
+          if (res.code == 10000) {
+            this.showEventConfig = true;
+            this.twoEventMenu = res.data;
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      //初始化事件配置
+      initEventConfig: function () {
+        this.$http.post('/event/rootType').then(res => {
+          if (res.code == 10000) {
+            this.eventConfig = res.data;
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
       //刷新权限组件数据
       refreshPermis: function () {
-        console.log(this.permisNeedId);
         this.initPermisData(this.permisNeedId);
       },
       //初始化权限组件数据
@@ -250,9 +275,10 @@
       },
       //监听权限菜单点击事件数据
       permisMonitor: function (item) {
-        console.log(item)
-        this.noticeTitle = item.ROLENAME;
         this.showPermisPage = false;
+        this.showEventConfig = false;
+        this.showModuleConfig = false;
+        this.noticeTitle = item.ROLENAME;
         for (let i in this.systemSetControl){
           this.systemSetControl[i] = false;
         }
@@ -274,6 +300,8 @@
       },
       openModulePage: function (moduleName) {
         this.showPermisPage = false;
+        this.showEventConfig = false;
+        this.showModuleConfig = false;
         for (let i in this.systemSetControl) {
           if (i == moduleName) {
             this.systemSetControl[i] = true;

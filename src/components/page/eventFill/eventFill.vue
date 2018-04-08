@@ -132,81 +132,91 @@
            		}
            	},
            	validation(form,list){
+           		var bool = true;
            		var list_temp = [];
            		for(var i in list){
            			for(var k in list[i].ELES){
            				list_temp.push(list[i].ELES[k]);
            			}
            		}
+           		outer:
            		for(var key in form){
            			var new_key = key.substring(key.lastIndexOf('_')+1);
            			var val = form[key];
            			for(var i in list_temp){
            				if(new_key==list_temp[i].ELEID){
-           					if(list_temp[i].ISREQUIRED==0){// 必填
+           					if(list_temp[i].ISREQUIRED==1){// 必填
            						if(this.$validation(val,'required')){
            							this.$message.error(list_temp[i].LABEL+'不能为空');
-           							return;
+           							bool = false;
+           							break outer;
            						}
            					}else{//非必填
            						if(!this.$validation(val,'required')&& !this.$validation(list_temp[i].REG,'required')){
            							var reg = new RegExp(list_temp[i].REG);
            							if(!reg.test(val)){
-           								this.$message.error(list_temp[i].LABEL+'格式不正确');
-           								return;
+           								this.$message.error(list_temp[i].LABEL+'格式不正确，'+list_temp[i].ERRTIP);
+           								bool = false;
+           								break outer;
            							}
            						}
            					}
            				}
            			}
            		}
+           		return bool;
            	},
         	save() {//暂存
-        		this.validation(this.form,this.dataList);
-//      		var data = {TYPE:this.type,SET:null,VALUES:''};
-//      		var list = [];
-//      		for(var key in this.form){
-//      			var new_key = key.substring(key.lastIndexOf('_')+1);
-//      			if(new_key==11 || new_key==9){
-//      				var val = this.form[key];
-//      			}else{
-//      				list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
-//      			}
-//      		}
-//      		data.VALUES=list;
-//      		this.$http.post('/event/tempStorage/',data).then(res=>{
-//	        		if(res.code == 10000){
-//	        			this.$message({
-//				            type: 'success',
-//				            message: res.msg
-//				        });
-//	        		}else{
-//	        			this.$message.error(res.msg);
-//	        		}
-//	        	});
+        		var bool = this.validation(this.form,this.dataList);
+        		if(bool){
+        			var data = {TYPE:this.type,SET:null,VALUES:''};
+	        		var list = [];
+	        		for(var key in this.form){
+	        			var new_key = key.substring(key.lastIndexOf('_')+1);
+	        			if(new_key==11 || new_key==9){
+	        				var val = this.form[key];
+	        			}else{
+	        				list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
+	        			}
+	        		}
+	        		data.VALUES=list;
+	        		this.$http.post('/event/tempStorage/',data).then(res=>{
+		        		if(res.code == 10000){
+		        			this.$message({
+					            type: 'success',
+					            message: res.msg
+					        });
+		        		}else{
+		        			this.$message.error(res.msg);
+		        		}
+		        	});
+        		}
         	},
         	openDialog(){
         		this.detailDialog = true;
         	},
         	submit() {// 提交
-        		this.form2.REALNAME = parseInt(this.form2.REALNAME);
-        		var data = {TYPE:this.type,SET:this.form2,VALUES:''};
-        		var list = [];
-        		for(var key in this.form){
-        			var new_key = key.substring(key.lastIndexOf('_')+1);
-        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
-        		}
-        		data.VALUES=list;
-        		this.$http.post('/event/save/',data).then(res=>{
-	        		if(res.code == 10000){
-	        			this.$message({
-				            type: 'success',
-				            message: res.msg
-				        });
-	        		}else{
-	        			this.$message.error(res.msg);
+        		var bool = this.validation(this.form,this.dataList);
+        		if(bool){
+        			this.form2.REALNAME = parseInt(this.form2.REALNAME);
+	        		var data = {TYPE:this.type,SET:this.form2,VALUES:''};
+	        		var list = [];
+	        		for(var key in this.form){
+	        			var new_key = key.substring(key.lastIndexOf('_')+1);
+	        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
 	        		}
-	        	});
+	        		data.VALUES=list;
+	        		this.$http.post('/event/save/',data).then(res=>{
+		        		if(res.code == 10000){
+		        			this.$message({
+					            type: 'success',
+					            message: res.msg
+					        });
+		        		}else{
+		        			this.$message.error(res.msg);
+		        		}
+		        	});
+        		}
         	}
         },
 		mounted() {

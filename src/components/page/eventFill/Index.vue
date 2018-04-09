@@ -16,7 +16,7 @@
 						<td class="title"><a @click="details(item.ID)" href="javascript:void(0)">{{item.NAME}}</a></td>
 						<td class="remakes">
 							<div v-if="name==item.ID"><a class="child" v-for="child in item.CHILDS" :keys="child.ID" href="javascript:void(0)" @click="details(child.ID)">{{child.NAME}}</a></div>
-							<span v-else>{{item.MARK}}</span>
+							<!--<span v-else>{{item.MARK}}</span>-->
 						</td>
 					</tr>
 				</table>
@@ -66,5 +66,14 @@
 	}
 	#eventFillIndex-page .child:hover{
 		text-decoration: underline;
+	}
+	#eventFillIndex-page td{
+		padding: 5px;
+	}
+	#eventFillIndex-page td:nth-child(1){
+		width: 200px;
+	}
+	#eventFillIndex-page tr:nth-child(odd){
+		background-color: #ccc;
 	}
 </style>

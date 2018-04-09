@@ -38,7 +38,6 @@
     },
     methods: {
       submitForm() {
-        this.$router.push('/index');
         if (this.$validation(this.ruleForm.ACCOUNT, 'required')) {
           this.$message.error('请输入账号');
           return;

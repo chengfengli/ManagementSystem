@@ -43,11 +43,11 @@
 									</el-select>
 						            
 						            <el-radio-group v-if="ele.ELETYPE==10" v-model="form['ele_'+ele.ELEID]">
-									    <el-radio v-for="radio in ele.DATASOURCEVAL" :keys="radio.VALUE" :label="radio.VALUE">{{radio.DISPLAY}}</el-radio>
+									    <el-radio v-for="radio in ele.DATASOURCEVAL" :keys="radio.VALUE" :label="radio.VALUE.toString()">{{radio.DISPLAY}}</el-radio>
 									</el-radio-group>
 									
-									<el-checkbox-group v-if="ele.ELETYPE==11">
-									    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="1">{{checkbox.DISPLAY}}</el-checkbox>
+									<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
+									    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
 									</el-checkbox-group>
 									
 									<el-upload v-if="ele.ELETYPE==12" class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" multiple>
@@ -101,6 +101,7 @@
        	},
 		data: function(){
             return {
+            	checks:[],
             	activeNames: [],
             	dataList:[],
             	isactive:0,
@@ -234,8 +235,13 @@
         			for(var i in list){
         				this.activeNames.push(list[i].MODID);
         				for(var j in list[i].ELES){
-        					var key = 'ele_'+list[i].ELES[j].ELEID;
-        					temp_form[key]=list[i].ELES[j].DEFAULTVALUE;
+        					if(list[i].ELES[j].ELETYPE==11){
+        						var key = 'ele_'+list[i].ELES[j].ELEID;
+        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE.split('_');
+        					}else{
+        						var key = 'ele_'+list[i].ELES[j].ELEID;
+        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE;
+        					}
         				}
         			}
         			this.form = temp_form;

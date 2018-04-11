@@ -13,11 +13,7 @@
       <nav>
         <el-row class="tac">
           <el-col :span="24">
-            <el-menu
-              default-active="2"
-              class="el-menu-vertical-demo"
-              @open="handleOpen"
-              @close="handleClose">
+            <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose">
               <el-submenu index="1">
                 <template slot="title">
                   <i class="el-icon-menu"></i>
@@ -25,7 +21,7 @@
                 </template>
                 <el-menu-item-group>
                   <!--<template slot="title">分组一</template>-->
-                  <el-menu-item index="1-1" @click="openModulePage('showHospitalsInfo')">医院信息</el-menu-item>
+                  <el-menu-item index="1-1" @click="openModulePage('showHospitalsInfo')" >医院信息</el-menu-item>
                   <el-menu-item index="1-2" @click="openModulePage('showSystemParam')">系统参数</el-menu-item>
                   <el-menu-item index="1-3" @click="openModulePage('showDataDict')">数据字典</el-menu-item>
                 </el-menu-item-group>
@@ -41,21 +37,48 @@
               </el-submenu>
               <el-submenu :index="indexThree">
                 <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>事件配置</span>
+                  <div style="position: absolute;left: 20px;top: 0;">
+                    <i class="el-icon-menu"></i>
+                    <span>事件配置</span>
+                  </div>
+                  <div class="addMenu" @click="addMenuTitle">
+                    <i class="proFont" style="color: #333;font-size: 19px">&#xe632;</i>
+                    <span>增加</span>
+                  </div>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item v-for="(item, i) in eventConfig" :index="indexThree+'-'+i" @click="eventMonitor(item)">{{ item.TYPENAME }}</el-menu-item>
+                  <el-menu-item v-for="(item, i) in eventConfig" :index="indexThree+'-'+i" @click="eventMonitor(item)">{{ item.TYPENAME }}
+                    <div class="minusMenu" style="margin-right: 25px" @click="removeMenu">
+                      <i class="proFont" style="color: #333;font-size: 19px">&#xe633;</i>
+                    </div>
+                    <div class="minusMenu" @click="modifyMenu(item)" >
+                      <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
+                    </div>
+                  </el-menu-item>
+
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu :index="indexFour">
                 <template slot="title">
-                  <i class="el-icon-menu"></i>
-                  <span>模块配置</span>
+                  <section style="position: absolute;left: 20px;top: 0;">
+                    <i class="el-icon-menu"></i>
+                    <span>模块配置</span>
+                  </section>
+                  <section class="addMenu" @click="addMenuTitle">
+                    <i class="proFont" style="color: #333;font-size: 19px">&#xe632;</i>
+                    <span>增加</span>
+                  </section>
                 </template>
                 <el-menu-item-group>
                   <!--<template slot="title">分组一</template>-->
-                  <el-menu-item v-for="(item, i) in moduleConfig" :index="indexFour+'-'+i" @click="moduleMonitor(item)">{{ item.NAME }}</el-menu-item>
+                  <el-menu-item v-for="(item, i) in moduleConfig" :index="indexFour+'-'+i" @click="moduleMonitor(item)">{{ item.NAME }}
+                    <div class="minusMenu" style="margin-right: 25px" @click="removeMenu">
+                      <i class="proFont" style="color: #333;font-size: 19px" >&#xe633;</i>
+                    </div>
+                    <div class="minusMenu" @click="modifyModuleMenu(item)">
+                      <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
+                    </div>
+                  </el-menu-item>
                 </el-menu-item-group>
               </el-submenu>
             </el-menu>
@@ -75,6 +98,86 @@
         <moduleCfg v-if="showModuleConfig" :moduleTwoMenu="moduleTwoMenu"></moduleCfg>
       </aside>
     </main>
+    <div class="addMenuWindow" v-if="showAddMenuWindow">
+      <div class="container">
+        <div class="content">
+         <div style="margin: auto;width: 80%;" v-if="showSubmit">
+          <section>
+            <label class="windowtitle">模块类型:</label>
+            <el-select v-model="moduleSubmit.TYPE"  placeholder="请选择" size="small" style="width: 190px">
+              <el-option
+                v-for="item in addModuleType"
+                :key="item.VALUE"
+                :label="item.DISPLAY"
+                :value="item.VALUE">
+              </el-option>
+            </el-select>
+          </section>
+          <section>
+            <label class="windowtitle">模块名称:</label>
+            <el-input v-model="moduleSubmit.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+          </section>
+          <section>
+            <label class="windowtitle">描述:</label>
+            <el-input v-model="moduleSubmit.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+          </section>
+          <section>
+            <label class="windowtitle">排序号:</label>
+            <el-input v-model="moduleSubmit.SN" placeholder="" size="small " style="display: inline-block;width: 190px"></el-input>
+          </section>
+          <section style="display: flex;">
+            <div class="windowBtn">
+              <el-button style="padding: 10px 30px" type="info" round @click="showAddMenuWindow = false">取消</el-button>
+            </div>
+            <div class="windowBtn">
+              <el-button style="padding: 10px 30px" type="danger" round @click="addMenuSubmit('submit')">确定</el-button>
+            </div>
+          </section>
+        </div>
+         <div style="margin: auto;width: 80%;" v-if="showModify">
+            <section>
+              <label class="windowtitle">模块类型:</label>
+              <el-select v-model="modifyMenuData.TYPE" size="small" style="width: 190px" placeholder="请选择">
+                <el-option
+                  v-for="item in addModuleType"
+                  :key="item.VALUE"
+                  :label="item.DISPLAY"
+                  :value="item.VALUE">
+                </el-option>
+              </el-select>
+            </section>
+            <section>
+              <label class="windowtitle">模块名称:</label>
+              <el-input v-model="modifyMenuData.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+            </section>
+            <section>
+              <label class="windowtitle">描述:</label>
+              <el-input v-model="modifyMenuData.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+            </section>
+            <section>
+              <label class="windowtitle">排序号:</label>
+              <el-input v-model="modifyMenuData.SN" placeholder="" size="small " style="display: inline-block;width: 190px"></el-input>
+            </section>
+           <section>
+             <label class="windowtitle">是否通用:</label>
+             <el-checkbox v-model="modifyMenuData.ISGENERAL"></el-checkbox>
+           </section>
+           <section>
+             <label class="windowtitle">是否启用:</label>
+             <el-checkbox v-model="modifyMenuData.ISUSED"></el-checkbox>
+           </section>
+            <section style="display: flex;">
+              <div class="windowBtn">
+                <el-button style="padding: 10px 30px" type="info" round @click="showAddMenuWindow = false">取消</el-button>
+              </div>
+              <div class="windowBtn">
+                <el-button style="padding: 10px 30px" type="danger" round @click="addMenuSubmit('modify')">确定</el-button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -121,6 +224,27 @@
     },
     data() {
       return {
+        eventId: null,
+        showSubmit: false,
+        showModify: false,
+        modifyMenuData: {
+          ISGENERAL: null,
+          ISUSED: null,
+          MARK: "",
+          NAME: "",
+          SN: null,
+          TYPE: null,
+        },
+        moduleSubmit: {
+          TYPE: null,
+          NAME: "",
+          MARK: "",
+          SN: null,
+        },
+        showAddMenuWindow: false,
+        addModuleType: [],
+        input: "",
+        value5: [],
         noticeTitle: "",
         permisNeedId: "",
         indexOne: "1",
@@ -156,8 +280,164 @@
       }
     },
     methods: {
+      //增加二级菜单提交
+      addMenuSubmit: function(btnName) {
+        var data;
+        if(btnName == "submit"){
+          data = {
+            TYPE: this.moduleSubmit.TYPE,
+            NAME: this.moduleSubmit.NAME,
+            MARK: this.moduleSubmit.MARK,
+            SN: this.moduleSubmit.SN,
+          }
+          this.$http.post('/module/create', data).then(res => {
+            if (res.code == 10000) {
+              this.$message.success("添加成功！");
+              this.showAddMenuWindow = false;
+              console.log(res)
+            } else {
+              this.$message.error(res.msg);
+            }
+          }).catch(function (error) {//加上catch
+            console.log(error);
+          });
+        }
+        if(btnName == "modify"){
+          console.log(this.eventId)
+          if(this.modifyMenuData.ISGENERAL == true){
+            this.modifyMenuData.ISGENERAL = 1;
+          }else{this.modifyMenuData.ISGENERAL = 0;}
+          if(this.modifyMenuData.ISUSED == true){
+            this.modifyMenuData.ISUSED = 1;
+          }else{this.modifyMenuData.ISUSED = 0;}
+          data = {
+            ID: this.eventId,
+            TYPE: this.modifyMenuData.TYPE,
+            NAME: this.modifyMenuData.NAME,
+            MARK: this.modifyMenuData.MARK,
+            SN: this.modifyMenuData.SN,
+            ISGENERAL: this.moduleSubmit.ISGENERAL,
+            ISUSED: this.moduleSubmit.ISUSED
+          }
+          this.$http.post('module/update/'+ data.ID, data).then(res => {
+            if (res.code == 10000) {
+              this.$message.success("修改成功！");
+              this.showAddMenuWindow = false;
+            } else {
+              this.$message.error(res.msg);
+            }
+          }).catch(function (error) {//加上catch
+            console.log(error);
+          });
+        }
+        console.log(btnName)
+      },
+      //增加二级菜单并获取模块类型
+      moduleTypeData: function() {
+        this.$http.post('/dic/getDicByKey/moduletype').then(res => {
+          if (res.code == 10000) {
+            this.addModuleType = res.data;
+            console.log(res)
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      addMenuTitle: function() {
+        this.showAddMenuWindow = true;
+        this.showModify = false;
+        this.showSubmit = true;
+        this.moduleTypeData();
+      },
+      //移除二级菜单
+      removeMenu: function () {
+        this.$confirm('确认删除？', '提示！', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let data = {ID: this.eventId}
+          this.$http.post('/module/del/'+ data.ID, data).then(res => {
+            if (res.code == 10000) {
+              this.$message.success("删除成功！");
+            } else {
+              this.$message.error(res.msg);
+            }
+          }).catch(function (error) {//加上catch
+            console.log(error);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      //修改事件二级菜单
+      modifyMenu: function(item) {
+        console.log(item)
+        this.showAddMenuWindow = true;
+        this.showSubmit = false;
+        this.showModify = true;
+        var data = {
+          ID: item.EVENTTYPEID
+        }
+        //模块类型
+        this.moduleTypeData();
+        //回现数据
+        this.$http.post('/module/detail/'+ data.ID, data).then(res => {
+          if (res.code == 10000) {
+            if(res.data.ISGENERAL == 1){
+              res.data.ISGENERAL = true;
+            }else{res.data.ISGENERAL = false;}
+            if(res.data.ISUSED == 1){
+              res.data.ISUSED = true;
+            }else{res.data.ISUSED = false;}
+            this.modifyMenuData = res.data;
+            console.log(this.modifyMenuData)
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+        //console.log(item)
+      },
+      //修改模块二级菜单
+      modifyModuleMenu: function(item) {
+        console.log(item)
+        this.showAddMenuWindow = true;
+        this.showSubmit = false;
+        this.showModify = true;
+        var data = {
+          ID: item.ID
+        }
+        //模块类型
+        this.moduleTypeData();
+        //回现数据
+        this.$http.post('/module/detail/'+ data.ID, data).then(res => {
+          if (res.code == 10000) {
+            if(res.data.ISGENERAL == 1){
+              res.data.ISGENERAL = true;
+            }else{res.data.ISGENERAL = false;}
+            if(res.data.ISUSED == 1){
+              res.data.ISUSED = true;
+            }else{res.data.ISUSED = false;}
+            this.modifyMenuData = res.data;
+            console.log(this.modifyMenuData)
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+        //console.log(item)
+      },
       //监听模块配置
       moduleMonitor: function (item) {
+        this.eventId = item.ID;
         this.showPermisPage = false;
         this.showEventConfig = false;
         for (let i in this.systemSetControl){
@@ -189,6 +469,7 @@
       },
       //监听事件配置点击事件数据
       eventMonitor: function (item) {
+        this.eventId = item.EVENTTYPEID;
         this.showPermisPage = false;
         this.showModuleConfig = false;
         for (let i in this.systemSetControl){
@@ -321,45 +602,96 @@
   }
 </script>
 <style>
+  .systemSet .el-submenu .el-menu-item{padding: 0 0 0 35px!important;}
+  .systemSet .el-menu-item-group>ul{overflow: hidden;}
+  .systemSet .el-submenu__title:hover .addMenu{display: inline-block;}
+  .systemSet .el-menu-item:hover .minusMenu{display: inline-block;}
+  .systemSet .addMenu{
+    display: none;
+    position: absolute;
+    right: 40px;
+    top: 0;
+  }
+  .systemSet .minusMenu{
+    position: absolute;
+    right: 10px;
+    top: 0;
+    display: none;
+    color: #303133;
+  }
+  .systemSet .minusMenu .proFont{
+    color: #333;
+    font-size: 19px
+  }
   .systemSet {
     height: 100%;
     width: 100%;
     overflow: hidden;
   }
-
   .systemSet .current {
     border-bottom: 1px solid #E6E6E6;
   }
-
   .systemSet-main {
     display: flex;
     height: calc(100% - 85px);
     width: 100%;
   }
-
   .systemSet .current {
     padding-left: 22px;
   }
-
   .systemSet-main nav, .systemSet-main aside {
     height: 100%;
     width: 100%;
     position: relative;
   }
-
   .systemSet-main nav {
     flex: 2;
     height: 100%;
   }
-
   .systemSet-main aside {
     flex: 8;
     width: 100%;
   }
-
   .systemSet-main .tac, .systemSet-main .el-col-24, .el-menu {
     height: 100%;
     overflow: auto;
   }
-
+/*
+  增删改弹窗
+*/
+  .systemSet .addMenuWindow{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*border: 1px solid red;*/
+    background: rgba(128, 128, 128, 0.5);
+    z-index: 200;
+  }
+  .systemSet .addMenuWindow .container{
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .systemSet .addMenuWindow .content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    z-index: 1000;
+    border-radius: 3px;
+  }
+  .addMenuWindow .windowtitle{
+    display: inline-block;
+    text-align: right;
+    width: 65px;
+  }
+  .addMenuWindow .content section{margin-bottom: 20px;}
+  .addMenuWindow .windowBtn{flex: 1;text-align: center;margin-top: 5px;}
 </style>

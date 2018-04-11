@@ -99,6 +99,45 @@
       </div>
       <el-button type="danger" style="padding: 10px 40px;margin: 30px 0 50px 45px;" @click="moduleSubmit">保存</el-button>
     </aside>
+    <div class="addModuleWindow" v-if="showModuleWindow">
+      <div class="container">
+        <div class="content">
+          <div style="margin: auto;width: 80%;">
+            <!--<section>
+              <label class="windowtitle">模块类型:</label>
+              <el-select v-model="moduleSubmit.TYPE"  placeholder="请选择" size="small" style="width: 190px">
+                <el-option
+                  v-for="item in addModuleType"
+                  :key="item.VALUE"
+                  :label="item.DISPLAY"
+                  :value="item.VALUE">
+                </el-option>
+              </el-select>
+            </section>
+            <section>
+              <label class="windowtitle">模块名称:</label>
+              <el-input v-model="moduleSubmit.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+            </section>
+            <section>
+              <label class="windowtitle">描述:</label>
+              <el-input v-model="moduleSubmit.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+            </section>
+            <section>
+              <label class="windowtitle">排序号:</label>
+              <el-input v-model="moduleSubmit.SN" placeholder="" size="small " style="display: inline-block;width: 190px"></el-input>
+            </section>
+            <section style="display: flex;">
+              <div class="windowBtn">
+                <el-button style="padding: 10px 30px" type="info" round @click="showAddMenuWindow = false">取消</el-button>
+              </div>
+              <div class="windowBtn">
+                <el-button style="padding: 10px 30px" type="danger" round @click="addMenuSubmit('submit')">确定</el-button>
+              </div>
+            </section>-->
+          </div>
+        </div>
+      </div>
+    </div>
   </article>
 </template>
 
@@ -107,6 +146,7 @@
     name: "moduleCfg",
     data() {
       return {
+        showModuleWindow: false,
         saveModuleId: null,
         showModuleCfg: false,
         MmduleCfgData: [],
@@ -266,52 +306,76 @@
     overflow-x: hidden;
     overflow-y: auto;
   }
-
   .generalCase .generalCase-select {
     flex: 2;
     border-right: 1px solid #E6E6E6;
     max-width: 160px !important;
   }
-
   .generalCase .generalCase-select section {
     padding: 8px 0;
     text-align: center;
     cursor: pointer;
   }
-
   .generalCase .generalCase-select section:hover {
     background: #666666;
   }
-
   .generalCase .generalCase-content {
     flex: 8;
   }
-
   .generalCase .generalCase-content .all-content {
     padding: 15px 0 0 45px;
   }
-
   .generalCase .generalCase-content section {
     padding: 5px 0;
     box-sizing: border-box;
   }
-
   .generalCase .generalCase-content label:first-child {
     display: inline-block;
     width: 85px;
     text-align: left;
   }
-
   .generalCase .a-title {
     font-size: 16px;
     padding: 15px 0
   }
-
   .generalCase .title section {
     padding-left: 45px;
   }
+  /* 弹窗 */
+  .generalCase .addModuleWindow{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%!important;
+    height: 100%!important;
+    /*border: 1px solid red;*/
+    background: rgba(128, 128, 128, 0.5);
+    z-index: 200;
+  }
+  .generalCase .addModuleWindow .container{
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .generalCase .addModuleWindow .content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    z-index: 1000;
+    border-radius: 3px;
+  }
+  .generalCase .addModuleWindow{
+    display: inline-block;
+    text-align: right;
+    width: 65px;
+  }
+  .generalCase .content section{margin-bottom: 20px;}
+  .generalCase .windowBtn{flex: 1;text-align: center;margin-top: 5px;}
 </style>
 
-<style scoped>
-
-</style>

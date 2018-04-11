@@ -1,7 +1,14 @@
 <template>
   <article class="medicalDevice">
     <aside class="conditions">
-      <section  :class="[{activeMenu:term.showActiveMenu}]"  v-for="(term, index) in eventMenu" @click="monitorClick(term, index)">{{ term.TYPENAME }}</section>
+      <section  style="position: relative" :class="[{activeMenu:term.showActiveMenu}]"  v-for="(term, index) in eventMenu" @click="monitorClick(term, index)">{{ term.TYPENAME }}
+        <div class="element" style="margin-right: 25px" @click="removeElement(term)">
+          <i class="proFont" style="color: #333;font-size: 19px">&#xe633;</i>
+        </div>
+        <div class="element" @click="modifyElement(term)" >
+          <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
+        </div>
+      </section>
     </aside>
     <aside class="container">
       <main class="medicalDevice-m">
@@ -15,6 +22,45 @@
         <!--<moduleSetup v-show="showModuleSetup" :allPageData="allPageData"></moduleSetup>-->
       </main>
     </aside>
+    <div class="addElementWindow" v-if="showEventWindow">
+      <div class="container">
+        <div class="content">
+          <div style="margin: auto;width: 80%;">
+           <!-- <section>
+              <label class="windowtitle">模块类型:</label>
+              <el-select v-model="moduleSubmit.TYPE"  placeholder="请选择" size="small" style="width: 190px">
+                <el-option
+                  v-for="item in addModuleType"
+                  :key="item.VALUE"
+                  :label="item.DISPLAY"
+                  :value="item.VALUE">
+                </el-option>
+              </el-select>
+            </section>
+            <section>
+              <label class="windowtitle">模块名称:</label>
+              <el-input v-model="moduleSubmit.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+            </section>
+            <section>
+              <label class="windowtitle">描述:</label>
+              <el-input v-model="moduleSubmit.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+            </section>
+            <section>
+              <label class="windowtitle">排序号:</label>
+              <el-input v-model="moduleSubmit.SN" placeholder="" size="small " style="display: inline-block;width: 190px"></el-input>
+            </section>-->
+            <section style="display: flex;">
+              <div class="windowBtn">
+                <el-button style="padding: 10px 30px" type="info" round @click="showEventWindow = false">取消</el-button>
+              </div>
+              <div class="windowBtn">
+                <el-button style="padding: 10px 30px" type="danger" round @click="addMenuSubmit('submit')">确定</el-button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
   </article>
 </template>
 
@@ -26,6 +72,7 @@
     name: "eventConfig",
     data: function () {
       return{
+        showEventWindow: false,
         showAllPageData: false,
         submitID: null,
         besicSetID: null,
@@ -52,6 +99,32 @@
        */
     },
     methods: {
+      removeElement: function(term) {
+        this.$confirm('确认删除？', '提示！', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let data = {ID: term.EVENTTYPEID}
+          this.$http.post('/element/del/'+ data.ID, data).then(res => {
+            if (res.code == 10000) {
+              this.$message.success("删除成功！");
+            } else {
+              this.$message.error(res.msg);
+            }
+          }).catch(function (error) {//加上catch
+            console.log(error);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+      modifyElement: function() {
+        this.showEventWindow = true;
+      },
       basicBtn: function () {
         this.defaultActive = true;
         this.noDefaultActive = false;
@@ -150,14 +223,14 @@
     width: 100%;
     display: flex;
   }
-  .medicalDevice .conditions{flex: 1;border-right: 1px solid #E6E6E6;padding-top: 15px;}
+  .medicalDevice .conditions{flex: 2;border-right: 1px solid #E6E6E6;padding-top: 15px;}
   .medicalDevice .conditions section{width: 100%;padding: 6px 0;text-align: center;}
   .medicalDevice .container{
-    flex: 9;
+    flex: 8;
   }
-  .medicalDevice .activeMenu{cursor: pointer;background: #666;}
+  .medicalDevice .activeMenu{cursor: pointer;background: #ECF5FF;}
   .medicalDevice .conditions section:hover{
-      cursor: pointer;background: #666;
+      cursor: pointer;background: #ECF5FF;
     }
   .medicalDevice .medicalDevice-h{
     height: 47px;
@@ -176,10 +249,55 @@
     padding: 7px 15px;
     cursor: pointer;
   }
-  .medicalDevice .active{background: #666;}
+  .medicalDevice .active{background: #ECF5FF;}
   .medicalDevice .medicalDevice-m{
     height: calc(100% - 47px);
     width: 100%;
   }
+  .medicalDevice .conditions section:hover .element{
+    display: block;
+  }
+  .medicalDevice .element{
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 8px;
+  }
 
+  /* 弹窗 */
+  .medicalDevice .addElementWindow{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%!important;
+    height: 100%!important;
+    /*border: 1px solid red;*/
+    background: rgba(128, 128, 128, 0.5);
+    z-index: 200;
+  }
+  .medicalDevice .addElementWindow .container{
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .medicalDevice .addElementWindow .content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: auto;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    z-index: 1000;
+    border-radius: 3px;
+  }
+  .medicalDevice .addElementWindow{
+    display: inline-block;
+    text-align: right;
+    width: 65px;
+  }
+  .medicalDevice .content section{margin-bottom: 20px;}
+  .medicalDevice .windowBtn{flex: 1;text-align: center;margin-top: 5px;}
 </style>

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import echarts from 'echarts'
 import ElementUI from 'element-ui'
 import { Loading,Message } from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css'
@@ -41,6 +42,7 @@ axios.interceptors.response.use(res => {
 })
 Vue.prototype.$hostUrl = httpConfig.hostURL;
 Vue.prototype.$http = axios;
+Vue.prototype.$echarts = echarts;
 Vue.prototype.$httpHeader = axios.defaults.headers;
 Vue.prototype.$load = Loading;
 Vue.prototype.$validation = function(val,type){

@@ -134,45 +134,54 @@
           </section>
         </div>
          <div style="margin: auto;width: 80%;" v-if="showModify">
-            <section>
-              <label class="windowtitle">{{ labelTitle }}</label>
-              <el-select v-model="modifyMenuData.TYPE" size="small" style="width: 190px" placeholder="请选择">
-                <el-option
-                  v-for="item in addModuleType"
-                  :key="item.VALUE"
-                  :label="item.DISPLAY"
-                  :value="item.VALUE">
-                </el-option>
-              </el-select>
-            </section>
-            <section>
-              <label class="windowtitle">菜单名称:</label>
-              <el-input v-model="modifyMenuData.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
-            </section>
-            <section>
-              <label class="windowtitle">{{labelMark}}</label>
-              <el-input v-model="modifyMenuData.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
-            </section>
-             <!-- <section>
-                <label class="windowtitle">排序号:</label>
-                <el-input v-model="modifyMenuData.SN" placeholder="" size="small " style="display: inline-block;width: 190px"></el-input>
-              </section>
+           <div v-if="eventModifyData">
+
              <section>
-               <label class="windowtitle">是否通用:</label>
-               <el-checkbox v-model="modifyMenuData.ISGENERAL"></el-checkbox>
+               <label class="windowtitle">菜单名称:</label>
+               <el-input v-model="modifyMenuData.TYPENAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
              </section>
              <section>
-               <label class="windowtitle">是否启用:</label>
-               <el-checkbox v-model="modifyMenuData.ISUSED"></el-checkbox>
-             </section>-->
-            <section style="display: flex;">
-              <div class="windowBtn">
-                <el-button style="padding: 10px 30px" type="info" round @click="showAddMenuWindow = false">取消</el-button>
-              </div>
-              <div class="windowBtn">
-                <el-button style="padding: 10px 30px" type="danger" round @click="addMenuSubmit('modify')">确定</el-button>
-              </div>
-            </section>
+               <label class="windowtitle">{{labelMark}}</label>
+               <el-input v-model="modifyMenuData.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+             </section>
+             <section style="display: flex;">
+               <div class="windowBtn">
+                 <el-button style="padding: 10px 30px" type="info" round @click="showAddMenuWindow = false">取消</el-button>
+               </div>
+               <div class="windowBtn">
+                 <el-button style="padding: 10px 30px" type="danger" round @click="addMenuSubmit('modify','event')">确定</el-button>
+               </div>
+             </section>
+           </div>
+           <div v-if="moduleModifyData">
+             <section>
+               <label class="windowtitle">{{ labelTitle }}</label>
+               <el-select v-model="modifyMenuData.TYPE" size="small" style="width: 190px" placeholder="请选择">
+                 <el-option
+                   v-for="item in addModuleType"
+                   :key="item.VALUE"
+                   :label="item.DISPLAY"
+                   :value="item.VALUE">
+                 </el-option>
+               </el-select>
+             </section>
+             <section>
+               <label class="windowtitle">菜单名称:</label>
+               <el-input v-model="modifyMenuData.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+             </section>
+             <section>
+               <label class="windowtitle">{{labelMark}}</label>
+               <el-input v-model="modifyMenuData.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+             </section>
+             <section style="display: flex;">
+               <div class="windowBtn">
+                 <el-button style="padding: 10px 30px" type="info" round @click="showAddMenuWindow = false">取消</el-button>
+               </div>
+               <div class="windowBtn">
+                 <el-button style="padding: 10px 30px" type="danger" round @click="addMenuSubmit('modify','module')">确定</el-button>
+               </div>
+             </section>
+           </div>
           </div>
         </div>
       </div>
@@ -215,6 +224,8 @@
     },
     data() {
       return {
+        eventModifyData: false,
+        moduleModifyData: false,
         labelTitle: "",
         labelMark: "",
         eventId: null,
@@ -274,7 +285,7 @@
     },
     methods: {
       //增加二级菜单提交
-      addMenuSubmit: function(btnName) {
+      addMenuSubmit: function(btnName,btnType) {
         var data;
         if(btnName == "submit"){
           data = {
@@ -285,6 +296,8 @@
           }
           this.$http.post('/module/create', data).then(res => {
             if (res.code == 10000) {
+              this.initEventConfig();
+              this.initModuleData();
               this.$message.success("添加成功！");
               this.showAddMenuWindow = false;
             } else {
@@ -295,31 +308,47 @@
           });
         }
         if(btnName == "modify"){
-         /* if(this.modifyMenuData.ISGENERAL == true){
-            this.modifyMenuData.ISGENERAL = 1;
-          }else{this.modifyMenuData.ISGENERAL = 0;}
-          if(this.modifyMenuData.ISUSED == true){
-            this.modifyMenuData.ISUSED = 1;
-          }else{this.modifyMenuData.ISUSED = 0;}*/
-          data = {
-            ID: this.eventId,
-            TYPE: this.modifyMenuData.TYPE,
-            NAME: this.modifyMenuData.NAME,
-            MARK: this.modifyMenuData.MARK,
-           /* SN: this.modifyMenuData.SN,
-            ISGENERAL: this.moduleSubmit.ISGENERAL,
-            ISUSED: this.moduleSubmit.ISUSED*/
-          }
-          this.$http.post('module/update/'+ data.ID, data).then(res => {
-            if (res.code == 10000) {
-              this.$message.success("修改成功！");
-              this.showAddMenuWindow = false;
-            } else {
-              this.$message.error(res.msg);
+          if(btnType == "event"){
+            data = {
+              TYPENAME: this.modifyMenuData.TYPENAME,
+              MARK: this.modifyMenuData.MARK,
             }
-          }).catch(function (error) {//加上catch
-            console.log(error);
-          });
+            this.$http.post('/event/updateType/'+ this.eventId, data).then(res => {
+              if (res.code == 10000) {
+                this.initEventConfig();
+                this.initModuleData();
+                this.$message.success("修改成功！");
+                this.showAddMenuWindow = false;
+              } else {
+                this.$message.error(res.msg);
+              }
+            }).catch(function (error) {//加上catch
+              console.log(error);
+            });
+          }
+          if(btnType == "module"){
+            data = {
+              ID: this.eventId,
+              TYPE: this.modifyMenuData.TYPE,
+              NAME: this.modifyMenuData.NAME,
+              MARK: this.modifyMenuData.MARK,
+              /* SN: this.modifyMenuData.SN,
+               ISGENERAL: this.moduleSubmit.ISGENERAL,
+               ISUSED: this.moduleSubmit.ISUSED*/
+            }
+            this.$http.post('module/update/'+ data.ID, data).then(res => {
+              if (res.code == 10000) {
+                this.initEventConfig();
+                this.initModuleData();
+                this.$message.success("修改成功！");
+                this.showAddMenuWindow = false;
+              } else {
+                this.$message.error(res.msg);
+              }
+            }).catch(function (error) {//加上catch
+              console.log(error);
+            });
+          }
         }
       },
       //增加二级菜单并获取模块类型
@@ -369,13 +398,15 @@
         this.showAddMenuWindow = true;
         this.showSubmit = false;
         this.showModify = true;
+        this.moduleModifyData = false;
+        this.eventModifyData = true;
         var data = {
           ID: item.EVENTTYPEID
         }
         //模块类型
         this.moduleTypeData();
         //回现数据
-        this.$http.post('/module/detail/'+ data.ID, data).then(res => {
+        this.$http.post('/event/echoType/'+ data.ID, data).then(res => {
           if (res.code == 10000) {
             if(res.data.ISGENERAL == 1){
               res.data.ISGENERAL = true;
@@ -396,6 +427,8 @@
         this.showAddMenuWindow = true;
         this.showSubmit = false;
         this.showModify = true;
+        this.eventModifyData = false;
+        this.moduleModifyData = true;
         var data = {
           ID: item.ID
         }
@@ -433,6 +466,7 @@
           if (res.code == 10000) {
             this.showModuleConfig = true;
             this.moduleTwoMenu = res.data;
+            console.log(this.moduleTwoMenu)
           } else {
             this.$message.error(res.msg);
           }

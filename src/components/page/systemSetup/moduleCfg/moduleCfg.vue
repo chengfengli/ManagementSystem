@@ -1,7 +1,14 @@
 <template>
   <article class="generalCase">
     <aside class="generalCase-select">
-      <section v-for="module in moduleTwoMenu" @click="activeMenu(module)">{{ module.NAME }}</section>
+      <section v-for="module in moduleTwoMenu" @click="activeMenu(module)" style="position: relative;">{{ module.NAME }}
+        <div class="element" style="margin-right: 25px" @click="removeModule(module)">
+          <i class="proFont" style="color: #333;font-size: 19px">&#xe633;</i>
+        </div>
+        <div class="element" @click="modifyModule(module)" >
+          <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
+        </div>
+      </section>
     </aside>
     <aside class="generalCase-content" v-show="showModuleCfg">
       <div class="all-content">
@@ -103,37 +110,22 @@
       <div class="container">
         <div class="content">
           <div style="margin: auto;width: 80%;">
-            <!--<section>
-              <label class="windowtitle">模块类型:</label>
-              <el-select v-model="moduleSubmit.TYPE"  placeholder="请选择" size="small" style="width: 190px">
-                <el-option
-                  v-for="item in addModuleType"
-                  :key="item.VALUE"
-                  :label="item.DISPLAY"
-                  :value="item.VALUE">
-                </el-option>
-              </el-select>
-            </section>
             <section>
-              <label class="windowtitle">模块名称:</label>
-              <el-input v-model="moduleSubmit.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+              <label class="windowtitle">菜单名称:</label>
+              <el-input v-model="moduleEchoType.TYPENAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
             </section>
             <section>
               <label class="windowtitle">描述:</label>
-              <el-input v-model="moduleSubmit.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
-            </section>
-            <section>
-              <label class="windowtitle">排序号:</label>
-              <el-input v-model="moduleSubmit.SN" placeholder="" size="small " style="display: inline-block;width: 190px"></el-input>
+              <el-input v-model="moduleEchoType.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
             </section>
             <section style="display: flex;">
               <div class="windowBtn">
-                <el-button style="padding: 10px 30px" type="info" round @click="showAddMenuWindow = false">取消</el-button>
+                <el-button style="padding: 10px 30px" type="info" round @click="showModuleWindow = false">取消</el-button>
               </div>
               <div class="windowBtn">
-                <el-button style="padding: 10px 30px" type="danger" round @click="addMenuSubmit('submit')">确定</el-button>
+                <el-button style="padding: 10px 30px" type="danger" round @click="updataModule()">确定</el-button>
               </div>
-            </section>-->
+            </section>
           </div>
         </div>
       </div>
@@ -146,6 +138,13 @@
     name: "moduleCfg",
     data() {
       return {
+        moduleEchoType: {
+          EVENTTYPEID: null,
+          ISDEL: null,
+          MARK: "",
+          PARENTID: null,
+          TYPENAME: ""
+        },
         showModuleWindow: false,
         saveModuleId: null,
         showModuleCfg: false,
@@ -160,6 +159,60 @@
       this.getElementType();
     },
     methods: {
+      //回现数据
+      modifyModule: function (module) {
+        this.showModuleWindow = true;
+        let data = {
+          typeid: module.ID
+        }
+        console.log(data)
+        this.$http.post('/event/echoType/'+ data.typeid, data).then(res => {
+          if (res.code == 10000) {
+            this.moduleEchoType = res.data;
+            console.log(res)
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      updataModule: function () {
+        let data = {
+          PARENTID: this.moduleEchoType.PARENTID,
+          TYPENAME: this.moduleEchoType.TYPENAME,
+          MARK: this.moduleEchoType.MARK
+        }
+        this.$http.post('/event/updateType/'+ this.moduleEchoType.EVENTTYPEID, data).then(res => {
+          if (res.code == 10000) {
+            this.showModuleWindow = false;
+            this.$message.success("修改成功！");
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      removeModule: function (module) {
+        this.$confirm('确认删除？', '提示！', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let data = {ID: module.ID}
+          this.$http.post('/element/del/'+ data.ID, data).then(res => {
+            if (res.code == 10000) {
+              this.$message.success("删除成功！");
+            } else {
+              this.$message.error(res.msg);
+            }
+          }).catch(function (error) {//加上catch
+            console.log(error);
+          });
+        }).catch(() => {
+        });
+      },
       //保存
       moduleSubmit: function () {
         if (this.MmduleCfgData.ISUSED == true) {
@@ -226,7 +279,6 @@
         this.$http.post('/dic/group').then(res => {
           if (res.code == 10000) {
             this.groupData = res.data;
-            console.log(this.groupData)
           } else {
             this.$message.error(res.msg);
           }
@@ -239,7 +291,6 @@
         this.$http.post('/dic/getDicByKey/elementtype').then(res => {
           if (res.code == 10000) {
             this.elementTypeData = res.data;
-            console.log(this.elementTypeData)
           } else {
             this.$message.error(res.msg);
           }
@@ -283,9 +334,7 @@
             } else {
               res.data.ISSTATICTICS = false;
             }
-
             this.MmduleCfgData = res.data;
-
           } else {
             this.$message.error(res.msg);
           }
@@ -299,6 +348,15 @@
 </script>
 
 <style>
+  .generalCase .generalCase-select section:hover .element{
+    display: block;
+  }
+  .generalCase .element{
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 8px;
+  }
   .generalCase {
     width: 100%;
     height: 100%;
@@ -309,11 +367,12 @@
   .generalCase .generalCase-select {
     flex: 2;
     border-right: 1px solid #E6E6E6;
-    max-width: 160px !important;
+    max-width: 240px !important;
   }
   .generalCase .generalCase-select section {
     padding: 8px 0;
-    text-align: center;
+    /*text-align: center;*/
+    margin-left: 20px;
     cursor: pointer;
   }
   .generalCase .generalCase-select section:hover {
@@ -348,7 +407,6 @@
     left: 0;
     width: 100%!important;
     height: 100%!important;
-    /*border: 1px solid red;*/
     background: rgba(128, 128, 128, 0.5);
     z-index: 200;
   }
@@ -365,7 +423,7 @@
     height: auto;
     transform: translate(-50%, -50%);
     background: white;
-    padding: 30px 20px;
+    padding: 30px 20px 5px 20px;
     box-sizing: border-box;
     z-index: 1000;
     border-radius: 3px;

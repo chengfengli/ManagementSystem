@@ -55,7 +55,6 @@
                       <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
                     </div>
                   </el-menu-item>
-
                 </el-menu-item-group>
               </el-submenu>
               <el-submenu :index="indexFour">
@@ -103,7 +102,7 @@
         <div class="content">
          <div style="margin: auto;width: 80%;" v-if="showSubmit">
           <section>
-            <label class="windowtitle">模块类型:</label>
+            <label class="windowtitle">菜单类型:</label>
             <el-select v-model="moduleSubmit.TYPE"  placeholder="请选择" size="small" style="width: 190px">
               <el-option
                 v-for="item in addModuleType"
@@ -114,7 +113,7 @@
             </el-select>
           </section>
           <section>
-            <label class="windowtitle">模块名称:</label>
+            <label class="windowtitle">菜单名称:</label>
             <el-input v-model="moduleSubmit.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
           </section>
           <section>
@@ -136,7 +135,7 @@
         </div>
          <div style="margin: auto;width: 80%;" v-if="showModify">
             <section>
-              <label class="windowtitle">模块类型:</label>
+              <label class="windowtitle">{{ labelTitle }}</label>
               <el-select v-model="modifyMenuData.TYPE" size="small" style="width: 190px" placeholder="请选择">
                 <el-option
                   v-for="item in addModuleType"
@@ -147,25 +146,25 @@
               </el-select>
             </section>
             <section>
-              <label class="windowtitle">模块名称:</label>
+              <label class="windowtitle">菜单名称:</label>
               <el-input v-model="modifyMenuData.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
             </section>
             <section>
-              <label class="windowtitle">描述:</label>
+              <label class="windowtitle">{{labelMark}}</label>
               <el-input v-model="modifyMenuData.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
             </section>
-            <section>
-              <label class="windowtitle">排序号:</label>
-              <el-input v-model="modifyMenuData.SN" placeholder="" size="small " style="display: inline-block;width: 190px"></el-input>
-            </section>
-           <section>
-             <label class="windowtitle">是否通用:</label>
-             <el-checkbox v-model="modifyMenuData.ISGENERAL"></el-checkbox>
-           </section>
-           <section>
-             <label class="windowtitle">是否启用:</label>
-             <el-checkbox v-model="modifyMenuData.ISUSED"></el-checkbox>
-           </section>
+             <!-- <section>
+                <label class="windowtitle">排序号:</label>
+                <el-input v-model="modifyMenuData.SN" placeholder="" size="small " style="display: inline-block;width: 190px"></el-input>
+              </section>
+             <section>
+               <label class="windowtitle">是否通用:</label>
+               <el-checkbox v-model="modifyMenuData.ISGENERAL"></el-checkbox>
+             </section>
+             <section>
+               <label class="windowtitle">是否启用:</label>
+               <el-checkbox v-model="modifyMenuData.ISUSED"></el-checkbox>
+             </section>-->
             <section style="display: flex;">
               <div class="windowBtn">
                 <el-button style="padding: 10px 30px" type="info" round @click="showAddMenuWindow = false">取消</el-button>
@@ -189,14 +188,6 @@
   import dataDict from "./systemAllocation/dataDict"
   /* 权限设置 */
   import permisPage from "./Permission/permisPage"
-  import tourist from "./Permission/tourist"
-  import eventForm from "./Permission/eventForm"
-  import eventHandler from "./Permission/eventHandler"
-  import eventHandlerAbet from "./Permission/eventHandlerAbet"
-  import eventManage from "./Permission/eventManage"
-  import eventManageAbet from "./Permission/eventManageAbet"
-  import institutionLeader from "./Permission/institutionLeader"
-  import sectorLeader from "./Permission/sectorLeader"
   /* 事件配置 */
   import eventConfig from "./eventConfig/eventConfig"
   /* 模块配置 */
@@ -224,6 +215,8 @@
     },
     data() {
       return {
+        labelTitle: "",
+        labelMark: "",
         eventId: null,
         showSubmit: false,
         showModify: false,
@@ -294,7 +287,6 @@
             if (res.code == 10000) {
               this.$message.success("添加成功！");
               this.showAddMenuWindow = false;
-              console.log(res)
             } else {
               this.$message.error(res.msg);
             }
@@ -303,21 +295,20 @@
           });
         }
         if(btnName == "modify"){
-          console.log(this.eventId)
-          if(this.modifyMenuData.ISGENERAL == true){
+         /* if(this.modifyMenuData.ISGENERAL == true){
             this.modifyMenuData.ISGENERAL = 1;
           }else{this.modifyMenuData.ISGENERAL = 0;}
           if(this.modifyMenuData.ISUSED == true){
             this.modifyMenuData.ISUSED = 1;
-          }else{this.modifyMenuData.ISUSED = 0;}
+          }else{this.modifyMenuData.ISUSED = 0;}*/
           data = {
             ID: this.eventId,
             TYPE: this.modifyMenuData.TYPE,
             NAME: this.modifyMenuData.NAME,
             MARK: this.modifyMenuData.MARK,
-            SN: this.modifyMenuData.SN,
+           /* SN: this.modifyMenuData.SN,
             ISGENERAL: this.moduleSubmit.ISGENERAL,
-            ISUSED: this.moduleSubmit.ISUSED
+            ISUSED: this.moduleSubmit.ISUSED*/
           }
           this.$http.post('module/update/'+ data.ID, data).then(res => {
             if (res.code == 10000) {
@@ -330,14 +321,12 @@
             console.log(error);
           });
         }
-        console.log(btnName)
       },
       //增加二级菜单并获取模块类型
       moduleTypeData: function() {
         this.$http.post('/dic/getDicByKey/moduletype').then(res => {
           if (res.code == 10000) {
             this.addModuleType = res.data;
-            console.log(res)
           } else {
             this.$message.error(res.msg);
           }
@@ -377,7 +366,6 @@
       },
       //修改事件二级菜单
       modifyMenu: function(item) {
-        console.log(item)
         this.showAddMenuWindow = true;
         this.showSubmit = false;
         this.showModify = true;
@@ -396,18 +384,15 @@
               res.data.ISUSED = true;
             }else{res.data.ISUSED = false;}
             this.modifyMenuData = res.data;
-            console.log(this.modifyMenuData)
           } else {
             this.$message.error(res.msg);
           }
         }).catch(function (error) {//加上catch
           console.log(error);
         });
-        //console.log(item)
       },
       //修改模块二级菜单
       modifyModuleMenu: function(item) {
-        console.log(item)
         this.showAddMenuWindow = true;
         this.showSubmit = false;
         this.showModify = true;
@@ -426,17 +411,17 @@
               res.data.ISUSED = true;
             }else{res.data.ISUSED = false;}
             this.modifyMenuData = res.data;
-            console.log(this.modifyMenuData)
           } else {
             this.$message.error(res.msg);
           }
         }).catch(function (error) {//加上catch
           console.log(error);
         });
-        //console.log(item)
       },
       //监听模块配置
       moduleMonitor: function (item) {
+        this.labelTitle = "模块类型:";
+        this.labelMark = "模块描述:";
         this.eventId = item.ID;
         this.showPermisPage = false;
         this.showEventConfig = false;
@@ -469,6 +454,8 @@
       },
       //监听事件配置点击事件数据
       eventMonitor: function (item) {
+        this.labelTitle = "事件类型:";
+        this.labelMark = "事件描述:";
         this.eventId = item.EVENTTYPEID;
         this.showPermisPage = false;
         this.showModuleConfig = false;
@@ -682,7 +669,7 @@
     height: auto;
     transform: translate(-50%, -50%);
     background: white;
-    padding: 30px 20px;
+    padding: 30px 20px 5px 20px;
     box-sizing: border-box;
     z-index: 1000;
     border-radius: 3px;

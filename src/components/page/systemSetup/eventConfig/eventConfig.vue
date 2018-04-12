@@ -26,35 +26,20 @@
       <div class="container">
         <div class="content">
           <div style="margin: auto;width: 80%;">
-           <!-- <section>
-              <label class="windowtitle">模块类型:</label>
-              <el-select v-model="moduleSubmit.TYPE"  placeholder="请选择" size="small" style="width: 190px">
-                <el-option
-                  v-for="item in addModuleType"
-                  :key="item.VALUE"
-                  :label="item.DISPLAY"
-                  :value="item.VALUE">
-                </el-option>
-              </el-select>
-            </section>
             <section>
-              <label class="windowtitle">模块名称:</label>
-              <el-input v-model="moduleSubmit.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+              <label class="windowtitle">菜单名称:</label>
+              <el-input v-model="eventEchoType.TYPENAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
             </section>
             <section>
               <label class="windowtitle">描述:</label>
-              <el-input v-model="moduleSubmit.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+              <el-input v-model="eventEchoType.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
             </section>
-            <section>
-              <label class="windowtitle">排序号:</label>
-              <el-input v-model="moduleSubmit.SN" placeholder="" size="small " style="display: inline-block;width: 190px"></el-input>
-            </section>-->
             <section style="display: flex;">
               <div class="windowBtn">
                 <el-button style="padding: 10px 30px" type="info" round @click="showEventWindow = false">取消</el-button>
               </div>
               <div class="windowBtn">
-                <el-button style="padding: 10px 30px" type="danger" round @click="addMenuSubmit('submit')">确定</el-button>
+                <el-button style="padding: 10px 30px" type="danger" round @click="updataEventSubmit()">确定</el-button>
               </div>
             </section>
           </div>
@@ -72,6 +57,13 @@
     name: "eventConfig",
     data: function () {
       return{
+        eventEchoType: {
+          EVENTTYPEID: null,
+          ISDEL: null,
+          MARK: "",
+          PARENTID: null,
+          TYPENAME: "",
+        },
         showEventWindow: false,
         showAllPageData: false,
         submitID: null,
@@ -99,6 +91,23 @@
        */
     },
     methods: {
+      updataEventSubmit: function () {
+        let data = {
+          PARENTID: this.eventEchoType.PARENTID,
+          TYPENAME: this.eventEchoType.TYPENAME,
+          MARK: this.eventEchoType.MARK
+        }
+        this.$http.post('/event/updateType/'+ this.eventEchoType.EVENTTYPEID, data).then(res => {
+          if (res.code == 10000) {
+            this.showEventWindow = false;
+            this.$message.success("修改成功！");
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
       removeElement: function(term) {
         this.$confirm('确认删除？', '提示！', {
           confirmButtonText: '确定',
@@ -116,14 +125,24 @@
             console.log(error);
           });
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
         });
       },
-      modifyElement: function() {
+      modifyElement: function(term) {
         this.showEventWindow = true;
+        console.log(term)
+        let data = {
+          typeid: term.EVENTTYPEID
+        }
+        console.log(data)
+        this.$http.post('/event/echoType/'+ data.typeid, data).then(res => {
+          if (res.code == 10000) {
+            this.eventEchoType = res.data;
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
       },
       basicBtn: function () {
         this.defaultActive = true;
@@ -140,9 +159,9 @@
         this.showBasicSetup = false;
       },
       monitorClick: function (term, index) {
+        this.submitID = term.EVENTTYPEID;
         this.showBasicSetup = true;
         this.showTitle = true;
-        this.submitID = term.EVENTTYPEID;
         this.defaultActive = true;
         this.noDefaultActive = false;
         this.showAllPageData = true;
@@ -288,7 +307,7 @@
     height: auto;
     transform: translate(-50%, -50%);
     background: white;
-    padding: 30px 20px;
+    padding: 30px 20px 5px 20px;
     box-sizing: border-box;
     z-index: 1000;
     border-radius: 3px;

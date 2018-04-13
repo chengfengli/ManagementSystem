@@ -5,9 +5,9 @@
         <div class="element" style="margin-right: 25px" @click="removeElement(term)">
           <i class="proFont" style="color: #333;font-size: 19px">&#xe633;</i>
         </div>
-        <div class="element" @click="modifyElement(term)" >
+       <!-- <div class="element" @click="modifyElement(term)" >
           <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
-        </div>
+        </div>-->
       </section>
     </aside>
     <aside class="container">

@@ -5,9 +5,9 @@
         <div class="element" style="margin-right: 25px" @click="removeModule(module)">
           <i class="proFont" style="color: #333;font-size: 19px">&#xe633;</i>
         </div>
-        <div class="element" @click="modifyModule(module)" >
+      <!--  <div class="element" @click="modifyModule(module)" >
           <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
-        </div>
+        </div>-->
       </section>
     </aside>
     <aside class="generalCase-content" v-show="showModuleCfg">
@@ -112,7 +112,7 @@
           <div style="margin: auto;width: 80%;">
             <section>
               <label class="windowtitle">菜单名称:</label>
-              <el-input v-model="moduleEchoType.TYPENAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
+              <el-input v-model="moduleEchoType.NAME" placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
             </section>
             <section>
               <label class="windowtitle">描述:</label>
@@ -143,7 +143,7 @@
           ISDEL: null,
           MARK: "",
           PARENTID: null,
-          TYPENAME: ""
+          NAME: ""
         },
         showModuleWindow: false,
         saveModuleId: null,
@@ -183,7 +183,7 @@
           TYPENAME: this.moduleEchoType.TYPENAME,
           MARK: this.moduleEchoType.MARK
         }
-        this.$http.post('/event/updateType/'+ this.moduleEchoType.EVENTTYPEID, data).then(res => {
+        this.$http.post('/event/updateType/'+ this.moduleEchoType.EVENTTYPEID).then(res => {
           if (res.code == 10000) {
             this.showModuleWindow = false;
             this.$message.success("修改成功！");

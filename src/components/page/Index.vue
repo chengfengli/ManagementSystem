@@ -31,7 +31,7 @@
             		{txt:'我的事件',ico:'./static/img/index/my_event.png',link:'login'},
             		{txt:'事件处理',ico:'./static/img/index/event_tianbao.png',link:'eventList'},
             		{txt:'事件管理',ico:'./static/img/index/event_manage.png',link:'login'},
-            		{txt:'统计分析',ico:'./static/img/index/statistical_analysis.png',link:'statistics'},
+            		{txt:'统计分析',ico:'./static/img/index/statistical_analysis.png',link:'statisticsList'},
             		{txt:'人员管理',ico:'./static/img/index/person_manage.png',link:'personManage'},
             		{txt:'系统设置',ico:'./static/img/index/sys_set.png',link:'systemSet'}
             	]

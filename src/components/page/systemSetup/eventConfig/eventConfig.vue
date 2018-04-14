@@ -1,14 +1,15 @@
 <template>
   <article class="medicalDevice">
     <aside class="conditions">
-      <section  style="position: relative" :class="[{activeMenu:term.showActiveMenu}]"  v-for="(term, index) in eventMenu" @click="monitorClick(term, index)">{{ term.TYPENAME }}
+      <section  :class="[{activeMenu:term.showActiveMenu}]"  v-for="(term, index) in eventMenu" @click="monitorClick(term, index)">{{ term.TYPENAME }}
         <div class="element" style="margin-right: 25px" @click="removeElement(term)">
           <i class="proFont" style="color: #333;font-size: 19px">&#xe633;</i>
         </div>
-       <!-- <div class="element" @click="modifyElement(term)" >
+        <div class="element" @click="modifyElement(term)" >
           <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
-        </div>-->
+        </div>
       </section>
+      <section style="text-align: left;" v-show="eventMenu.length <= 0 ">无数据</section>
     </aside>
     <aside class="container">
       <main class="medicalDevice-m">
@@ -34,6 +35,18 @@
               <label class="windowtitle">描述:</label>
               <el-input v-model="eventEchoType.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>
             </section>
+            <section>
+              <label class="windowtitle">父类:</label>
+              <el-select v-model="eventEchoType.PARENTID" size="small" style="width: 190px" placeholder="请选择">
+                <el-option
+                  v-for="item in seleSuper"
+                  :key="item.EVENTTYPEID"
+                  :label="item.TYPENAME"
+                  :value="item.EVENTTYPEID">
+                </el-option>
+              </el-select>
+              <!--<el-input v-model="eventEchoType.MARK"  placeholder="请输入内容" size="small " style="display: inline-block;width: 190px"></el-input>-->
+            </section>
             <section style="display: flex;">
               <div class="windowBtn">
                 <el-button style="padding: 10px 30px" type="info" round @click="showEventWindow = false">取消</el-button>
@@ -57,6 +70,7 @@
     name: "eventConfig",
     data: function () {
       return{
+        seleSuper: [],
         eventEchoType: {
           EVENTTYPEID: null,
           ISDEL: null,
@@ -93,13 +107,15 @@
     methods: {
       updataEventSubmit: function () {
         let data = {
+          EVENTTYPEID: this.eventEchoType.EVENTTYPEID,
           PARENTID: this.eventEchoType.PARENTID,
           TYPENAME: this.eventEchoType.TYPENAME,
           MARK: this.eventEchoType.MARK
         }
-        this.$http.post('/event/updateType/'+ this.eventEchoType.EVENTTYPEID, data).then(res => {
+        this.$http.post('/event/updateType/'+ data.EVENTTYPEID, data).then(res => {
           if (res.code == 10000) {
             this.showEventWindow = false;
+            this.$emit("evetSonData", data.PARENTID);
             this.$message.success("修改成功！");
           } else {
             this.$message.error(res.msg);
@@ -114,10 +130,12 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          let data = {ID: term.EVENTTYPEID}
-          this.$http.post('/element/del/'+ data.ID, data).then(res => {
+          let data = {typeid: term.EVENTTYPEID}
+          this.$http.post('/event/del/childType/'+ data.typeid, data).then(res => {
             if (res.code == 10000) {
+               this.$emit("evetSonData");
               this.$message.success("删除成功！");
+              //window.location.reload();
             } else {
               this.$message.error(res.msg);
             }
@@ -129,11 +147,18 @@
       },
       modifyElement: function(term) {
         this.showEventWindow = true;
-        console.log(term)
+        this.$http.post('/event/rootType').then(res => {
+          if (res.code == 10000) {
+            this.seleSuper = res.data;
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
         let data = {
           typeid: term.EVENTTYPEID
         }
-        console.log(data)
         this.$http.post('/event/echoType/'+ data.typeid, data).then(res => {
           if (res.code == 10000) {
             this.eventEchoType = res.data;
@@ -243,7 +268,13 @@
     display: flex;
   }
   .medicalDevice .conditions{flex: 2;border-right: 1px solid #E6E6E6;padding-top: 15px;}
-  .medicalDevice .conditions section{width: 100%;padding: 6px 0;text-align: center;}
+  .medicalDevice .conditions section{
+    position: relative;
+    width: 100%;
+    padding: 6px 0 6px 20px;
+    box-sizing: border-box;
+    text-align: left;
+  }
   .medicalDevice .container{
     flex: 8;
   }

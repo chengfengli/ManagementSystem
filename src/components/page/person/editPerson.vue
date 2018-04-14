@@ -7,6 +7,9 @@
             <el-form-item prop="ACCOUNT" label="账号">
                 <el-input v-model="ruleForm.ACCOUNT" size="mini"></el-input>
             </el-form-item>
+            <el-form-item prop="WORKID" label="工号">
+                <el-input v-model="ruleForm.WORKID" size="mini"></el-input>
+            </el-form-item>
             <el-form-item v-if="ruleForm.PASSWORD==''" prop="PASSWORD" label="密码">
                 <el-input v-model="ruleForm.PASSWORD" placeholder="默认：123456" size="mini"></el-input>
             </el-form-item>
@@ -71,6 +74,7 @@
                     ]
                 },
                 ruleForm:{
+                	WORKID:'',
                 	USERID: '',
                 	USERNAME: '',
                 	ROLEID: '',

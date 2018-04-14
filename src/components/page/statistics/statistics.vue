@@ -45,8 +45,7 @@
 								</el-select>
 							</td>
 							<td>
-								<el-date-picker v-model="form.STARTTIME" type="date" placeholder="选择发布日期" size="mini"></el-date-picker>
-								<!--<el-date-picker v-model="form.STARTTIME" type="date" placeholder="选择日期" size="mini"></el-date-picker>--->
+								<el-date-picker v-model="form.STARTTIME" type="date" placeholder="选择日期" size="mini"></el-date-picker>-
 								<el-date-picker v-model="form.ENDTIME" type="date" placeholder="选择日期" size="mini"></el-date-picker>
 							</td>
 							<td>
@@ -74,14 +73,14 @@
 									<img src="../../../../static/img/statistics/3.png" @click="setEchartsLine('echarts_1','COLLECTBYTYPE','事件类型统计')"/>
 									<img src="../../../../static/img/statistics/2.png" @click="setEchartsPie('echarts_1','COLLECTBYTYPE','事件类型统计')"/>
 								</div>
-								<div id="echarts_1" style="height: 400px;"></div>
+								<div id="echarts_1" style="height: 300px;"></div>
 							</td>
-							<td style="width: 400px;">
+							<td style="width: 35%;">
 								<div class="toolsbar">
 									<img src="../../../../static/img/statistics/6.png" @click="setEchartsBar2('echarts_2','COLLECTBYLEVEL','事件等级统计')"/>
 									<img src="../../../../static/img/statistics/2.png" @click="setEchartsPie('echarts_2','COLLECTBYLEVEL','事件等级统计')"/>
 								</div>
-								<div id="echarts_2" style="height: 400px;"></div>
+								<div id="echarts_2" style="height: 300px;"></div>
 							</td>
 						</tr>
 						<tr>
@@ -92,14 +91,14 @@
 									<img src="../../../../static/img/statistics/3.png" @click="setEchartsLine('echarts_3','COLLECTBYDEPT','上报科室统计')"/>
 									<img src="../../../../static/img/statistics/2.png" @click="setEchartsPie('echarts_3','COLLECTBYDEPT','上报科室统计')"/>
 								</div>
-								<div id="echarts_3" style="height: 400px;"></div>
+								<div id="echarts_3" style="height: 300px;"></div>
 							</td>
-							<td style="width: 400px;">
+							<td style="width: 35%;">
 								<div class="toolsbar">
 									<img src="../../../../static/img/statistics/6.png" @click="setEchartsBar2('echarts_4','COLLECTBYSTATUS','事件状态统计')"/>
 									<img src="../../../../static/img/statistics/2.png" @click="setEchartsPie('echarts_4','COLLECTBYSTATUS','事件状态统计')"/>
 								</div>
-								<div id="echarts_4" style="height: 400px;"></div>
+								<div id="echarts_4" style="height: 300px;"></div>
 							</td>
 						</tr>
 					</table>
@@ -152,18 +151,22 @@
         	},
         	selectAll(type){
         		if(type=='status'){
+        			this.status=[];
         			for(var i in this.eventStatus){
         				this.status.push(this.eventStatus[i].VALUE);
         			}
         		}else if(type=='type'){
+        			this.types=[];
         			for(var i in this.eventTypes){
         				this.types.push(this.eventTypes[i].EVENTTYPEID);
         			}
         		}else if(type=='level'){
+        			this.levels=[];
         			for(var i in this.eventLevels){
         				this.levels.push(this.eventLevels[i].VALUE);
         			}
         		}else if(type=='flag'){
+        			this.flags=[];
         			for(var i in this.eventFlags){
         				this.flags.push(this.eventFlags[i].VALUE);
         			}
@@ -305,10 +308,12 @@
 	        		},
 				    xAxis: {
 				        type: 'category',
-				        data: array_x
+				        data: array_x,
+				        minInterval:1
 				    },
 				    yAxis: {
-				        type: 'value'
+				        type: 'value',
+				        minInterval:1
 				    },
 				    series: [{
 				        data: array_y,
@@ -316,8 +321,10 @@
 				        label:{
 				        	show:true,
 				        	position:'insideTop'
-				        }
-				    }]
+				        },
+				        barMaxWidth:20
+				    }],
+				    color:this.$colors
 				};
 				echarts.clear();
 				echarts.setOption(option);
@@ -359,7 +366,8 @@
 						        	position:'insideRight'
 						        }
 					        }
-					    ]
+					    ],
+				    	color:this.$colors
 					};
 					var echarts = this.$echarts.init(document.getElementById(id));
 					echarts.clear();
@@ -398,7 +406,8 @@
 					                }
 					            }
 					        }
-					    ]
+					    ],
+				    	color:this.$colors
 					};
 					var echarts = this.$echarts.init(document.getElementById(id));
 					echarts.clear();
@@ -434,7 +443,8 @@
 				    series: [{
 				        data: array_y,
 				        type: 'line'
-				    }]
+				    }],
+				    color:this.$colors
 				};
 				var echarts = this.$echarts.init(document.getElementById(id));
 				echarts.clear();
@@ -462,6 +472,9 @@
 	#statistics-page .container td.title{
 		width: 200px;
 		text-align: center;
+	}
+	.statistics-body{
+		min-width: 1200px;
 	}
 	.toolsbar img{
 		width: 20px;

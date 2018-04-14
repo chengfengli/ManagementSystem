@@ -22,7 +22,7 @@
 			<el-button @click="eidtPerson('')" type="text" size="mini"><i class="el-icon-circle-plus-outline"></i>新增</el-button>
 			<el-table :data="dataPerson" stripe border style="width: auto;" ref="multipleTable">
 	            <el-table-column type="index" align="center"></el-table-column>
-	            <el-table-column prop="USERNAME" label="工号" align="center"></el-table-column>
+	            <el-table-column prop="WORKID" label="工号" align="center"></el-table-column>
 	            <el-table-column prop="USERNAME" label="姓名" align="center"></el-table-column>
 	            <el-table-column prop="ROLENAME" label="角色" align="center"></el-table-column>
 	            <el-table-column prop="JOB" label="职务" align="center"></el-table-column>

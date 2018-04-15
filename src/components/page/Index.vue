@@ -5,7 +5,7 @@
 		</div>
 		<div class="home">
 			<div class="link-list">
-				<div v-for="link in links" :key="link.txt" class="link" @click="linkTo(link.link)">
+				<div v-for="link in links" :key="link.txt" class="link" @click="linkTo(link.link, link.txt)">
 					<img class="link-ico" :src="link.ico">
 					<div class="link-txt">{{link.txt}}</div>
 				</div>
@@ -28,9 +28,9 @@
             		{txt:'发布公告',ico:'./static/img/index/announcementMana.png',link:'announcementMana'},
             		{txt:'事件中心',ico:'./static/img/index/event_center.png',link:'eventCenter'},
             		{txt:'事件填报',ico:'./static/img/index/event_tianbao.png',link:'eventFillIndex'},
-            		{txt:'我的事件',ico:'./static/img/index/my_event.png',link:'login'},
-            		{txt:'事件处理',ico:'./static/img/index/event_tianbao.png',link:'eventList'},
-            		{txt:'事件管理',ico:'./static/img/index/event_manage.png',link:'login'},
+            		{txt:'我的事件',ico:'./static/img/index/my_event.png',link:'eventProcessing'},
+            		{txt:'事件处理',ico:'./static/img/index/event_tianbao.png',link:'eventProcessing'},
+            		{txt:'事件管理',ico:'./static/img/index/event_manage.png',link:'eventProcessing'},
             		{txt:'统计分析',ico:'./static/img/index/statistical_analysis.png',link:'statistics'},
             		{txt:'人员管理',ico:'./static/img/index/person_manage.png',link:'personManage'},
             		{txt:'系统设置',ico:'./static/img/index/sys_set.png',link:'systemSet'}
@@ -38,8 +38,15 @@
             }
         },
         methods: {
-        	linkTo(link) {
-        		this.$router.push(link);
+        	linkTo(link,txt) {
+        		if(txt == "我的事件" || txt == "事件处理" || txt == "事件管理"){
+              this.$router.push({
+                path: link,
+                query: {txt: txt}
+              })
+            }else {
+              this.$router.push(link);
+            }
         	}
         }
     }

@@ -2,6 +2,12 @@
   <div class="eventList">
     <section class="eventList-h">
       <sysHeader></sysHeader>
+      <div class="current">
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
+          <el-breadcrumb-item>系统设置</el-breadcrumb-item>
+        </el-breadcrumb>
+      </div>
       <eventHeader @monitorActivePage="monitorActivePage" :monitorBtn="monitorBtn"></eventHeader>
     </section>
     <section class="eventList-m">

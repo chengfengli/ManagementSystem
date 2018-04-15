@@ -99,9 +99,9 @@
         <!-- 权限设置 -->
         <permisPage v-if="showPermisPage" :menuData="menuData" :noticeTitle="noticeTitle" @refreshPermis="refreshPermis"></permisPage>
         <!-- 事件配置 -->
-        <eventConfig v-if="showEventConfig" :twoEventMenu="twoEventMenu"></eventConfig>
+        <eventConfig v-if="showEventConfig" :twoEventMenu="twoEventMenu" @evetSonData="evetSonData" ref="allEvent"></eventConfig>
         <!-- 模块配置 -->
-        <moduleCfg v-if="showModuleConfig" :moduleTwoMenu="moduleTwoMenu"></moduleCfg>
+        <moduleCfg v-if="showModuleConfig" :moduleTwoMenu="moduleTwoMenu" @moduleSonData="moduleSonData"></moduleCfg>
       </aside>
     </main>
     <div class="addMenuWindow" v-if="showAddMenuWindow">
@@ -375,6 +375,13 @@
       }
     },
     methods: {
+      //监听事件配置子组件修改删除后的刷新
+      evetSonData: function(id){
+        this.initEventData(this.eventId);
+      },
+      moduleSonData: function(){
+        this.initModuleDtaaa(this.eventId)
+      },
       //增加模块元素提交
       increaseSmallSubmit: function(){
         let data = {
@@ -709,6 +716,7 @@
         this.labelTitle = "事件类型:";
         this.labelMark = "事件描述:";
         this.eventId = item.EVENTTYPEID;
+        //console.log(this.eventId)
         this.showPermisPage = false;
         this.showModuleConfig = false;
         for (let i in this.systemSetControl){
@@ -729,7 +737,7 @@
             this.$message.error(res.msg);
           }
         }).catch(function (error) {//加上catch
-          console.log(error);
+         console.log(error);
         });
       },
       //初始化事件配置
@@ -810,7 +818,10 @@
       initPermisMenu: function () {
         this.$http.post('/role/list').then(res => {
           if (res.code == 10000) {
-            this.permisMenu = res.data;
+            this.permisMenu = res.data.filter((resData)=>{
+              return resData.ROLEID != "1";
+            });
+            console.log(this.permisMenu)
           } else {
             this.$message.error(res.msg);
           }
@@ -836,8 +847,7 @@
       handleClose(key, keyPath) {
         console.log(key, keyPath);
       }
-    },
-
+    }
   }
 </script>
 <style>

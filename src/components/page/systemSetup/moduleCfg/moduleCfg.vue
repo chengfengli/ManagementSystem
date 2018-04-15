@@ -9,6 +9,7 @@
           <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
         </div>-->
       </section>
+      <section style="text-align: left;" v-show="moduleTwoMenu.length <= 0 ">无数据</section>
     </aside>
     <aside class="generalCase-content" v-show="showModuleCfg">
       <div class="all-content">
@@ -160,7 +161,7 @@
     },
     methods: {
       //回现数据
-      modifyModule: function (module) {
+    /*  modifyModule: function (module) {
         this.showModuleWindow = true;
         let data = {
           typeid: module.ID
@@ -193,7 +194,7 @@
         }).catch(function (error) {//加上catch
           console.log(error);
         });
-      },
+      },*/
       removeModule: function (module) {
         this.$confirm('确认删除？', '提示！', {
           confirmButtonText: '确定',
@@ -203,6 +204,7 @@
           let data = {ID: module.ID}
           this.$http.post('/element/del/'+ data.ID, data).then(res => {
             if (res.code == 10000) {
+              this.$emit("moduleSonData");
               this.$message.success("删除成功！");
             } else {
               this.$message.error(res.msg);
@@ -370,7 +372,7 @@
     max-width: 240px !important;
   }
   .generalCase .generalCase-select section {
-    padding: 8px 0;
+    padding: 10px 0;
     /*text-align: center;*/
     margin-left: 20px;
     cursor: pointer;

@@ -104,8 +104,8 @@
       </article>
     </header>
     <main class="table-data">
-      <el-table :data="initTableData.TABLEDATA.rows" border style="width: 100%; text-align: center;" :stripe="true"><!--item.DISPLAY--><!--v-for="item in initHeaderData"-->
-        <el-table-column :prop="item.KEY" :label="item.DISPLAY" width="160" v-for="item in initTableData.HEADER"></el-table-column>
+      <el-table :data="initTableData.TABLEDATA.rows" style="width: 100%; text-align: center;" :stripe="true"><!--item.DISPLAY--><!--v-for="item in initHeaderData"-->
+        <el-table-column :prop="item.KEY" :label="item.DISPLAY" width="auto" v-for="item in initTableData.HEADER"></el-table-column>
       </el-table>
       <!--<section class="table-th">表头</section>
       <section class="table-content" style="height: auto;margin-bottom: 100px;"></section>-->
@@ -354,5 +354,8 @@
     padding: 5px 0;
     text-align: center;
   }
-  .eventProcessing .el-table td, .el-table th{text-align: center;}
+  .el-table th>.cell{background: #839964;color: white;padding: 5px 0;}
+  .el-table thead{background: #839964;}
+  .el-table th{background: #839964;color: white;width: 100%}
+  .eventProcessing .el-table td, .el-table th{text-align: center!important;}
 </style>

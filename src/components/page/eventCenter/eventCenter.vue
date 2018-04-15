@@ -67,9 +67,8 @@
               </el-form-item>
               <el-form-item label="当事科室" size="mini">
                 <el-col :span="11" style="width: 190px;">
-                  <el-select v-model="form.DEPTID" clearable>
-                    <el-option v-for="item in depts" :key="item.DEPTID" :label="item.DEPTNAME"
-                               :value="item.DEPTID"></el-option>
+                  <el-select @change="selectChange" v-model="form.DEPTID" clearable>
+                    <el-option v-for="item in depts" :key="item.VALUE" :label="item.DISPLAY" :value="item.VALUE"></el-option>
                   </el-select>
                 </el-col>
                 <el-col class="line" :span="2"><span href="javascript:vodi(0)" @click="currentDept"
@@ -199,7 +198,7 @@
           this.$message.error(res.msg);
         }
       });
-      this.$http.post('/dept/list', {BELONGID: null}).then(res => {//初始化科室
+      this.$http.post('/dic/getDicByKey/dept', {BELONGID: null}).then(res => {//初始化科室
         if (res.code == 10000) {
           this.depts = res.data;
         } else {

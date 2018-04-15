@@ -15,7 +15,7 @@
             </el-form-item>
             <el-form-item prop="BELONGID" label="归属科室">
                 <el-select v-model="ruleForm.BELONGID" placeholder="请选择" size="mini">
-				    <el-option v-for="item in belongs" :key="item.DEPTID" :label="item.DEPTNAME" :value="item.DEPTID"></el-option>
+				    <el-option v-for="item in belongs" :key="item.VALUE" :label="item.DISPLAY" :value="item.VALUE"></el-option>
 				</el-select>
             </el-form-item>
             <el-form-item prop="EMAIL" label="邮箱">
@@ -91,7 +91,7 @@
             	})
             },
             selectBelongs() {
-            	this.$http.post('/dept/list',{BELONGID: 0}).then(res=>{
+            	this.$http.post('/dic/getDicByKey/dept',{BELONGID: 0}).then(res=>{
             		if(res.code == 10000){
             			this.belongs = res.data;
             		}else{

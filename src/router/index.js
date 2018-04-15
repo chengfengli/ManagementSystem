@@ -62,7 +62,12 @@ export default new Router({
           path: '/eventList',
           component: resolve => require(['../components/page/eventProcessing/eventList.vue'], resolve)
         },
-        /* 统计分析 */
+        /* 统计分析列表 */
+        {
+          path: '/statisticsList',
+          component: resolve => require(['../components/page/statistics/statisticsList.vue'], resolve)
+        },
+        /* 统计分析图表 */
         {
           path: '/statistics',
           component: resolve => require(['../components/page/statistics/statistics.vue'], resolve)

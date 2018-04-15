@@ -24,7 +24,7 @@
 						</td>
 						<td>
 							<div class="title">{{item.TITLE}}</div>
-							<div class="txt">留言：{{item.LW}}给你发送了一条事件类型建议的消息，请您处理。给你发送了一条事件类型建议的消息，请您处理。给你发送了一条事件类型建议的消息，请您处理。ASDAD ASDADSA</div>
+							<div class="txt">留言：{{item.LW}}</div>
 						</td>
 					</tr>
 				</table>

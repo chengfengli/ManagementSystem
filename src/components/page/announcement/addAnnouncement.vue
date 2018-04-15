@@ -119,4 +119,8 @@
 	#addAnnouncement .el-button{
 		width: 30%;
 	}
+	#addAnnouncement .el-icon-date:before{
+	    position: relative!important;
+		top: 0px!important;
+	} 
 </style>

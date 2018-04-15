@@ -222,7 +222,7 @@
         },
 		mounted() {
 			var obj = this.$route.query;
-			this.$http.post('/event/initFillPage/'+obj.id).then(res=>{
+			this.$http.post('/event/initFillPage',{TYPEID:obj.id,EVENTID:null}).then(res=>{
         		if(res.code == 10000){
         			var list = res.data.DATA;
         			this.type = res.data.TYPE;

@@ -16,29 +16,31 @@
 					<el-button type="primary" plain @click="delType" size="mini">删除分类</el-button>
 					<el-button type="primary" plain @click="addAnnouncementDialog=true;obj=null" size="mini">发布公告</el-button>
 				</div>
-				<el-row class="tac">
-					<el-col :span="2">
-					    <el-menu :default-active="defaultIndex" class="el-menu-vertical-demo" @select="select">
-						    <el-menu-item v-for="item in typeList" :keys="item.ID" :index="item.ID.toString()">{{item.NAME}}</el-menu-item>
-					    </el-menu>
-					</el-col>
-					<el-col :span="21" :offset="1">
-						<table cellspacing="0" @mouseleave="showBtn=0">
-							<tr v-if="total!=0" v-for="item in afficheList" :key="item.ID" @mouseover="showBtn=item.ID">
-								<td class="time">{{item.PUBLISHDATE}}</td>
-								<td class="title"><span class="edit" @click="detail(item.ID)">{{item.TITLE}}</span></td>
-								<td class="btn"><span v-if="showBtn==item.ID"><span class="edit" @click="edit(item.ID)">编辑</span><span class="del" @click="del(item.ID)">删除</span></span></td>
-								<td class="sender">{{item.PUSHER}}</td>
-								<td class="click-cunt">点击量({{item.CLICKS}})</td>
-							</tr>
-							<tr v-if="total==0">
-								<td style="text-align: center;color: #ccc;">暂无数据</td>
-							</tr>
-						</table>
-						<el-pagination v-if="total!=0" @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
-							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-					</el-col>
-				</el-row>
+				<table>
+					<tr>
+						<td style="width: 150px;" valign="top">
+							<el-menu :default-active="defaultIndex" class="el-menu-vertical-demo" @select="select">
+							    <el-menu-item v-for="item in typeList" :keys="item.ID" :index="item.ID.toString()">{{item.NAME}}</el-menu-item>
+						    </el-menu>
+						</td>
+						<td valign="top" style="padding-left: 15px;padding-top: 10px;">
+							<table cellspacing="0" @mouseleave="showBtn=0">
+								<tr class="data-tr" v-if="total!=0" v-for="item in afficheList" :key="item.ID" @mouseover="showBtn=item.ID">
+									<td class="time">{{item.PUBLISHDATE}}</td>
+									<td class="title"><span class="edit" @click="detail(item.ID)">{{item.TITLE}}</span></td>
+									<td class="btn"><span v-if="showBtn==item.ID"><span class="edit" @click="edit(item.ID)">编辑</span><span class="del" @click="del(item.ID)">删除</span></span></td>
+									<td class="sender">{{item.PUSHER}}</td>
+									<td class="click-cunt">点击量({{item.CLICKS}})</td>
+								</tr>
+								<tr v-if="total==0">
+									<td style="text-align: center;color: #ccc;margin-top: 100px;">暂无数据</td>
+								</tr>
+							</table>
+							<el-pagination v-if="total!=0" @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
+								:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 		<!--发布公告-->
@@ -247,23 +249,23 @@
 	#announcementMana .data-box .el-col-2{
 		min-width: 100px;
 	}
-	#announcementMana .data-box table{
+	#announcementMana .data-box table table{
 		width: 100%;
 	}
-	#announcementMana .data-box table tr:nth-child(odd){
+	#announcementMana .data-box table table tr:nth-child(odd){
 		background-color: #FAFAFA;
 	}
-	#announcementMana .data-box table tr:hover{
+	#announcementMana .data-box table table tr:hover{
 		background-color: #F5F7FA;
 	}
-	#announcementMana .data-box table td{
+	#announcementMana .data-box table table td{
 		padding: 5px 10px;
 		font-size: 14px;
 	}
-	#announcementMana .data-box table td:nth-child(1),#announcementMana .data-box table td:nth-child(3){
+	#announcementMana .data-box table table td:nth-child(1),#announcementMana .data-box table td:nth-child(3){
 		width: 100px;
 	}
-	#announcementMana .data-box table td:nth-child(3){
+	#announcementMana .data-box table table td:nth-child(3){
 		font-size: 12px;	
 	}
 	#announcementMana .btn{
@@ -273,6 +275,7 @@
 		display: inline-block;
 		margin: 0 5px;
 		cursor:pointer;
+		color: #15A6DB;
 	}
 	#announcementMana .edit:hover,#announcementMana .del:hover{
 		color: #00d1b2;
@@ -280,5 +283,8 @@
 	.btn-box{
 		text-align: center;
 		margin:20px 0;
+	}
+	.data-tr{
+		border-bottom: 1px solid #CCCCCC;
 	}
 </style>

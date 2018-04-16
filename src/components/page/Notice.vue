@@ -5,10 +5,12 @@
 		</div>
 		<div class="notice-body">
 			<div class="current">
-				<el-breadcrumb separator-class="el-icon-arrow-right">
+				<el-breadcrumb class="nav-box" separator-class="el-icon-arrow-right">
 				  	<el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
 				  	<el-breadcrumb-item>个人通知</el-breadcrumb-item>
+				  	
 				</el-breadcrumb>
+				<span class="tips">点击消息标题，可直接跳转到事件。注：消息只是反映事件当事的状态，可能与当前事件状态不符!</span>
 			</div>
 			<div class="data-box">
 				<table cellspacing="0" @mouseleave="show=-1">
@@ -80,7 +82,7 @@
 						} else {
 							this.$message.error(res.msg);
 						}
-					}).catch(function(error) { //加上catch
+					}).catch(function(error) {
 						this.$message.error(error);
 					})
 		        }).catch(res=>{});
@@ -96,10 +98,10 @@
 					this.$message.error(error);
 				})
         		if(id==2){
-        			this.$message({
-        				type:'success',
-        				message:'页面未绑定'
-        			});
+        			this.$router.push({
+		                path: 'eventProcessing',
+		                query: {id: id}
+		           })
         		}
         	},
         	dataInit() {
@@ -123,7 +125,16 @@
 
 <style scoped>
 	#notice .data-box{
-		padding: 0 60px;
+		padding: 0 30px;
+	}
+	#notice .nav-box{
+		display: inline-block;
+	}
+	#notice .tips{
+		color: #15A6DB;
+		position: relative;
+		top: -2px;
+		margin-left: 50px;
 	}
 	#notice .data-box table{
 		width: 100%;
@@ -131,20 +142,31 @@
 	}
 	#notice .data-box table .del-btn{
 		font-size: 14px;
+		color: orangered;
+	}
+	#notice .data-box table td{
+		border-bottom: 1px solid #CCCCCC;
 	}
 	#notice .data-box table tr .title{
-		font-size: 16px;
+		font-size: 14px;
     	font-weight: bold;
     	cursor: pointer;
+    	color: #666666;
+	}
+	#notice .data-box table tr .title:hover{
+		color: #15A6DB;
+		text-decoration: underline;
 	}
 	#notice .data-box table tr .txt{
-		font-size: 14px;
+		font-size: 12px;
+		color: #AAAAAA;
+		margin-top: 3px;
 	}
-	#notice .data-box table tr:nth-child(odd){
-		background-color: #FAFAFA;
+	#notice .data-box table tr:nth-child(even){
+		background-color: #F5F5F5;
 	}
 	#notice .data-box table tr:hover{
-		background-color: #F5F7FA;
+		background-color: #F5F5F5;
 	}
 	#notice .data-box table td{
 		padding: 5px 10px;
@@ -154,6 +176,7 @@
 	}
 	#notice .user-name{
 		width: 130px;
+		color: #666666;
 	}
 	#notice .send-time{
 		color: #ccc;

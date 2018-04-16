@@ -57,7 +57,7 @@ export default new Router({
           path: '/eventProcessing',
           component: resolve => require(['../components/page/eventProcessing/eventProcessing.vue'], resolve)
         },
-        /* 事件列表 */
+        /* 事件详情列表 */
         {
           path: '/eventList',
           component: resolve => require(['../components/page/eventProcessing/eventList.vue'], resolve)

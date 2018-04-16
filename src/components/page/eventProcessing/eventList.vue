@@ -5,13 +5,13 @@
       <div class="current">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>系统设置</el-breadcrumb-item>
+          <el-breadcrumb-item>事件详情</el-breadcrumb-item>
         </el-breadcrumb>
       </div>
-      <eventHeader @monitorActivePage="monitorActivePage" :monitorBtn="monitorBtn"></eventHeader>
+      <eventHeader @monitorActivePage="monitorActivePage" :dataId="dataId"></eventHeader>
     </section>
     <section class="eventList-m">
-      <basicInfo v-if="monitorBtn.showBasicInfo" ></basicInfo>
+      <basicInfo v-if="monitorBtn.showBasicInfo" :dataId="dataId"></basicInfo>
       <eventAbstract v-if="monitorBtn.showAbstract"></eventAbstract>
       <eventReport v-if="monitorBtn.showReport"></eventReport>
       <msaReport v-if="monitorBtn.showMsaReport" ></msaReport>
@@ -34,8 +34,12 @@
   import personAdvice from "./personAdvice"
   export default {
     name: "eventList",
+    mounted: function () {
+
+    },
     data() {
       return{
+        dataId: this.$route.query.eventID,
         monitorBtn: {
           showBasicInfo: true,
           showAbstract: false,
@@ -45,7 +49,6 @@
           showFishboneMsa: false,
           showPersonAdvice: false
         },
-
       }
     },
     methods: {
@@ -81,5 +84,6 @@
   .eventList .eventList-m{
     height: calc(100% - 100px);
     width: 100%;
+    background: white;
   }
 </style>

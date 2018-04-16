@@ -4,7 +4,7 @@
     <div class="current">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>系统设置</el-breadcrumb-item>
+        <el-breadcrumb-item>事件处理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <header class="eventProcessing-search">
@@ -104,11 +104,18 @@
       </article>
     </header>
     <main class="table-data">
-      <el-table :data="initTableData.TABLEDATA.rows" style="width: 100%; text-align: center;" :stripe="true"><!--item.DISPLAY--><!--v-for="item in initHeaderData"-->
-        <el-table-column :prop="item.KEY" :label="item.DISPLAY" width="auto" v-for="item in initTableData.HEADER"></el-table-column>
+      <el-table @row-dblclick="skipDetails" :data="initTableData.TABLEDATA.rows" style="width: 100%; text-align: center;" :stripe="true"><!--item.DISPLAY--><!--v-for="item in initHeaderData"-->
+        <el-table-column  :prop="item.KEY" :label="item.DISPLAY" width="auto" v-for="item in initTableData.HEADER"></el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="100">
+          <template slot-scope="scope">
+            <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+            <!--<el-button type="text" size="small">编辑</el-button>-->
+          </template>
+        </el-table-column>
       </el-table>
-      <!--<section class="table-th">表头</section>
-      <section class="table-content" style="height: auto;margin-bottom: 100px;"></section>-->
     </main>
     <footer style="padding: 5px 0;margin-bottom: 30px">
       <div class="block">
@@ -177,21 +184,66 @@
     mounted: function() {
       if(this.$route.query.txt == "我的事件"){
         this.eventSearch.entrance = "myEvent";
-        console.log("我的事件")
       }
       if(this.$route.query.txt == "事件处理"){
         this.eventSearch.entrance = "eventDeal";
-        console.log("事件处理")
       }
       if(this.$route.query.txt == "事件管理"){
         this.eventSearch.entrance = "eventManage";
-        console.log("事件管理")
       }
       this.getEventQuery();
-      this.initTableHeaderData();
+      //this.initTableHeaderData();
       this.initTableContentData();
     },
     methods: {
+      skipDetails: function (row) {
+        if(row.STATUS == "暂存"){
+          this.$router.push({
+            path: "/eventFillIndex",
+            query: {eventID: row.ID}
+          })
+          console.log("事件填报！")
+        }else {
+          this.$router.push({
+            path: "/eventList",
+            query: {eventID: row.ID}
+          })
+        }
+      },
+      handleClick: function (data) {
+        let id = {
+          eventid: data.ID
+        }
+        if(data.CANDEL == true){
+          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(() => {
+            this.$http.post('event/del/' + data.ID, id).then(res => {
+              if (res.code == 10000) {
+                this.initTableContentData();
+              } else {
+                this.$message.error(res.msg);
+              }
+            }).catch(function (error) {//加上catch
+              console.log(error);
+            });
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+          }).catch(() => {
+
+          });
+        }else {
+          this.$message({
+            type: 'error',
+            message: '不能删除该条数据!'
+          });
+        }
+
+      },
       //结案事件
       closureSearch: function(){
         this.eventSearch.QSTATUS = 7;
@@ -227,24 +279,7 @@
         this.eventSearch.QEDATE = d.getFullYear() + '-' + (d.getMonth()+1 < 10 ? '0'+(d.getMonth()+1) : d.getMonth()+1) + '-' + (d.getDate() < 10 ? '0' + d.getDate(): d.getDate());
       },
       initTableHeaderData: function() {
-       /* let data = {
-          entrance: "eventDeal"
-        }
-        //表头
-        this.$http.post('/event/listTableHeader/' + data.entrance).then(res => {
-          if (res.code == 10000) {
-            for(let item of res.data){
-              this.initHeaderData.push({
-                DISPLAY: item.DISPLAY
-              })
-            }
-            console.log(this.initHeaderData)
-          } else {
-            this.$message.error(res.msg);
-          }
-        }).catch(function (error) {//加上catch
-          console.log(error);
-        });*/
+
       },
       initTableContentData: function () {
         //表数据
@@ -333,7 +368,7 @@
     overflow: auto;
   }
   .eventProcessing .select-search{
-    padding: 30px 0 10px 0;
+    padding: 10px 0 10px 0;
     display: flex;
     border-bottom: 1px solid #8F949A;
   }

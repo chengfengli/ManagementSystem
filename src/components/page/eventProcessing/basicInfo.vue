@@ -17,8 +17,9 @@
             <div class="set-right">{{ basicInfoData.BASICINFO.CHILDTYPE }}</div>
           </aside>
           <aside style="margin-top: 40px;">
-            <section style="display: inline-block;padding: 25px;box-sizing: border-box;border: 1px solid #797979;border-radius: 50%;">
-              <i class="proFont" style="font-size: 45px;">&#xe62c;</i>
+            <section style="display: inline-block;padding: 25px;box-sizing: border-box;border: 1px solid #797979;border-radius: 50%;text-align: center">
+              <i class="proFont" style="font-size: 45px;">&#xe62c;</i><br/>
+              <span style="color: red;">{{ basicInfoData.BASICINFO.THUMBS }}</span>
             </section>
             <section style="display: inline-block;margin-left: 30px;">
               <el-rate
@@ -33,47 +34,17 @@
         </section>
         <section class="basicInfo-radio" >
           <div>
-            <section>
-              <span class="round-style">1</span>
-              <span class="round-line"></span><br/>
-              <lable>上报事件</lable><br/>
-              <span>{{ basicInfoData.STATUSAXIS[0].OPER }}</span><br/>
-              <span>{{ basicInfoData.STATUSAXIS[0].OPERDEPT }}</span><br/>
-              <span>{{ basicInfoData.STATUSAXIS[0].OPTIME }}</span><br/>
-            </section>
-            <section>
-              <span class="round-style">2</span>
-              <span class="round-line"></span>
-              <br/>
-              <lable>废弃事件</lable>
-            </section>
-            <section>
-              <span class="round-style">3</span>
-              <span class="round-line"></span>
-              <br/>
-              <lable>驳回事件</lable>
-            </section>
-            <section>
-              <span class="round-style">4</span>
-              <span class="round-line"></span>
-              <br/>
-              <lable>等待处理</lable>
-            </section>
-            <section>
-              <span class="round-style">5</span>
-              <span class="round-line"></span>
-              <br/>
-              <lable>驳回处理</lable>
-            </section>
-            <section>
-              <span class="round-style">6</span>
-              <span class="round-line"></span>
-              <br/>
-              <lable>待结案</lable>
-            </section>
-            <section>
-              <span class="round-style" style="display: block">7</span>
-              <lable>已结案</lable>
+            <section v-for="item in basicInfoData.STATUSAXIS">
+             <div class="basicInfo-item" style="display: inline-block">
+               <span :class="{roundStyle: true,roundLine: item.roundActive,succeed: item.activeSucceed,danger: item.activeDanger}">{{ item.INDEX }}</span>
+               <span :class="{defaultStyle: item.defaultStyle,roundLine: item.roundActive,succeed: item.activeSucceed,}"></span><br/>
+               <span :class="{dangerColor: item.dangerColor,succeedColor: item.succeedColor}">{{ item.STATUS }}</span><br/>
+             </div>
+              <div style="display: inline-block">
+                <span>{{ item.OPER }}</span><br/>
+                <span>{{ item.OPERDEPT }}</span><br/>
+                <span>{{ item.OPTIME }}</span><br/>
+              </div>
             </section>
           </div>
         </section>
@@ -117,18 +88,42 @@
     },
     data(){
       return{
+        /*roundActive: true,
+        activeSucceed: false,
+        activeDanger: false,*/
         basicInfoData: {},
         value3: null,
         radio: 3
       }
     },
     methods: {
+      aaaa: function () {
+
+      },
       //基本信息初始数据
       initBasicInfoData: function (eventId) {
         this.$http.post('/event/basicInfo/'+ eventId).then(res => {
           if (res.code == 10000) {
             this.basicInfoData = res.data;
-            console.log(this.basicInfoData)
+            for(let item of this.basicInfoData.STATUSAXIS){
+              item.roundActive = true;
+              item.activeSucceed = false;
+              item.succeedColor = false;
+              item.activeDanger = false;
+              item.dangerColor = false;
+              item.defaultStyle = true;
+              if(item.LIGHTEN == true){
+                item.activeSucceed = true;
+                item.succeedColor = true;
+              }
+              if(item.CURRSTATUS == true){
+                item.activeSucceed = false;
+                item.succeedColor = false;
+                item.activeDanger = true;
+                item.dangerColor = true;
+              }
+            }
+            this.basicInfoData.STATUSAXIS[6].defaultStyle = false;
           } else {
             this.$message.error(res.msg);
           }
@@ -147,8 +142,8 @@
   .basicInfo{
     height: 100%;
     width: 100%;
-    overflow: hidden;
     position: relative;
+   overflow: hidden;
   }
   .basicInfo article{display: flex;}
   .basicInfo .basicInfo-grade{
@@ -175,7 +170,7 @@
     padding-top: 11%;
   }
   .basicInfo .basicInfo-radio div>section{flex: 1;}
-  .basicInfo .round-style{
+  .basicInfo .roundStyle{
     text-align: center;
     display: inline-block;
     height: 24px;
@@ -185,12 +180,19 @@
     background: #B9B9B9;
     color: white;
   }
-  .basicInfo .round-line{
+  .basicInfo .defaultStyle{
     width: 81%;
     height: 5px;
     display: inline-block;
-    background: #B9B9B9;
   }
+  .basicInfo .basicInfo-radio .defaultStyle:last-child{
+    display: none!important;
+  }
+  .basicInfo .roundLine{background: #B9B9B9;}
+  .basicInfo .succeed{background: #85E085;}
+  .basicInfo .danger{background: red;}
+  .basicInfo .dangerColor{color: red;}
+  .basicInfo .succeedColor{color: #85E085;}
   .reported-info{
     position: absolute;
     top: 13%;
@@ -213,6 +215,5 @@
     font-size: 17px;
   }
   .reported-content div,.reported-info div{padding: 8px 0;}
-
 
 </style>

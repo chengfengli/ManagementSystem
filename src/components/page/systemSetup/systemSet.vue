@@ -530,9 +530,6 @@
               TYPE: this.modifyMenuData.TYPE,
               NAME: this.modifyMenuData.NAME,
               MARK: this.modifyMenuData.MARK,
-              /* SN: this.modifyMenuData.SN,
-               ISGENERAL: this.moduleSubmit.ISGENERAL,
-               ISUSED: this.moduleSubmit.ISUSED*/
             }
             this.$http.post('module/update/'+ data.ID, data).then(res => {
               if (res.code == 10000) {

@@ -97,7 +97,7 @@
 				}).catch(function(error) {
 					this.$message.error(error);
 				})
-        		if(id==2){
+        		if(id==1){
         			this.$router.push({
 		                path: 'eventProcessing',
 		                query: {id: id}

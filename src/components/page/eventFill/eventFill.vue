@@ -15,50 +15,83 @@
 				<ul id="ancho-box">
 					<li v-for="item in dataList" :keys="item.MODID"><a @click="select(item.MODID)" :class="isactive==item.MODID?isactiveClass:noactiveClass" href="javascript:void(0)">{{item.MODNAME}}</a></li>
 				</ul>
+				
 				<div id="form-box">
-					<el-collapse v-model="activeNames">
-					  	<el-collapse-item v-for="item in dataList" :keys="item.MODID" :id="item.MODID" :title="item.MODNAME" :name="item.MODID">
-					    	<el-form>
-					    		<el-form-item v-for="ele in item.ELES" :keys="ele.ELEID" :label="ele.LABEL">
-					    			<hr v-if="ele.ELETYPE==2">
-					    			
-					                <el-input v-if="ele.ELETYPE==3" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
-					                
-					                <el-input v-if="ele.ELETYPE==4" v-model="form['ele_'+ele.ELEID]" type="textarea"></el-input>
-					                
-					                <el-radio-group v-if="ele.ELETYPE==5" v-model="form['ele_'+ele.ELEID]">
-									    <el-radio :label="1"></el-radio>
-									</el-radio-group>
-									
-									<el-date-picker v-if="ele.ELETYPE==6" type="date" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
-									
-									<el-date-picker v-if="ele.ELETYPE==7" type="datetime" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
-						            
-						            <el-select v-model="form['ele_'+ele.ELEID]" v-if="ele.ELETYPE==8" placeholder="请选择" size="mini">
-						            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
-									</el-select>
-									
-									<el-select v-model="form['ele_'+ele.ELEID]" v-if="ele.ELETYPE==9" multiple collapse-tags placeholder="请选择" size="mini">
-						            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
-									</el-select>
-						            
-						            <el-radio-group v-if="ele.ELETYPE==10" v-model="form['ele_'+ele.ELEID]">
-									    <el-radio v-for="radio in ele.DATASOURCEVAL" :keys="radio.VALUE" :label="radio.VALUE.toString()">{{radio.DISPLAY}}</el-radio>
-									</el-radio-group>
-									
-									<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
-									    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
-									</el-checkbox-group>
-									
-									<el-upload v-if="ele.ELETYPE==12" class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" multiple>
-									  <el-button size="mini" type="primary">选择文件</el-button>
-									</el-upload>
-									
-									<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
-					           </el-form-item>
-					    	</el-form>
-					  	</el-collapse-item>
-					</el-collapse>
+					<div class="plan" v-for="item in dataList" :keys="item.MODID" :id="item.MODID">
+						<div class="type">
+							<span class="type-title">{{item.MODNAME}}</span>
+							<span class="remakes">{{item.MODMARK}}</span>
+						</div>
+						<div v-for="ele in item.ELES" :keys="ele.ELEID">
+							<hr v-if="ele.ELETYPE==2">
+							<div v-else>
+								<table v-if="ele.LABEL.length<17">
+									<tr>
+										<td valign="top" style="width: 112px;font-size: 14px;padding-right: 15px;text-align: right;">{{ele.LABEL}}</td>
+										<td style="width: 300px;">
+											<el-input v-if="ele.ELETYPE==3" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
+							                <el-input v-if="ele.ELETYPE==4" v-model="form['ele_'+ele.ELEID]" type="textarea"></el-input>
+							                <el-radio-group v-if="ele.ELETYPE==5" v-model="form['ele_'+ele.ELEID]">
+											    <el-radio :label="1"></el-radio>
+											</el-radio-group>
+											<el-date-picker v-if="ele.ELETYPE==6" type="date" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
+											<el-date-picker v-if="ele.ELETYPE==7" type="datetime" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
+								            <el-select v-model="form['ele_'+ele.ELEID]" v-if="ele.ELETYPE==8" placeholder="请选择" size="mini">
+								            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
+											</el-select>
+											<el-select v-model="form['ele_'+ele.ELEID]" v-if="ele.ELETYPE==9" multiple collapse-tags placeholder="请选择" size="mini">
+								            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
+											</el-select>
+								            <el-radio-group v-if="ele.ELETYPE==10" v-model="form['ele_'+ele.ELEID]">
+											    <el-radio v-for="radio in ele.DATASOURCEVAL" :keys="radio.VALUE" :label="radio.VALUE.toString()">{{radio.DISPLAY}}</el-radio>
+											</el-radio-group>
+											<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
+											    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
+											</el-checkbox-group>
+											<el-upload v-if="ele.ELETYPE==12" class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" multiple>
+											  <el-button size="mini" type="primary">选择文件</el-button>
+											</el-upload>
+											<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
+										</td>
+										<td style="width: 400px;color: #5EBAE7;font-size: 12px;padding-left: 5px;"><span v-if="ele.ISREQUIRED==0" class="required">*</span></td>
+									</tr>
+								</table>
+								<table v-else>
+									<tr>
+										<td style="font-size: 14px;" colspan="2">{{ele.LABEL}}</td>
+									</tr>
+									<tr>
+										<td style="width: 412px;">
+											<el-input v-if="ele.ELETYPE==3" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
+							                <el-input v-if="ele.ELETYPE==4" v-model="form['ele_'+ele.ELEID]" type="textarea"></el-input>
+							                <el-radio-group v-if="ele.ELETYPE==5" v-model="form['ele_'+ele.ELEID]">
+											    <el-radio :label="1"></el-radio>
+											</el-radio-group>
+											<el-date-picker v-if="ele.ELETYPE==6" type="date" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
+											<el-date-picker v-if="ele.ELETYPE==7" type="datetime" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
+								            <el-select v-model="form['ele_'+ele.ELEID]" v-if="ele.ELETYPE==8" placeholder="请选择" size="mini">
+								            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
+											</el-select>
+											<el-select v-model="form['ele_'+ele.ELEID]" v-if="ele.ELETYPE==9" multiple collapse-tags placeholder="请选择" size="mini">
+								            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
+											</el-select>
+								            <el-radio-group v-if="ele.ELETYPE==10" v-model="form['ele_'+ele.ELEID]">
+											    <el-radio v-for="radio in ele.DATASOURCEVAL" :keys="radio.VALUE" :label="radio.VALUE.toString()">{{radio.DISPLAY}}</el-radio>
+											</el-radio-group>
+											<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
+											    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
+											</el-checkbox-group>
+											<el-upload v-if="ele.ELETYPE==12" class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" multiple>
+											  <el-button size="mini" type="primary">选择文件</el-button>
+											</el-upload>
+											<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
+										</td>
+										<td style="width: 400px;color: #5EBAE7;font-size: 12px;padding-left: 5px;"><span v-if="ele.ISREQUIRED==1" class="required">*</span></td>
+									</tr>
+								</table>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="btn-box">
 					<el-button id="temporary-btn" type="primary" @click="save" size="mini">暂存</el-button>
@@ -269,27 +302,30 @@
 		list-style: none;
 		position: fixed;
 		top: 100px;
+		border: 1px solid #B6B6B6;
+    	border-radius: 5px;
 	}
-	#ancho-box li{
-		margin-bottom: 10px;
-		background-color: rgb(238, 246, 246);
+	#ancho-box li+li{
+		border-top:1px solid #E7E7E7;
 	}
-	#ancho-box li:hover{
-		background-color: #00d1b2;
+	#ancho-box li a:hover{
+		background-color: #839965;
+		color: #fff!important;
 	}
 	.isactive{
-		background-color: #00d1b2;
-		color: #fff;
+		background-color: #839965;
+		color: #fff!important;
 	}
 	#ancho-box a{
 		font-size: 14px;
-		padding: 10px 5px;
+		padding:10px;
 		display: block;
+		color: #839965;
 	}
 	#form-box{
 		margin-left: 200px;
 		margin-top: 20px;
-		width: 300px;
+		/*width: 300px;*/
 	}
 	#eventFill-page .eventFill-body .btn-box{
 		position: absolute;
@@ -297,9 +333,42 @@
 		top: 15px;
 	}
 	.el-input{
-		width: 200px;
+		display: block;
+		width: 100%;
 	}
 	.el-collapse-item__header{
 		font-size: 16px;
+	}
+	table{
+		width: auto;
+	}
+	.plan{
+		margin-bottom: 20px;
+	}
+	.plan table{
+		margin-top: 10px;
+	}
+	.type-title{
+	    font-size: 18px;
+	    color: #839965;
+	    font-weight: bold;
+	}
+	.remakes{
+		color: #5EBAE7;
+		display: inline-block;margin-left: 30px;
+	}
+	.required{
+		color: red;
+		margin-right: 5px;
+	}
+	.el-select{
+		display: block;
+	}
+	.el-radio+.el-radio,.el-checkbox+.el-checkbox{
+		margin-left: 0;
+	}
+	.el-radio,.el-checkbox{
+		margin-right: 20px;
+		margin-bottom: 10px;
 	}
 </style>

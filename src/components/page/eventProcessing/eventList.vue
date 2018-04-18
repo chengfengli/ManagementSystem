@@ -5,15 +5,17 @@
       <div class="current">
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>事件详情</el-breadcrumb-item>
+          <el-breadcrumb-item>事件处理</el-breadcrumb-item>
+         <!-- <el-breadcrumb-item :to="{ path: 'eventProcessing' }">事件处理</el-breadcrumb-item>
+          <el-breadcrumb-item>事件详情</el-breadcrumb-item>-->
         </el-breadcrumb>
       </div>
       <eventHeader @monitorActivePage="monitorActivePage" :dataId="dataId"></eventHeader>
     </section>
     <section class="eventList-m">
       <basicInfo v-if="monitorBtn.showBasicInfo" :dataId="dataId"></basicInfo>
-      <eventAbstract v-if="monitorBtn.showAbstract"></eventAbstract>
-      <eventReport v-if="monitorBtn.showReport"></eventReport>
+      <eventAbstract v-if="monitorBtn.showAbstract" :dataId="dataId"></eventAbstract>
+      <eventReport v-if="monitorBtn.showReport" :dataId="dataId"></eventReport>
       <msaReport v-if="monitorBtn.showMsaReport" ></msaReport>
       <trackReport v-if="monitorBtn.showTrackReport" ></trackReport>
       <fishboneMsa v-if="monitorBtn.showFishboneMsa" ></fishboneMsa>
@@ -52,6 +54,9 @@
       }
     },
     methods: {
+      returnOn: function(){
+        this.history.go(-1);
+      },
       monitorActivePage: function (activePageName) {
         for(let i in this.monitorBtn){
           if(i == activePageName){

@@ -97,9 +97,6 @@
       }
     },
     methods: {
-      aaaa: function () {
-
-      },
       //基本信息初始数据
       initBasicInfoData: function (eventId) {
         this.$http.post('/event/basicInfo/'+ eventId).then(res => {

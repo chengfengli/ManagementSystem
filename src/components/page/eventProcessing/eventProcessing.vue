@@ -104,7 +104,7 @@
       </article>
     </header>
     <main class="table-data">
-      <el-table @row-dblclick="skipDetails" :data="initTableData.TABLEDATA.rows" style="width: 100%; text-align: center;" :stripe="true"><!--item.DISPLAY--><!--v-for="item in initHeaderData"-->
+      <el-table @row-click="skipDetails" :data="initTableData.TABLEDATA.rows" style="width: 100%; text-align: center;" :stripe="true"><!--item.DISPLAY--><!--v-for="item in initHeaderData"-->
         <el-table-column  :prop="item.KEY" :label="item.DISPLAY" width="auto" v-for="item in initTableData.HEADER"></el-table-column>
         <el-table-column
           fixed="right"
@@ -199,7 +199,7 @@
       skipDetails: function (row) {
         if(row.STATUS == "暂存"){
           this.$router.push({
-            path: "/eventFillIndex",
+            path: "/eventFill",
             query: {eventID: row.ID}
           })
           console.log("事件填报！")

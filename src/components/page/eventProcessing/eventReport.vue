@@ -9,7 +9,7 @@
          <section :class="{active:reportMenu.others}" @click="activeStyle('others')">其他情况</section>-->
       </aside>
       <aside class="report-table set-right">
-        <div v-for="data in reportTableData"></div>
+        <div v-for="data in reportTableData.ELENAME">{{ data.ELENAME }}</div>
         <!--<el-table
           :show-header="false"
           :data="reportTableData"

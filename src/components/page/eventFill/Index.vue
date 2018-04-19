@@ -68,12 +68,19 @@
 		text-decoration: underline;
 	}
 	#eventFillIndex-page td{
-		padding: 5px;
+		padding: 7px 10px;
+	}
+	#eventFillIndex-page td a{
+		font-size: 14px;
+		color: #000000;
+	}
+	#eventFillIndex-page td a:hover{
+		color: #839965;
 	}
 	#eventFillIndex-page td:nth-child(1){
 		width: 200px;
 	}
 	#eventFillIndex-page tr:nth-child(odd){
-		background-color: #ccc;
+		background-color: #E3E3E3;
 	}
 </style>

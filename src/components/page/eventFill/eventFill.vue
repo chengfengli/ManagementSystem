@@ -13,12 +13,12 @@
 			</div>
 			<div class="body">
 				<ul id="ancho-box">
-					<li v-for="item in dataList" :keys="item.MODID"><a @click="select(item.MODID)" :class="isactive==item.MODID?isactiveClass:noactiveClass" href="javascript:void(0)">{{item.MODNAME}}</a></li>
+					<li v-for="item in dataList" :keys="item.MODID"><a @click="select(item.MODID)" class="menu-left" :class="isactive==item.MODID?isactiveClass:noactiveClass" href="javascript:void(0)">{{item.MODNAME}}</a></li>
 				</ul>
 				
 				<div id="form-box">
-					<div class="plan" v-for="item in dataList" :keys="item.MODID" :id="item.MODID">
-						<div class="type">
+					<div class="plan" v-for="item in dataList" :keys="item.MODID">
+						<div class="type" :id="item.MODID">
 							<span class="type-title">{{item.MODNAME}}</span>
 							<span class="remakes">{{item.MODMARK}}</span>
 						</div>
@@ -53,7 +53,7 @@
 											</el-upload>
 											<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
 										</td>
-										<td style="width: 400px;color: #5EBAE7;font-size: 12px;padding-left: 5px;"><span v-if="ele.ISREQUIRED==0" class="required">*</span></td>
+										<td style="width: 400px;color: #5EBAE7;font-size: 12px;padding-left: 5px;"><span v-if="ele.ISREQUIRED==1" class="required">*</span></td>
 									</tr>
 								</table>
 								<table v-else>
@@ -137,7 +137,7 @@
             	checks:[],
             	activeNames: [],
             	dataList:[],
-            	isactive:0,
+            	isactive:5,
             	isactiveClass:'isactive',
             	noactiveClass:null,
             	form:{},
@@ -251,7 +251,38 @@
 		        		}
 		        	});
         		}
-        	}
+        	},
+        	getScrollTop(){
+			　　var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
+			　　if(document.body){
+			　　　　bodyScrollTop = document.body.scrollTop;
+			　　}
+			　　if(document.documentElement){
+			　　　　documentScrollTop = document.documentElement.scrollTop;
+			　　}
+			　　scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
+			　　return scrollTop;
+			},
+			getScrollHeight(){
+			　　var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
+			　　if(document.body){
+			　　　　bodyScrollHeight = document.body.scrollHeight;
+			　　}
+			　　if(document.documentElement){
+			　　　　documentScrollHeight = document.documentElement.scrollHeight;
+			　　}
+			　　scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
+			　　return scrollHeight;
+			},
+			getWindowHeight(){
+			　　var windowHeight = 0;
+			　　if(document.compatMode == "CSS1Compat"){
+			　　　　windowHeight = document.documentElement.clientHeight;
+			　　}else{
+			　　　　windowHeight = document.body.clientHeight;
+			　　}
+			　　return windowHeight;
+			}
         },
 		mounted() {
 			var obj = this.$route.query;
@@ -290,6 +321,27 @@
         			this.$message.error(res.msg);
         		}
         	})
+			var app = document.getElementById('app')
+			app.onscroll=()=>{
+				var top = app.scrollTop;
+				var types_ele = document.getElementsByClassName('type');
+				var menus = document.getElementsByClassName('menu-left');
+				if(top!=0){
+					for(var i=menus.length-1;i>=0;i--){
+						menus[i].classList.remove('isactive');
+					}
+					for(var i=types_ele.length-1;i>=0;i--){
+						if(app.scrollHeight-app.scrollTop==app.clientHeight){
+					　　　　menus[menus.length-1].classList.add('isactive')
+					　　}else{
+							if(top>types_ele[i].offsetTop){
+								menus[i].classList.add('isactive')
+								break;
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 </script>
@@ -325,7 +377,6 @@
 	#form-box{
 		margin-left: 200px;
 		margin-top: 20px;
-		/*width: 300px;*/
 	}
 	#eventFill-page .eventFill-body .btn-box{
 		position: absolute;

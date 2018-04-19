@@ -16,10 +16,10 @@
       <basicInfo v-if="monitorBtn.showBasicInfo" :dataId="dataId"></basicInfo>
       <eventAbstract v-if="monitorBtn.showAbstract" :dataId="dataId"></eventAbstract>
       <eventReport v-if="monitorBtn.showReport" :dataId="dataId"></eventReport>
-      <msaReport v-if="monitorBtn.showMsaReport" ></msaReport>
-      <trackReport v-if="monitorBtn.showTrackReport" ></trackReport>
-      <fishboneMsa v-if="monitorBtn.showFishboneMsa" ></fishboneMsa>
-      <personAdvice v-if="monitorBtn.showPersonAdvice"></personAdvice>
+      <msaReport v-if="monitorBtn.showMsaReport" :dataId="dataId"></msaReport>
+      <trackReport v-if="monitorBtn.showTrackReport" :dataId="dataId"></trackReport>
+      <fishboneMsa v-if="monitorBtn.showFishboneMsa" :dataId="dataId"></fishboneMsa>
+      <personAdvice v-if="monitorBtn.showPersonAdvice" :dataId="dataId"></personAdvice>
     </section>
   </div>
 </template>

@@ -342,7 +342,8 @@
   }
   .eventReport .frame-title{
     font-size: 18px;
-    background: #F5F7FA;
+    background: #829965;
+    color: white;
     display: inline-block;
     width: 100%;
     padding: 10px 0;

@@ -201,10 +201,14 @@
     },
     methods: {
       skipDetails: function (row) {
+        console.log(row)
         if(row.STATUS == "暂存"){
           this.$router.push({
             path: "/eventFill",
-            query: {id: row.ID}
+            query: {
+              id: row.ID,
+              eventDeal: "entrance"
+            }
           })
           console.log("事件填报！")
         }else {

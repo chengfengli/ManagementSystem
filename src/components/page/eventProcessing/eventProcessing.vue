@@ -4,7 +4,7 @@
     <div class="current">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>事件处理</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ pageTitle }}</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <header class="eventProcessing-search">
@@ -142,6 +142,7 @@
     },
     data(){
       return{
+        pageTitle: "事件处理",
         initHeaderData: [],
         initTableData: {
           HEADER: [
@@ -184,12 +185,15 @@
     mounted: function() {
       if(this.$route.query.txt == "我的事件"){
         this.eventSearch.entrance = "myEvent";
+        this.pageTitle = "我的事件"
       }
       if(this.$route.query.txt == "事件处理"){
         this.eventSearch.entrance = "eventDeal";
+        this.pageTitle = "事件处理"
       }
       if(this.$route.query.txt == "事件管理"){
         this.eventSearch.entrance = "eventManage";
+        this.pageTitle = "事件管理"
       }
       this.getEventQuery();
       //this.initTableHeaderData();
@@ -200,7 +204,7 @@
         if(row.STATUS == "暂存"){
           this.$router.push({
             path: "/eventFill",
-            query: {eventID: row.ID}
+            query: {id: row.ID}
           })
           console.log("事件填报！")
         }else {

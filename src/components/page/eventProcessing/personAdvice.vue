@@ -10,7 +10,7 @@
       <main class="personAdvice-m">
         <div style=" border-bottom: 1px solid #797979;">
           <section class="personAdvice-content">
-            <span class="content-title">发布人</span>
+            <span class="content-title">发布人:</span>
             <div class="content-data">
               <span>存在问题</span>
               <div>内容</div>
@@ -31,7 +31,10 @@
 
 <script>
   export default {
-    name: "personAdvice"
+    name: "personAdvice",
+    data: function(){
+
+    },
   }
 </script>
 
@@ -57,6 +60,7 @@
   .personAdvice-m{
     padding: 9px 20px;
     box-sizing: border-box;
+    border: 1px solid red;
   }
   .personAdvice-m .personAdvice-content{
     width: 90%;

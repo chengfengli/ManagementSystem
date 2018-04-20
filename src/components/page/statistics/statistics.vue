@@ -11,7 +11,7 @@
 				  	<el-breadcrumb-item>事件总览</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class="container">
+			<div class="container" >
 				<div>
 					<table>
 						<tr>
@@ -463,9 +463,6 @@
 </script>
 
 <style scoped>
-	#statistics-page .container{
-		margin: 0 15px;
-	}
 	#statistics-page .container table{
 		width: 100%;
 	}

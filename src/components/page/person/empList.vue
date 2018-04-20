@@ -128,7 +128,7 @@
 				}
 				this.$http({
 				    method: 'post',
-				    url: '/user/export',
+				    url: '/export/user',
 				    data: params,
 				}).then(res=>{
 					if(res.code==10000){

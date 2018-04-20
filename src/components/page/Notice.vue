@@ -14,7 +14,7 @@
 			</div>
 			<div class="data-box">
 				<table cellspacing="0" @mouseleave="show=-1">
-					<tr v-for="item in list" :keys="item.ID" @mouseover="showDel(item.ID)" @click="details(item.ID,item.TYPE)">
+					<tr v-for="item in list" :keys="item.ID" @mouseover="showDel(item.ID)" @click="details(item.EVENTID,item.TYPE)">
 						<td class="user-name">
 							{{item.SENDER}}
 							<div class="send-time">2018-09-15 15:23</div>
@@ -97,10 +97,10 @@
 				}).catch(function(error) {
 					this.$message.error(error);
 				})
-        		if(id==1){
+        		if(type==1){
         			this.$router.push({
 		                path: 'eventProcessing',
-		                query: {id: id}
+		                query: {id: id,txt:'我的事件'}
 		           })
         		}
         	},

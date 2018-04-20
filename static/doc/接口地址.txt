@@ -1,3 +1,4 @@
 服务器：http://118.24.47.62:10086/aers/api
 文档地址：http://118.24.47.62:10086/aers/apidoc/index.html
 http://118.24.47.62:10010
+上传：fileUpload

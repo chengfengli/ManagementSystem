@@ -19,8 +19,7 @@
 				<div id="form-box">
 					<div class="plan" v-for="item in dataList" :keys="item.MODID">
 						<div class="type" :id="item.MODID">
-							<span class="type-title">{{item.MODNAME}}</span>
-							<span class="remakes">{{item.MODMARK}}</span>
+							<span class="type-title">{{item.MODNAME}}</span><span class="remakes">{{item.MODMARK}}</span>
 						</div>
 						<div v-for="ele in item.ELES" :keys="ele.ELEID">
 							<hr v-if="ele.ELETYPE==2">

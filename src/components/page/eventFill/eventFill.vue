@@ -15,6 +15,13 @@
 				<ul id="ancho-box">
 					<li v-for="item in dataList" :keys="item.MODID"><a @click="select(item.MODID)" class="menu-left" :class="isactive==item.MODID?isactiveClass:noactiveClass" href="javascript:void(0)">{{item.MODNAME}}</a></li>
 				</ul>
+				<uploader :options="options" class="uploader-example">
+				    <uploader-unsupport></uploader-unsupport>
+				    <uploader-drop>
+				      <uploader-btn>select files</uploader-btn>
+				    </uploader-drop>
+				    <uploader-list></uploader-list>
+				  </uploader>
 				
 				<div id="form-box">
 					<div class="plan" v-for="item in dataList" :keys="item.MODID">
@@ -47,7 +54,7 @@
 											<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
 											    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
 											</el-checkbox-group>
-											<el-upload v-if="ele.ELETYPE==12" class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" multiple>
+											<el-upload v-if="ele.ELETYPE==12" class="upload-demo" :action="uploadUrl" :onError="uploadError" :onSuccess="uploadSuccess" :file-list="form['ele_'+ele.ELEID]" multiple>
 											  <el-button size="mini" type="primary">选择文件</el-button>
 											</el-upload>
 											<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
@@ -80,7 +87,7 @@
 											<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
 											    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
 											</el-checkbox-group>
-											<el-upload v-if="ele.ELETYPE==12" class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" multiple>
+											<el-upload v-if="ele.ELETYPE==12" class="upload-demo" name="files" :action="uploadUrl" :file-list="form['ele_'+ele.ELEID]" multiple @on-error="uploadSuccess">
 											  <el-button size="mini" type="primary">选择文件</el-button>
 											</el-upload>
 											<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
@@ -149,7 +156,12 @@
             	deptList:[],
             	type:'',
             	detailDialog:false,
-            	reportmode:null 
+            	reportmode:null,
+            	uploadUrl:'',
+            	options:{
+            		target:this.$hostUrl+'/fileUploadsf',
+          			testChunks: false
+            	}
             }
         },
         methods: {
@@ -251,37 +263,12 @@
 		        	});
         		}
         	},
-        	getScrollTop(){
-			　　var scrollTop = 0, bodyScrollTop = 0, documentScrollTop = 0;
-			　　if(document.body){
-			　　　　bodyScrollTop = document.body.scrollTop;
-			　　}
-			　　if(document.documentElement){
-			　　　　documentScrollTop = document.documentElement.scrollTop;
-			　　}
-			　　scrollTop = (bodyScrollTop - documentScrollTop > 0) ? bodyScrollTop : documentScrollTop;
-			　　return scrollTop;
+        	uploadSuccess(response, file, fileList){
+			　　debugger
 			},
-			getScrollHeight(){
-			　　var scrollHeight = 0, bodyScrollHeight = 0, documentScrollHeight = 0;
-			　　if(document.body){
-			　　　　bodyScrollHeight = document.body.scrollHeight;
-			　　}
-			　　if(document.documentElement){
-			　　　　documentScrollHeight = document.documentElement.scrollHeight;
-			　　}
-			　　scrollHeight = (bodyScrollHeight - documentScrollHeight > 0) ? bodyScrollHeight : documentScrollHeight;
-			　　return scrollHeight;
+			uploadError(response, file, fileList){
+			　　debugger
 			},
-			getWindowHeight(){
-			　　var windowHeight = 0;
-			　　if(document.compatMode == "CSS1Compat"){
-			　　　　windowHeight = document.documentElement.clientHeight;
-			　　}else{
-			　　　　windowHeight = document.body.clientHeight;
-			　　}
-			　　return windowHeight;
-			}
         },
 		mounted() {
 			var obj = this.$route.query;
@@ -298,11 +285,12 @@
         			for(var i in list){
         				this.activeNames.push(list[i].MODID);
         				for(var j in list[i].ELES){
+        					var key = 'ele_'+list[i].ELES[j].ELEID;
         					if(list[i].ELES[j].ELETYPE==11){
-        						var key = 'ele_'+list[i].ELES[j].ELEID;
         						temp_form[key]=list[i].ELES[j].DEFAULTVALUE.split('_');
-        					}else{
-        						var key = 'ele_'+list[i].ELES[j].ELEID;
+        					}else if(list[i].ELES[j].ELETYPE==12){
+        						temp_form[key]=[];
+    						}else{
         						temp_form[key]=list[i].ELES[j].DEFAULTVALUE;
         					}
         				}

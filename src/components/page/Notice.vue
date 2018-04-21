@@ -124,9 +124,6 @@
 </script>
 
 <style scoped>
-	#notice .data-box{
-		padding: 0 30px;
-	}
 	#notice .nav-box{
 		display: inline-block;
 	}

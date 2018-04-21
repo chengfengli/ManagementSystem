@@ -5,9 +5,11 @@ import axios from 'axios'
 import echarts from 'echarts'
 import ElementUI from 'element-ui'
 import { Loading,Message } from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css'
-import '../static/css/public.css'
-Vue.use(ElementUI)
+import 'element-ui/lib/theme-chalk/index.css';
+import '../static/css/public.css';
+import uploader from 'vue-simple-uploader';
+Vue.use(uploader);
+Vue.use(ElementUI);
 let loadingInstance;
 Vue.config.productionTip = false
 window.Promise = Promise

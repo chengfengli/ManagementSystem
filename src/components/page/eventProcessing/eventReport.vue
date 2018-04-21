@@ -131,7 +131,6 @@
       },
       //添加、编辑批注信息
       addModify: function () {
-        console.log(this.addModifyId)
         /*if(this.addModifyId == null){
           return this.$message.error("请选择要修改的数据！");
         }*/

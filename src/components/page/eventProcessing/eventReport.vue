@@ -25,7 +25,10 @@
             <section style="position: relative;cursor: pointer;" @click="monitorTable(title, index)">
               <i class="proFont" style="color: red;margin-right: 30px;font-size: 25px" v-if="title.ISANAYLIS == 0">&#xe628;</i>
               <span style="margin-right: 30px;width: 200px;display: inline-block;">{{ title.ELENAME }}</span>
-              <span v-show="title.ELETYPE != 12">{{ title.VAL }}</span>
+              <span v-show="title.ELETYPE != 12">{{ title.VAL }}</span><!--@click="downloadType(title.VAL)"-->
+              <span v-show="title.ELETYPE == 12">
+                <a :href="title.VAL.url" :download="title.VAL.url" target="_blank">{{ title.VAL.name }}</a>
+              </span>
               <i class="proFont rightCick1"  @click="viewModify">&#xe60b;</i>
               <i class="proFont rightCick2"  @click="addModify">&#xe624;</i>
             </section>
@@ -108,12 +111,16 @@
       }
     },
     methods: {
+      //下载文件
+      downloadType: function (data) {
+        console.log(data)
+        window.open(data.url);
+      },
       monitorTable: function (title, index) {
         this.addModifyId = null;
         this.viewModifyId = null;
         this.addModifyId = title.ELEVALID;
         this.viewModifyId = title.ELEVALID;
-        //console.log(this.viewModifyId)
       },
       //添加、编辑批注信息提交
       addModifySubmit: function () {
@@ -182,20 +189,26 @@
         this.$http.post('/event/report/'+ this.dataId, data).then( res => {
           if(res.code == 10000){
             this.reportData = res.data;
-            //console.log(this.reportData)
             for(let item of this.reportData){
               item.isActive = false;
               for(let itemSon of item.ELES){
                 itemSon.activeTable = false;
                 if(itemSon.ELETYPE == 12){
-                  itemSon.VAL = itemSon.VAL.split(',');
-                  for(let val of itemSon.VAL){
-                    val = val.split('|')
+                  let aaaa = itemSon.VAL.split(',');
+                  for(let val of aaaa){
+                    let typeData = val.split('|')
+                    let eventType = {
+                      name: typeData[0],
+                      url: typeData[1]
+                    }
+                    itemSon.VAL = eventType;
                   }
+                  console.log(itemSon)
                 }
               }
             }
             this.reportData[0].isActive = true;
+            //console.log(this.reportData)
           }
         }).catch(function (error) {//加上catch
           console.log(error);

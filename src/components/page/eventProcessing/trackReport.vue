@@ -25,7 +25,10 @@
             <section style="position: relative;cursor: pointer;" @click="monitorTable(title, index)">
               <i class="proFont" style="color: red;margin-right: 30px;font-size: 25px" v-if="title.ISANAYLIS == 0">&#xe628;</i>
               <span style="margin-right: 30px;width: 200px;display: inline-block;">{{ title.ELENAME }}</span>
-              <span>{{ title.VAL }}</span>
+              <span v-show="title.ELETYPE != 12">{{ title.VAL }}</span><!--@click="downloadType(title.VAL)"-->
+              <span v-show="title.ELETYPE == 12">
+                <a :href="title.VAL.url" :download="title.VAL.url" target="_blank">{{ title.VAL.name }}</a>
+              </span>
               <i class="proFont rightCick1"  @click="viewModify">&#xe60b;</i>
               <i class="proFont rightCick2"  @click="addModify">&#xe624;</i>
             </section>
@@ -172,6 +175,18 @@
             })
             for(let noActive of notNeedData){
               noActive.isActive = false;
+              if(itemSon.ELETYPE == 12){
+                let aaaa = itemSon.VAL.split(',');
+                for(let val of aaaa){
+                  let typeData = val.split('|')
+                  let eventType = {
+                    name: typeData[0],
+                    url: typeData[1]
+                  }
+                  itemSon.VAL = eventType;
+                }
+                console.log(itemSon)
+              }
             }
           }
         }

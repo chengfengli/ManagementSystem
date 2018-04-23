@@ -1,19 +1,39 @@
 <template>
     <div class="eventHeader">
       <aside class="h-left">
-        <div class="set-up" v-if="showSetUp">设置
-          <el-checkbox v-model="setUpData.LEVEL">事件等级</el-checkbox>
-          <el-checkbox v-model="setUpData.FLAG">事件标识</el-checkbox>
-          <el-checkbox v-model="setUpData.TOP">是否置顶</el-checkbox>
-          <el-checkbox v-model="setUpData.GRADE">事件打分</el-checkbox>
-          <el-checkbox v-model="setUpData.REPORTTOCOMMISSION">上报卫计委</el-checkbox>
-          <el-checkbox v-model="setUpData.ISOPEN">开放</el-checkbox>
+        <div class="set-up" v-if="showSetUp">
+          <div class="setup-type">
+            <label class="type-label">事件等级</label>
+            <el-radio v-model="setUpData.LEVEL" :label="item.VALUE" v-for="item in eventlevel">{{item.DISPLAY}}</el-radio>
+          </div>
+          <div class="setup-type">
+            <label class="type-label">事件标识</label>
+            <el-radio v-model="setUpData.FLAG" :label="flag.VALUE" v-for="flag in eventflag">{{flag.DISPLAY}}</el-radio>
+          </div>
+          <div class="setup-type">
+            <label class="type-label">是否置顶</label>
+            <el-checkbox v-model="setUpData.TOP"></el-checkbox>
+          </div>
+          <div class="setup-type">
+            <label class="type-label">事件打分</label>
+            <el-rate v-model="setUpData.GRADE" style="display: inline-block"></el-rate>
+          </div>
+          <div class="setup-type">
+            <label class="type-label">上报卫计委</label>
+            <el-checkbox v-model="setUpData.REPORTTOCOMMISSION"></el-checkbox>
+          </div>
+          <div class="setup-type">
+            <label class="type-label">开放</label>
+            <el-checkbox v-model="setUpData.ISOPEN"></el-checkbox>
+          </div>
           <div>
-            <el-button @click="showSetUp = false" type="info" plain style="padding: 8px 10px;box-sizing: border-box;margin-top: 25px;">取消</el-button>
-            <el-button @click="setUpSubmit" type="danger" plain style="padding: 8px 10px;box-sizing: border-box;margin-top: 25px;">提交</el-button>
+            <el-button @click="showSetUp = false, isActiveFont = false" type="info" plain style="padding: 8px 10px;box-sizing: border-box;margin-top: 15px;">取消</el-button>
+            <el-button @click="setUpSubmit" type="danger" plain style="padding: 8px 10px;box-sizing: border-box;margin-top: 15px;">提交</el-button>
           </div>
         </div>
-        <section><i class="proFont" style="font-size: 35px;" @click="showSetUpBtn">&#xe62b;</i></section>
+        <section @click="showSetUpBtn">
+          <i class="proFont" style="font-size: 35px;" :class="{activeFont: isActiveFont}">&#xe62b;</i>
+        </section>
         <section :class="{active:activeControl.basicInfo}" @click="monitorActiveBtn('basicInfo','showBasicInfo')">基本信息</section>
         <section :class="{active:activeControl.eventAbstract}" @click="monitorActiveBtn('eventAbstract','showAbstract')">事件摘要</section>
         <section :class="{active:activeControl.eventReport}" @click="monitorActiveBtn('eventReport','showReport')">事件报告</section>
@@ -34,10 +54,13 @@
       name: "eventHeader",
       props: ["dataId"],
       mounted: function(){
-        this.initSetUpData();
+
       },
       data() {
         return{
+          isActiveFont: false,
+          eventlevel: [],
+          eventflag: [],
           setUpData: {
             LEVEL: null,
             FLAG: null,
@@ -61,26 +84,45 @@
         }
       },
     methods: {
+      //获取事件等级
+      getEventLevel: function () {
+        this.$http.post('/dic/getDicByKey/eventlevel').then( res => {
+          if(res.code == 10000){
+            this.eventlevel = res.data;
+          /*  for(let item of this.eventlevel){
+              console.log(item)
+            }*/
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      //获取事件标识
+      getEventFlag: function () {
+        this.$http.post('/dic/getDicByKey/eventflag').then( res => {
+          if(res.code == 10000){
+            this.eventflag = res.data;
+         /*   for(let item of this.eventflag){
+              console.log(item)
+            }*/
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
       //显示设置窗口和初始数据
       showSetUpBtn: function(){
-        this.showSetUp = true;
+        this.isActiveFont = true;
+        this.getEventLevel();
+        this.getEventFlag();
         let data = {
           eventid: this.dataId,
         }
         this.$http.post('/event/getSetting/'+ data.eventid, data).then( res => {
           if(res.code == 10000){
-            if(res.data.FLAG == 1){
-              res.data.FLAG = true;
-            }else{res.data.FLAG = false;}
-            if(res.data.GRADE == 1){
-              res.data.GRADE = true;
-            }else{res.data.GRADE = false;}
             if(res.data.ISOPEN == 1){
               res.data.ISOPEN = true;
             }else{res.data.ISOPEN = false;}
-            if(res.data.LEVEL == 1){
-              res.data.LEVEL = true;
-            }else{res.data.LEVEL = false;}
             if(res.data.REPORTTOCOMMISSION == 1){
               res.data.REPORTTOCOMMISSION = true;
             }else{res.data.REPORTTOCOMMISSION = false;}
@@ -92,20 +134,13 @@
         }).catch(function (error) {//加上catch
           console.log(error);
         });
+        this.showSetUp = true;
+
       },
       setUpSubmit: function(){
-        if(this.setUpData.FLAG == true){
-          this.setUpData.FLAG = 1;
-        }else{this.setUpData.FLAG = 0;}
-        if(this.setUpData.GRADE == true){
-          this.setUpData.GRADE = 1;
-        }else{this.setUpData.GRADE = 0;}
         if(this.setUpData.ISOPEN == true){
           this.setUpData.ISOPEN = 1;
         }else{this.setUpData.ISOPEN = 0;}
-        if(this.setUpData.LEVEL == true){
-          this.setUpData.LEVEL = 1;
-        }else{this.setUpData.LEVEL = 0;}
         if(this.setUpData.REPORTTOCOMMISSION == true){
           this.setUpData.REPORTTOCOMMISSION = 1;
         }else{this.setUpData.REPORTTOCOMMISSION = 0;}
@@ -121,6 +156,8 @@
           REPORTTOCOMMISSION: this.setUpData.REPORTTOCOMMISSION,
           ISOPEN: this.setUpData.ISOPEN
         }
+        console.log(this.setUpData.GRADE)
+        console.log(data);
         this.$http.post('/event/setting/'+ data.eventid, data).then( res => {
           if(res.code == 10000){
             this.showSetUpBtn();
@@ -166,7 +203,7 @@
     position: absolute;
     top: 45px;
     left: 30px;
-    padding: 30px 15px;
+    padding: 30px 20px;
     box-sizing: border-box;
     width: auto;
     background: white;
@@ -184,4 +221,15 @@
     cursor: pointer;
   }
   .active{background-color: #666;}
+  .eventHeader .setup-type{margin-bottom: 10px}
+  .eventHeader .setup-type:last-child{margin-bottom: none;}
+  .eventHeader .type-label{
+    margin-right: 10px;
+    color: #839965;
+    width: 75px;
+    display: inline-block;
+  }
+  .activeFont{
+    color: #0099C3;
+  }
 </style>

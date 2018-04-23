@@ -54,7 +54,7 @@
 											<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
 											    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
 											</el-checkbox-group>
-											<el-upload v-if="ele.ELETYPE==12" class="upload-demo" :action="uploadUrl" :onError="uploadError" :onSuccess="uploadSuccess" :file-list="form['ele_'+ele.ELEID]" multiple>
+											<el-upload v-if="ele.ELETYPE==12" :on-change="onChange('ele_'+ele.ELEID)" :http-request='submitUpload' class="upload-demo" :action="uploadUrl" :onError="uploadError" :onSuccess="uploadSuccess" :file-list="form['ele_'+ele.ELEID]" multiple>
 											  <el-button size="mini" type="primary">选择文件</el-button>
 											</el-upload>
 											<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
@@ -146,6 +146,7 @@
             	isactive:5,
             	isactiveClass:'isactive',
             	noactiveClass:null,
+            	eleId:null,
             	form:{},
             	form2:{
             		HAPPENDEPT:'',
@@ -157,10 +158,13 @@
             	type:'',
             	detailDialog:false,
             	reportmode:null,
-            	uploadUrl:'',
+            	uploadUrl:this.$hostUrl+'/fileUpload',
             	options:{
-            		target:this.$hostUrl+'/fileUploadsf',
+            		target:this.$uploadUrl+'/fileUpload',
           			testChunks: false
+            	},
+            	headers:{
+            		sessionId:localStorage.getItem('sessionId')
             	}
             }
         },
@@ -269,6 +273,23 @@
 			uploadError(response, file, fileList){
 			　　debugger
 			},
+			submitUpload(content){
+				let formData = new FormData;  
+                formData.append('files', content.file);
+                this.$http.post('/fileUpLoad',formData).then(res=>{
+	        		if(res.code == 10000){
+	        			for(var i in res.data){
+		        			this.form[this.eleId].push(res.data[i]);
+		        			console.log(this.form[this.eleId]);
+	        			}
+	        		}else{
+	        			this.$message.error(res.msg);
+	        		}
+	        	});
+			},
+			onChange(id){
+				this.eleId=id;
+			}
         },
 		mounted() {
 			var obj = this.$route.query;

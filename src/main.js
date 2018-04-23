@@ -49,6 +49,7 @@ axios.interceptors.response.use(res => {
 	return Promise.reject(err);
 })
 Vue.prototype.$hostUrl = httpConfig.hostURL;
+Vue.prototype.$uploadUrl = httpConfig.uploadURL;
 Vue.prototype.$http = axios;
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$httpHeader = axios.defaults.headers;

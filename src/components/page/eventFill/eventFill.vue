@@ -15,13 +15,6 @@
 				<ul id="ancho-box">
 					<li v-for="item in dataList" :keys="item.MODID"><a @click="select(item.MODID)" class="menu-left" :class="isactive==item.MODID?isactiveClass:noactiveClass" href="javascript:void(0)">{{item.MODNAME}}</a></li>
 				</ul>
-				<uploader :options="options" class="uploader-example">
-				    <uploader-unsupport></uploader-unsupport>
-				    <uploader-drop>
-				      <uploader-btn>select files</uploader-btn>
-				    </uploader-drop>
-				    <uploader-list></uploader-list>
-				  </uploader>
 				
 				<div id="form-box">
 					<div class="plan" v-for="item in dataList" :keys="item.MODID">
@@ -54,8 +47,8 @@
 											<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
 											    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
 											</el-checkbox-group>
-											<el-upload v-if="ele.ELETYPE==12" :on-change="onChange('ele_'+ele.ELEID)" :http-request='submitUpload' class="upload-demo" :action="uploadUrl" :onError="uploadError" :onSuccess="uploadSuccess" :file-list="form['ele_'+ele.ELEID]" multiple>
-											  <el-button size="mini" type="primary">选择文件</el-button>
+											<el-upload v-if="ele.ELETYPE==12" :http-request='submitUpload' class="upload-demo" :action="uploadUrl" :file-list="form['ele_'+ele.ELEID]" multiple>
+											  <el-button size="mini" type="primary" @click="onChange('ele_'+ele.ELEID)">选择文件</el-button>
 											</el-upload>
 											<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
 										</td>
@@ -87,8 +80,8 @@
 											<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
 											    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
 											</el-checkbox-group>
-											<el-upload v-if="ele.ELETYPE==12" class="upload-demo" name="files" :action="uploadUrl" :file-list="form['ele_'+ele.ELEID]" multiple @on-error="uploadSuccess">
-											  <el-button size="mini" type="primary">选择文件</el-button>
+											<el-upload v-if="ele.ELETYPE==12" :http-request='submitUpload' class="upload-demo" :action="uploadUrl" :file-list="form['ele_'+ele.ELEID]" multiple>
+											  <el-button size="mini" type="primary" @click="onChange('ele_'+ele.ELEID)">选择文件</el-button>
 											</el-upload>
 											<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
 										</td>
@@ -222,11 +215,18 @@
 	        		var list = [];
 	        		for(var key in this.form){
 	        			var new_key = key.substring(key.lastIndexOf('_')+1);
-	        			if(new_key==11 || new_key==9){
-	        				var val = this.form[key];
-	        			}else{
-	        				list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
+	        			if(typeof(this.form[key])=='object'){
+	        				var arry = [];
+	        				for(var i in this.form[key]){
+	        					if(!this.$validation(this.form[key][i].url,'required')){
+	        						arry.push(this.form[key][i].url);
+	        					}
+	        				}
+	        				if(arry.length>0){
+	        					this.form[key]=arry;
+	        				}
 	        			}
+	        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
 	        		}
 	        		data.VALUES=list;
 	        		this.$http.post('/event/tempStorage/',data).then(res=>{
@@ -252,6 +252,17 @@
 	        		var list = [];
 	        		for(var key in this.form){
 	        			var new_key = key.substring(key.lastIndexOf('_')+1);
+	        			if(typeof(this.form[key])=='object'){
+	        				var arry = [];
+	        				for(var i in this.form[key]){
+	        					if(!this.$validation(this.form[key][i].url,'required')){
+	        						arry.push(this.form[key][i].url);
+	        					}
+	        				}
+	        				if(arry.length>0){
+	        					this.form[key]=arry;
+	        				}
+	        			}
 	        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
 	        		}
 	        		data.VALUES=list;
@@ -267,20 +278,14 @@
 		        	});
         		}
         	},
-        	uploadSuccess(response, file, fileList){
-			　　debugger
-			},
-			uploadError(response, file, fileList){
-			　　debugger
-			},
 			submitUpload(content){
 				let formData = new FormData;  
                 formData.append('files', content.file);
                 this.$http.post('/fileUpLoad',formData).then(res=>{
 	        		if(res.code == 10000){
 	        			for(var i in res.data){
-		        			this.form[this.eleId].push(res.data[i]);
-		        			console.log(this.form[this.eleId]);
+	        				var map = {name:res.data[i].ORGNAME,id:res.data[i].ID,url:res.data[i].FILENAME};
+		        			this.form[this.eleId].push(map);
 	        			}
 	        		}else{
 	        			this.$message.error(res.msg);

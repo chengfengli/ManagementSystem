@@ -102,8 +102,8 @@
 			<el-form label-width="120px">
 				<!--1:默认实名，2：默认实名，禁用匿名，3：默认匿名，禁用实名-->
 				<el-form-item label="实名填报：">
-					<el-radio v-model="form2.REALNAME" :disabled="reportmode==3" label="1">实名</el-radio>
-  					<el-radio v-model="form2.REALNAME" :disabled="reportmode==2" label="0">匿名</el-radio>
+					<el-radio v-model="form2.REALNAME" :disabled="reportmode==3" label='1'>实名</el-radio>
+  					<el-radio v-model="form2.REALNAME" :disabled="reportmode==2" label='0'>匿名</el-radio>
 				</el-form-item>
 				<el-form-item label="当事科室：">
 				    <el-select v-model="form2.HAPPENDEPT" placeholder="请选择" size="mini">
@@ -242,13 +242,24 @@
         		}
         	},
         	openDialog(){
-        		this.detailDialog = true;
-        	},
-        	submit() {// 提交
         		var bool = this.validation(this.form,this.dataList);
         		if(bool){
-        			this.form2.REALNAME = parseInt(this.form2.REALNAME);
-	        		var data = {TYPE:this.type,SET:this.form2,VALUES:''};
+        			this.detailDialog = true;
+        		}
+        	},
+        	submit() {// 提交
+        		var bool = true;
+        		if(this.$validation(this.form2.HAPPENDEPT,'required')){
+        			this.$message.error('请选择当事科室');
+        			bool = false;
+        		}else if(this.form2.NOTIFIYDIVISIORLEADER==1){
+        			if(this.$validation(this.form2.LW,'required')){
+	        			this.$message.error('请输入通知内容');
+	        			bool = false;
+	        		}
+        		}
+        		if(bool){
+        			var data = {TYPE:this.type,SET:this.form2,VALUES:''};
 	        		var list = [];
 	        		for(var key in this.form){
 	        			var new_key = key.substring(key.lastIndexOf('_')+1);
@@ -268,6 +279,7 @@
 	        		data.VALUES=list;
 	        		this.$http.post('/event/save/',data).then(res=>{
 		        		if(res.code == 10000){
+		        			this.detailDialog = false;
 		        			this.$message({
 					            type: 'success',
 					            message: res.msg

@@ -32,20 +32,21 @@
           </div>
         </div>
         <section @click="showSetUpBtn">
-          <i class="proFont" style="font-size: 35px;" :class="{activeFont: isActiveFont}">&#xe62b;</i>
+          <i class="proFont" style="font-size: 30px;color: #0094BD" :class="{activeFont: isActiveFont}">&#xe62b;</i>
         </section>
-        <section :class="{active:activeControl.basicInfo}" @click="monitorActiveBtn('basicInfo','showBasicInfo')">基本信息</section>
-        <section :class="{active:activeControl.eventAbstract}" @click="monitorActiveBtn('eventAbstract','showAbstract')">事件摘要</section>
-        <section :class="{active:activeControl.eventReport}" @click="monitorActiveBtn('eventReport','showReport')">事件报告</section>
-        <section :class="{active:activeControl.msaReport}" @click="monitorActiveBtn('msaReport','showMsaReport')">分析报告</section>
-        <section :class="{active:activeControl.trackReport}" @click="monitorActiveBtn('trackReport','showTrackReport')">追踪报告</section>
-        <section :class="{active:activeControl.fishboneMsa}" @click="monitorActiveBtn('fishboneMsa','showFishboneMsa')">鱼骨分析</section>
-        <section :class="{active:activeControl.personAdvice}" @click="monitorActiveBtn('personAdvice','showPersonAdvice')">个人建议</section>
+        <section :class="{activeSe:activeControl.basicInfo}" @click="monitorActiveBtn('basicInfo','showBasicInfo')">基本信息</section>
+        <section :class="{activeSe:activeControl.eventAbstract}" @click="monitorActiveBtn('eventAbstract','showAbstract')">事件摘要</section>
+        <section :class="{activeSe:activeControl.eventReport}" @click="monitorActiveBtn('eventReport','showReport')">事件报告</section>
+        <section :class="{activeSe:activeControl.msaReport}" @click="monitorActiveBtn('msaReport','showMsaReport')">分析报告</section>
+        <section :class="{activeSe:activeControl.trackReport}" @click="monitorActiveBtn('trackReport','showTrackReport')">追踪报告</section>
+        <section :class="{activeSe:activeControl.fishboneMsa}" @click="monitorActiveBtn('fishboneMsa','showFishboneMsa')">鱼骨分析</section>
+        <section :class="{activeSe:activeControl.personAdvice}" @click="monitorActiveBtn('personAdvice','showPersonAdvice')">个人建议</section>
       </aside>
-      <aside class="h-right">
-        <section></section>
-        <section><el-button type="danger" plain size="small" style="width: 120px;">导出word</el-button></section>
-        <section><el-button type="success" plain size="small" style="width: 120px;">提交</el-button></section>
+      <aside class="h-right clear-fix">
+        <div class="set-right" style="padding:5px 20px 0 0;box-sizing: border-box">
+          <section><el-button type="danger" plain size="small" >导出word</el-button></section>
+          <section><el-button type="success" plain size="small" style="width: 50px;margin-left: 10px">提交</el-button></section>
+        </div>
       </aside>
     </div>
 </template>
@@ -188,17 +189,31 @@
 <style>
   .eventHeader{
     width: 100%;
-    height: 40px;
+    height: 35px;
     display: flex;
-    border: 1px solid #797979;
-    background-color: #CCCCCC;
+    border: 1px solid #ccc;
+    background-color: white;
     z-index: 100;
     min-width: 1048px;
   }
   .eventHeader .h-left{
-    flex: 7;
+    display: flex;
+    width: 60%;
     position: relative;
   }
+  .eventHeader .h-left section{
+    flex: 1;
+    text-align: center;
+    line-height: 35px;
+    font-size: 14px;
+    border-right: 1px solid #ccc;
+    cursor: pointer;
+  }
+  .eventHeader .h-right{
+    width: 40%;
+  }
+  .eventHeader .h-right .el-button{padding: 6px 5px}
+  .eventHeader .h-right section{display: inline-block;}
   .eventHeader .set-up{
     position: absolute;
     top: 45px;
@@ -210,17 +225,7 @@
     z-index: 100;
     border: 1px solid #ccc;
   }
-  .eventHeader .h-left,.eventHeader .h-right{display: flex;}
-  .eventHeader .h-right{flex: 3;}
-  .eventHeader .h-left section{border-right: 1px solid #797979;}
-  .eventHeader .h-left section,.eventHeader .h-right section{
-    flex: 1;
-    text-align: center;
-    line-height: 40px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  .active{background-color: #666;}
+  .activeSe{color: red;border-top: 2px solid red;}
   .eventHeader .setup-type{margin-bottom: 10px}
   .eventHeader .setup-type:last-child{margin-bottom: none;}
   .eventHeader .type-label{
@@ -230,6 +235,6 @@
     display: inline-block;
   }
   .activeFont{
-    color: #0099C3;
+    color: #839965;
   }
 </style>

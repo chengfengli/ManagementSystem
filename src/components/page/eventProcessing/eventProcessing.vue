@@ -31,9 +31,9 @@
             </el-option>
           </el-select>
         </section>
-        <section class="flex1">
+        <section class="flex1" style="max-width: 165px">
           <label>事件等级</label>
-          <el-select v-model="eventSearch.QLEVEL" placeholder="请选择" size="mini"style="width: 120px;">
+          <el-select v-model="eventSearch.QLEVEL" placeholder="请选择" size="mini"style="width: 100px;">
             <el-option
               v-for="item in eventLevelData"
               :key="item.VALUE"
@@ -42,9 +42,9 @@
             </el-option>
           </el-select>
         </section>
-        <section class="flex1">
+        <section class="flex1" style="max-width: 165px">
           <label>事件标识</label>
-          <el-select v-model="eventSearch.QFLAG" placeholder="请选择" size="mini"style="width: 120px;">
+          <el-select v-model="eventSearch.QFLAG" placeholder="请选择" size="mini"style="width: 100px;">
             <el-option
               v-for="item in eventIdentificationData"
               :key="item.VALUE"
@@ -55,10 +55,11 @@
         </section>
         <section class="flex3">
           <label>上报日期（起止）</label>
-          <div style="display: inline-block;" >
+          <div style="display: inline-block;padding: 0" >
             <el-date-picker
               format="yyyy-MM-dd"
-              style="width: 135px"
+              style="width: 120px;"
+              :clearable="false"
               size="mini"
               v-model="eventSearch.QSDATE"
               type="date"
@@ -69,8 +70,9 @@
           <div style="display: inline-block;" >
             <el-date-picker
               format="yyyy-MM-dd"
-              style="width: 135px"
+              style="width: 120px"
               size="mini"
+              :clearable="false"
               v-model="eventSearch.QEDATE"
               type="date"
               @change="etimeChange"
@@ -78,22 +80,22 @@
             </el-date-picker>
           </div>
         </section>
-        <section class="flex1">
+        <section class="flex1" style="max-width: 165px">
           <label>标题/序号</label>
-          <el-input v-model="eventSearch.QTITLE" placeholder="请输入内容" size="mini" style="max-width: 110px"></el-input>
+          <el-input v-model="eventSearch.QTITLE" placeholder="请输入内容" size="mini" style="max-width: 90px"></el-input>
         </section>
-        <section class="flex1">
-          <el-button type="danger" size="small" @click="eventQuery">查询</el-button>
+        <section  style="max-width: 50px">
+          <el-button style="padding: 3px 10px" type="danger" size="small" @click="eventQuery">查询</el-button>
         </section>
       </article>
       <article class="fast-search" >
         <div style="flex: 6;display: flex;text-align: center;">
-          <section>
+         <!-- <section>
             <el-button type="danger"size="mini">删除</el-button>
           </section>
           <section>
             <el-button type="danger"size="mini">导出</el-button>
-          </section>
+          </section>-->
           <section>快速筛选</section>
           <section @click="allEventSearch" style="cursor: pointer;">全部事件</section>
           <section @click="holdSearch" style="cursor: pointer;">暂存事件</section>
@@ -372,6 +374,7 @@
 <style>
   .eventProcessing{
     width: 100%;
+    min-width: 1300px;
     height: 100%;
     overflow: auto;
   }
@@ -380,14 +383,25 @@
     display: flex;
     border-bottom: 1px solid #8F949A;
   }
-  .eventProcessing .select-search .flex1{flex: 1;text-align: center;}
-  .eventProcessing .select-search .flex3{flex: 2;text-align: center;}
+  .eventProcessing .select-search .flex1{
+    flex: 1;
+    text-align: center;
+    max-width: 185px;
+  }
+  .eventProcessing .select-search .flex3{
+    flex: 2;
+    text-align: center;
+    max-width: 385px;
+  }
   .eventProcessing .select-search .el-input--mini .el-input__icon{line-height: 0;}
   .eventProcessing .select-search .el-button--small{padding: 9px 30px; vertical-align: middle;}
   .eventProcessing .fast-search{
     display: flex;
     border-bottom: 1px solid #8F949A;
-    padding: 8px 0;
+    padding: 13px 20px;
+    box-sizing: border-box;
+    width: 700px;
+    cursor: pointer;
   }
   .eventProcessing .table-data{margin-bottom: 30px}
   .eventProcessing .fast-search section{flex: 1;}
@@ -401,4 +415,6 @@
   .el-table thead{background: #839964;}
   .el-table th{background: #839964;color: white;width: 100%}
   .eventProcessing .el-table td, .el-table th{text-align: center!important;}
+  .el-input--mini .el-input__inner{padding: 3px 0;text-align: center;z-index: 50}
+  .eventProcessing .el-icon-date:before{top: 0!important;}
 </style>

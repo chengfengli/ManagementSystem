@@ -140,7 +140,7 @@
     position: relative;
     min-width: 1300px;
     overflow: hidden;
-    border: 1px solid black;
+    border-bottom: 1px solid #ccc;
     color: #333;
   }
   .basicInfo .basicInfo4{

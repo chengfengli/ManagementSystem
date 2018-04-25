@@ -101,7 +101,7 @@
         			this.$router.push({
 		                path: 'eventProcessing',
 		                query: {id: id,txt:'我的事件'}
-		           })
+		           	})
         		}
         	},
         	dataInit() {

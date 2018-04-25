@@ -237,6 +237,12 @@
 					            type: 'success',
 					            message: res.msg
 					        });
+					        setTimeout(function(){
+					        	this.$router.push({
+					                path: 'eventProcessing',
+					                query: {txt:'我的事件'}
+					           	})
+					        },2000);
 		        		}else{
 		        			this.$message.error(res.msg);
 		        		}
@@ -286,6 +292,12 @@
 					            type: 'success',
 					            message: res.msg
 					        });
+					        setTimeout(function(){
+					        	this.$router.push({
+					                path: 'eventProcessing',
+					                query: {txt:'我的事件'}
+					           	})
+					        },2000);
 		        		}else{
 		        			this.$message.error(res.msg);
 		        		}

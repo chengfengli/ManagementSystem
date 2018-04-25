@@ -136,6 +136,9 @@ header,nav,main,footer,section,article,aside{display: block;}
 	margin: 5px 0 0px 6px;
 	height: 13px;
 }
+.el-tag--info, .el-tag--info .el-tag__close {
+    color: #000;
+}
 .el-tag--mini{
 	line-height: 10px;
 }

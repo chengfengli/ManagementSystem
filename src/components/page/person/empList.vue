@@ -47,7 +47,7 @@
 	                </template>
 	            </el-table-column>
 	        </el-table>
-	        <el-pagination @size-change="changeEmp" @current-change="currentChangeEmp" :current-page="emp.page"
+	        <el-pagination v-if="emp.total!=0" @size-change="changeEmp" @current-change="currentChangeEmp" :current-page="emp.page"
 	        	:page-sizes="[10,20,30,50]" :page-size="emp.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="emp.total"></el-pagination>
 		</div>
 		<!--员工编辑-->

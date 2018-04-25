@@ -31,7 +31,7 @@
     data: function () {
       return {
         ruleForm: {
-          ACCOUNT: 'pubing',
+          ACCOUNT: 'sysadmin',
           PASSWORD: '123456'
         }
       }

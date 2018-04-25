@@ -58,7 +58,7 @@
 							</td>
 							<td>
 								<el-button type="success" size="mini" @click="select()">查询</el-button>
-								<el-button size="mini">导出Excel报表</el-button>
+								<el-button size="mini">导出报表</el-button>
 							</td>
 						</tr>
 					</table>

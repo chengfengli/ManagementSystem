@@ -8,7 +8,6 @@
 				<el-breadcrumb class="nav-box" separator-class="el-icon-arrow-right">
 				  	<el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
 				  	<el-breadcrumb-item>个人通知</el-breadcrumb-item>
-				  	
 				</el-breadcrumb>
 				<span class="tips">点击消息标题，可直接跳转到事件。注：消息只是反映事件当事的状态，可能与当前事件状态不符!</span>
 			</div>
@@ -30,7 +29,8 @@
 						</td>
 					</tr>
 				</table>
-				<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page"
+				<div v-if="total==0" class="not-data">暂无数据</div>
+				<el-pagination v-if="total!=0" @size-change="changeSize" @current-change="changePage" :current-page="page"
 	        	:page-sizes="[10,20,30,50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 			</div>
 		</div>

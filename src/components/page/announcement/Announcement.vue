@@ -26,10 +26,8 @@
 								<td class="sender">{{item.PUSHER}}</td>
 								<td class="click-cunt">点击量({{item.CLICKS}})</td>
 							</tr>
-							<tr v-if="total==0">
-								<td style="text-align: center;color: #ccc;">暂无数据</td>
-							</tr>
 						</table>
+						<div v-if="total==0" class="not-data">暂无数据</div>
 						<el-pagination v-if="total!=0" @size-change="changeSize" @current-change="changePage" :current-page="page" :page-sizes="[10,20,30,50]" 
 							:page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 					</el-col>

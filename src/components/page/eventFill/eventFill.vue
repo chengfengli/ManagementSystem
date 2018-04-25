@@ -28,29 +28,29 @@
 									<tr>
 										<td valign="top" style="width: 112px;font-size: 14px;padding-right: 15px;text-align: right;">{{ele.LABEL}}</td>
 										<td style="width: 300px;">
-											<el-input v-if="ele.ELETYPE==3" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
-							                <el-input v-if="ele.ELETYPE==4" v-model="form['ele_'+ele.ELEID]" type="textarea"></el-input>
-							                <el-radio-group v-if="ele.ELETYPE==5" v-model="form['ele_'+ele.ELEID]">
+											<el-input v-if="ele.ELETYPE==3" :id="'ele_'+ele.ELEID" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
+							                <el-input v-if="ele.ELETYPE==4" :id="'ele_'+ele.ELEID" v-model="form['ele_'+ele.ELEID]" type="textarea"></el-input>
+							                <el-radio-group v-if="ele.ELETYPE==5" :id="'ele_'+ele.ELEID" v-model="form['ele_'+ele.ELEID]">
 											    <el-radio :label="1"></el-radio>
 											</el-radio-group>
-											<el-date-picker v-if="ele.ELETYPE==6" type="date" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
-											<el-date-picker v-if="ele.ELETYPE==7" type="datetime" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
-								            <el-select v-model="form['ele_'+ele.ELEID]" v-if="ele.ELETYPE==8" placeholder="请选择" size="mini">
+											<el-date-picker v-if="ele.ELETYPE==6" type="date" :id="'ele_'+ele.ELEID" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
+											<el-date-picker v-if="ele.ELETYPE==7" type="datetime" :id="'ele_'+ele.ELEID" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
+								            <el-select v-model="form['ele_'+ele.ELEID]" :id="'ele_'+ele.ELEID" v-if="ele.ELETYPE==8" placeholder="请选择" size="mini">
 								            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
 											</el-select>
-											<el-select v-model="form['ele_'+ele.ELEID]" v-if="ele.ELETYPE==9" multiple collapse-tags placeholder="请选择" size="mini">
+											<el-select v-model="form['ele_'+ele.ELEID]" :id="'ele_'+ele.ELEID" v-if="ele.ELETYPE==9" multiple collapse-tags placeholder="请选择" size="mini">
 								            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
 											</el-select>
-								            <el-radio-group v-if="ele.ELETYPE==10" v-model="form['ele_'+ele.ELEID]">
+								            <el-radio-group v-if="ele.ELETYPE==10" v-model="form['ele_'+ele.ELEID]"  :id="'ele_'+ele.ELEID">
 											    <el-radio v-for="radio in ele.DATASOURCEVAL" :keys="radio.VALUE" :label="radio.VALUE.toString()">{{radio.DISPLAY}}</el-radio>
 											</el-radio-group>
-											<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
+											<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]"  :id="'ele_'+ele.ELEID">
 											    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
 											</el-checkbox-group>
-											<el-upload v-if="ele.ELETYPE==12" :http-request='submitUpload' class="upload-demo" :action="uploadUrl" :file-list="form['ele_'+ele.ELEID]" multiple>
+											<el-upload v-if="ele.ELETYPE==12" :id="'ele_'+ele.ELEID" :http-request='submitUpload' class="upload-demo" :action="uploadUrl" :file-list="form['ele_'+ele.ELEID]" multiple>
 											  <el-button size="mini" type="primary" @click="onChange('ele_'+ele.ELEID)">选择文件</el-button>
 											</el-upload>
-											<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
+											<el-input v-if="ele.ELETYPE==13" :id="'ele_'+ele.ELEID" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
 										</td>
 										<td style="width: 400px;color: #5EBAE7;font-size: 12px;padding-left: 5px;"><span v-if="ele.ISREQUIRED==1" class="required">*</span></td>
 									</tr>
@@ -61,29 +61,29 @@
 									</tr>
 									<tr>
 										<td style="width: 412px;">
-											<el-input v-if="ele.ELETYPE==3" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
-							                <el-input v-if="ele.ELETYPE==4" v-model="form['ele_'+ele.ELEID]" type="textarea"></el-input>
-							                <el-radio-group v-if="ele.ELETYPE==5" v-model="form['ele_'+ele.ELEID]">
+											<el-input v-if="ele.ELETYPE==3" :id="'ele_'+ele.ELEID" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
+							                <el-input v-if="ele.ELETYPE==4" :id="'ele_'+ele.ELEID" v-model="form['ele_'+ele.ELEID]" type="textarea"></el-input>
+							                <el-radio-group v-if="ele.ELETYPE==5" :id="'ele_'+ele.ELEID" v-model="form['ele_'+ele.ELEID]">
 											    <el-radio :label="1"></el-radio>
 											</el-radio-group>
-											<el-date-picker v-if="ele.ELETYPE==6" type="date" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
-											<el-date-picker v-if="ele.ELETYPE==7" type="datetime" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
-								            <el-select v-model="form['ele_'+ele.ELEID]" v-if="ele.ELETYPE==8" placeholder="请选择" size="mini">
+											<el-date-picker v-if="ele.ELETYPE==6" :id="'ele_'+ele.ELEID" type="date" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
+											<el-date-picker v-if="ele.ELETYPE==7" :id="'ele_'+ele.ELEID" type="datetime" v-model="form['ele_'+ele.ELEID]" placeholder="选择日期" size="mini"></el-date-picker>
+								            <el-select v-model="form['ele_'+ele.ELEID]" :id="'ele_'+ele.ELEID" v-if="ele.ELETYPE==8" placeholder="请选择" size="mini">
 								            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
 											</el-select>
-											<el-select v-model="form['ele_'+ele.ELEID]" v-if="ele.ELETYPE==9" multiple collapse-tags placeholder="请选择" size="mini">
+											<el-select v-model="form['ele_'+ele.ELEID]" :id="'ele_'+ele.ELEID" v-if="ele.ELETYPE==9" multiple collapse-tags placeholder="请选择" size="mini">
 								            	<el-option v-for="option in ele.DATASOURCEVAL" :key="option.VALUE" :label="option.DISPLAY" :value="option.VALUE"></el-option>
 											</el-select>
-								            <el-radio-group v-if="ele.ELETYPE==10" v-model="form['ele_'+ele.ELEID]">
+								            <el-radio-group v-if="ele.ELETYPE==10" :id="'ele_'+ele.ELEID" v-model="form['ele_'+ele.ELEID]">
 											    <el-radio v-for="radio in ele.DATASOURCEVAL" :keys="radio.VALUE" :label="radio.VALUE.toString()">{{radio.DISPLAY}}</el-radio>
 											</el-radio-group>
-											<el-checkbox-group v-if="ele.ELETYPE==11" v-model="form['ele_'+ele.ELEID]">
+											<el-checkbox-group v-if="ele.ELETYPE==11" :id="'ele_'+ele.ELEID" v-model="form['ele_'+ele.ELEID]">
 											    <el-checkbox v-for="checkbox in ele.DATASOURCEVAL" :keys="checkbox.VALUE" :label="checkbox.VALUE.toString()">{{checkbox.DISPLAY}}</el-checkbox>
 											</el-checkbox-group>
-											<el-upload v-if="ele.ELETYPE==12" :http-request='submitUpload' class="upload-demo" :action="uploadUrl" :file-list="form['ele_'+ele.ELEID]" multiple>
+											<el-upload v-if="ele.ELETYPE==12" :id="'ele_'+ele.ELEID" :http-request='submitUpload' class="upload-demo" :action="uploadUrl" :file-list="form['ele_'+ele.ELEID]" multiple>
 											  <el-button size="mini" type="primary" @click="onChange('ele_'+ele.ELEID)">选择文件</el-button>
 											</el-upload>
-											<el-input v-if="ele.ELETYPE==13" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
+											<el-input v-if="ele.ELETYPE==13" :id="'ele_'+ele.ELEID" type="NUMBER" :min="ele.MINVAL" :max="ele.MAXVAL" v-model="form['ele_'+ele.ELEID]" size="mini"></el-input>
 										</td>
 										<td style="width: 400px;color: #5EBAE7;font-size: 12px;padding-left: 5px;"><span v-if="ele.ISREQUIRED==1" class="required">*</span></td>
 									</tr>
@@ -93,7 +93,7 @@
 					</div>
 				</div>
 				<div class="btn-box">
-					<el-button id="temporary-btn" type="primary" @click="save" size="mini">暂存</el-button>
+					<el-button v-if="eventDeal" id="temporary-btn" type="primary" @click="save" size="mini">暂存</el-button>
 					<el-button id="submit-btn" type="primary" @click="openDialog" size="mini">提交</el-button>
 				</div>
 			</div>
@@ -133,6 +133,7 @@
        	},
 		data: function(){
             return {
+            	eventDeal:true,
             	checks:[],
             	activeNames: [],
             	dataList:[],
@@ -190,6 +191,7 @@
            					if(list_temp[i].ISREQUIRED==1){// 必填
            						if(this.$validation(val,'required')){
            							this.$message.error(list_temp[i].LABEL+'不能为空');
+           							document.getElementById('ele_'+list_temp[i].ELEID).focus();
            							bool = false;
            							break outer;
            						}
@@ -310,6 +312,9 @@
         },
 		mounted() {
 			var obj = this.$route.query;
+			if(!this.$validation(obj.eventDeal,'required')){
+				this.eventDeal = false;
+			}
 			this.$http.post('/event/initFillPage',{TYPEID:obj.id,EVENTID:null}).then(res=>{
         		if(res.code == 10000){
         			var list = res.data.DATA;
@@ -404,9 +409,9 @@
 		margin-top: 20px;
 	}
 	#eventFill-page .eventFill-body .btn-box{
-		position: absolute;
-		right: 20px;
-		top: 15px;
+		position: fixed;
+	    right: 60px;
+	    bottom: 20px;
 	}
 	.el-input{
 		display: block;

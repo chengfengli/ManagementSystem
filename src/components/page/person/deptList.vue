@@ -41,7 +41,7 @@
 	                </template>
 	            </el-table-column>
 	        </el-table>
-	        <el-pagination @size-change="changeDept" @current-change="currentChangeDept" :current-page="dep.page"
+	        <el-pagination  v-if="dep.total!=0" @size-change="changeDept" @current-change="currentChangeDept" :current-page="dep.page"
 	        	:page-sizes="[10,20,30,50]" :page-size="dep.pageSize" layout="total, sizes, prev, pager, next, jumper" :total="dep.total"></el-pagination>
 		</div>
 		<!--部门编辑-->

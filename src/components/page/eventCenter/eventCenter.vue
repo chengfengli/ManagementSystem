@@ -99,8 +99,8 @@
                   class="count">({{item.THUMBS}})</span></td>
               </tr>
             </table>
-            <div v-if="dataList.length==0" style="color: #ccc;text-align: center;padding: 10px 0;">无数据</div>
-            <el-pagination @size-change="changePageSize" @current-change="currentPage" :current-page="form.page"
+            <div v-if="dataList.length==0" class="not-data">无数据</div>
+            <el-pagination v-if="dataList.length!=0" @size-change="changePageSize" @current-change="currentPage" :current-page="form.page"
                            :page-sizes="[10,20,30,50]" :page-size="form.pageSize"
                            layout="total, sizes, prev, pager, next, jumper" :total="form.total"></el-pagination>
           </el-col>

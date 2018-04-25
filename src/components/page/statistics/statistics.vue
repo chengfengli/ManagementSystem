@@ -11,7 +11,7 @@
 				  	<el-breadcrumb-item>事件总览</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class="container">
+			<div class="container" >
 				<div>
 					<table>
 						<tr>
@@ -58,7 +58,7 @@
 							</td>
 							<td>
 								<el-button type="success" size="mini" @click="select()">查询</el-button>
-								<el-button size="mini">导出Excel报表</el-button>
+								<el-button size="mini">导出报表</el-button>
 							</td>
 						</tr>
 					</table>
@@ -463,9 +463,6 @@
 </script>
 
 <style scoped>
-	#statistics-page .container{
-		margin: 0 15px;
-	}
 	#statistics-page .container table{
 		width: 100%;
 	}

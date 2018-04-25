@@ -31,7 +31,7 @@
     data: function () {
       return {
         ruleForm: {
-          ACCOUNT: 'pubing',
+          ACCOUNT: 'sysadmin',
           PASSWORD: '123456'
         }
       }
@@ -49,7 +49,8 @@
         this.$http.post('/user/login', this.ruleForm).then(res => {
           if (res.code == 10000) {
             this.$httpHeader.sessionId = res.data.token;
-            localStorage.setItem('user', JSON.stringify(res.data.user))
+            localStorage.setItem('user', JSON.stringify(res.data.user));
+            localStorage.setItem('sessionId', res.data.token)
             this.$router.push('/index');
           } else {
             this.$message.error(res.msg);

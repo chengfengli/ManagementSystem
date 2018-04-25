@@ -53,15 +53,11 @@
 </script>
 
 <style scoped>
-	#statistics-page .container{
-		width: 90%;
-		margin: 0 auto;
-	}
 	#statistics-page .container table{
 		width: 100%;
 	}
 	#statistics-page .container td{
-		padding: 5px;
+		padding: 10px;
 	}
 	#statistics-page .container td.title{
 		width: 200px;
@@ -69,11 +65,13 @@
 	}
 	table tr{
 		cursor:pointer;
+		font-size: 14px;
 	}
 	table tr:nth-child(odd){
-		background-color: #C0C4CC;
+		background-color: #FAFAFA;
 	}
 	table tr:hover{
-		background-color: #C0CCDA;
+		background-color: #839965;
+		color: #fff;
 	}
 </style>

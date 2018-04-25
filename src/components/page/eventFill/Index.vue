@@ -10,7 +10,7 @@
 				  	<el-breadcrumb-item>事件填报</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
-			<div class="data-box body">
+			<div class="data-box">
 				<table cellspacing="0" @mouseleave="name=-1">
 					<tr v-for="item in dataList" :keys="item.ID" @mouseover="name=item.ID">
 						<td class="title"><a @click="details(item.ID)" href="javascript:void(0)">{{item.NAME}}</a></td>
@@ -68,19 +68,22 @@
 		text-decoration: underline;
 	}
 	#eventFillIndex-page td{
-		padding: 7px 10px;
+		padding:10px;
 	}
 	#eventFillIndex-page td a{
 		font-size: 14px;
 		color: #000000;
 	}
-	#eventFillIndex-page td a:hover{
-		color: #839965;
-	}
 	#eventFillIndex-page td:nth-child(1){
 		width: 200px;
 	}
 	#eventFillIndex-page tr:nth-child(odd){
-		background-color: #E3E3E3;
+		background-color: #FAFAFA;
+	}
+	#eventFillIndex-page tr:hover{
+		background-color: #839965;
+	}
+	#eventFillIndex-page tr:hover a{
+		color: #fff;
 	}
 </style>

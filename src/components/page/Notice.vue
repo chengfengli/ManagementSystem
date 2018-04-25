@@ -8,13 +8,12 @@
 				<el-breadcrumb class="nav-box" separator-class="el-icon-arrow-right">
 				  	<el-breadcrumb-item :to="{ path: 'index' }">首页</el-breadcrumb-item>
 				  	<el-breadcrumb-item>个人通知</el-breadcrumb-item>
-				  	
 				</el-breadcrumb>
 				<span class="tips">点击消息标题，可直接跳转到事件。注：消息只是反映事件当事的状态，可能与当前事件状态不符!</span>
 			</div>
 			<div class="data-box">
 				<table cellspacing="0" @mouseleave="show=-1">
-					<tr v-for="item in list" :keys="item.ID" @mouseover="showDel(item.ID)" @click="details(item.ID,item.TYPE)">
+					<tr v-for="item in list" :keys="item.ID" @mouseover="showDel(item.ID)" @click="details(item.EVENTID,item.TYPE)">
 						<td class="user-name">
 							{{item.SENDER}}
 							<div class="send-time">2018-09-15 15:23</div>
@@ -30,7 +29,8 @@
 						</td>
 					</tr>
 				</table>
-				<el-pagination @size-change="changeSize" @current-change="changePage" :current-page="page"
+				<div v-if="total==0" class="not-data">暂无数据</div>
+				<el-pagination v-if="total!=0" @size-change="changeSize" @current-change="changePage" :current-page="page"
 	        	:page-sizes="[10,20,30,50]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
 			</div>
 		</div>
@@ -97,11 +97,11 @@
 				}).catch(function(error) {
 					this.$message.error(error);
 				})
-        		if(id==1){
+        		if(type==1){
         			this.$router.push({
 		                path: 'eventProcessing',
-		                query: {id: id}
-		           })
+		                query: {id: id,txt:'我的事件'}
+		           	})
         		}
         	},
         	dataInit() {
@@ -124,9 +124,6 @@
 </script>
 
 <style scoped>
-	#notice .data-box{
-		padding: 0 30px;
-	}
 	#notice .nav-box{
 		display: inline-block;
 	}

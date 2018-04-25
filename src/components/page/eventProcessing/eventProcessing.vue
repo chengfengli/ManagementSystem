@@ -106,7 +106,7 @@
       </article>
     </header>
     <main class="table-data">
-      <el-table @row-click="skipDetails" :data="initTableData.TABLEDATA.rows" style="width: 100%; text-align: center;" :stripe="true"><!--item.DISPLAY--><!--v-for="item in initHeaderData"-->
+      <el-table @row-dblclick="skipDetails" :data="initTableData.TABLEDATA.rows" style="width: 100%; text-align: center;" :stripe="true"><!--item.DISPLAY--><!--v-for="item in initHeaderData"-->
         <el-table-column  :prop="item.KEY" :label="item.DISPLAY" width="auto" v-for="item in initTableData.HEADER"></el-table-column>
         <el-table-column
           fixed="right"
@@ -203,7 +203,6 @@
     },
     methods: {
       skipDetails: function (row) {
-        console.log(row)
         if(row.STATUS == "暂存"){
           this.$router.push({
             path: "/eventFill",
@@ -249,7 +248,7 @@
         }else {
           this.$message({
             type: 'error',
-            message: '不能删除该条数据!'
+            message: '不能删除该文件!'
           });
         }
 
@@ -291,8 +290,8 @@
       initTableHeaderData: function() {
 
       },
+      //初始化表数据
       initTableContentData: function () {
-        //表数据
         let data = {
           entrance: this.eventSearch.entrance,
           QSTATUS: this.eventSearch.QSTATUS,

@@ -1,8 +1,8 @@
 <template>
     <div class="basicInfo">
-      <article style="height: 40%;">
-        <section class="basicInfo-grade" style="padding: 20px 0;box-sizing: border-box;" >
-          <aside class="clear-fix" style="text-align: left;">
+      <article class="basicInfo4 clear-fix">
+        <section class="basicInfo-grade set-left">
+          <aside class="clear-fix">
             <div class="set-left">
               <label>事件ID:</label>
               <span>{{ basicInfoData.BASICINFO.ID }}</span>
@@ -16,8 +16,8 @@
             </div>
             <div class="set-right">{{ basicInfoData.BASICINFO.CHILDTYPE }}</div>
           </aside>
-          <aside style="margin-top: 40px;">
-            <section style="display: inline-block;padding: 25px;box-sizing: border-box;border: 1px solid #797979;border-radius: 50%;text-align: center">
+          <aside style="margin-top: 20px;">
+            <section style="display: inline-block;padding: 18px 25px;box-sizing: border-box;border: 1px solid #797979;border-radius: 50%;text-align: center">
               <i class="proFont" style="font-size: 45px;">&#xe62c;</i><br/>
               <span style="color: red;">{{ basicInfoData.BASICINFO.THUMBS }}</span>
             </section>
@@ -32,10 +32,10 @@
             </section>
           </aside>
         </section>
-        <section class="basicInfo-radio" >
-          <div>
+        <section class="basicInfo-radio set-right">
+          <div class="basicInfo-radio-content">
             <section v-for="item in basicInfoData.STATUSAXIS">
-             <div class="basicInfo-item" style="display: inline-block">
+              <div class="basicInfo-item" style="display: inline-block">
                <span :class="{roundStyle: true,roundLine: item.roundActive,succeed: item.activeSucceed,danger: item.activeDanger}">{{ item.INDEX }}</span>
                <span :class="{defaultStyle: item.defaultStyle,roundLine: item.roundActive,succeed: item.activeSucceed,}"></span><br/>
                <span :class="{dangerColor: item.dangerColor,succeedColor: item.succeedColor}">{{ item.STATUS }}</span><br/>
@@ -49,14 +49,14 @@
           </div>
         </section>
       </article>
-      <article style="height: 60%;border-left: 1px solid #797979;">
-        <section style="flex: 3;position: relative;border-right: 1px solid #797979;">
+      <article class="basicInfo6 clear-fix">
+        <section class="basicInfo6-left set-left">
           <aside class="reported-info">
             <div>
               <label>上报日期:</label>
               <span>{{ basicInfoData.BASICINFO.PUBLISHDATE }}</span>
             </div>
-            <div>
+            <div style="margin-top: 5px">
               <label>上报人:</label>
               <span>{{ basicInfoData.BASICINFO.REPORTOR }}</span>
             </div>
@@ -64,16 +64,14 @@
               <label>职务名称:</label>
               <span>信息科科长</span>
             </div>-->
-            <div>
+            <div style="margin-top: 5px">
               <label>处理部门:</label>
               <span>{{ basicInfoData.BASICINFO.REPORTDEPT }}</span>
             </div>
           </aside>
         </section>
-        <section style="flex: 7;position: relative;border-right: 1px solid #797979;">
-          <aside class="reported-content">
-            <div v-for="item in basicInfoData.OPTIONS">{{ item.OPTIME }}{{ item.OPER }} ({{ item.OPERDEPT }}) {{ item.OPTIONS }}</div>
-          </aside>
+        <section class="basicInfo6-right set-right">
+          <div v-for="item in basicInfoData.OPTIONS" style="margin-left: 15px;box-sizing: border-box">{{ item.OPTIME }}{{ item.OPER }} ({{ item.OPERDEPT }}) {{ item.OPTIONS }}</div>
         </section>
       </article>
     </div>
@@ -140,33 +138,40 @@
     height: 100%;
     width: 100%;
     position: relative;
-   overflow: hidden;
+    min-width: 1300px;
+    overflow: hidden;
+    border: 1px solid black;
+    color: #333;
   }
-  .basicInfo article{display: flex;}
-  .basicInfo .basicInfo-grade{
-    flex: 3;
+  .basicInfo .basicInfo4{
+    height: 40%;
+    width: 100%;
+  }
+  .basicInfo .basicInfo4 .basicInfo-grade{
+    padding: 5% 3%;
     box-sizing: border-box;
-    border-left: 1px solid #797979;
-    border-right: 1px solid #797979;
-    border-bottom: 1px solid #797979;
+    height: 100%;
+    width: 30%;
+    border-right: 1px solid #C8BEB6;
   }
-  .basicInfo .basicInfo-grade aside{width: 80%;margin: auto;}
-  .basicInfo .basicInfo-radio{
-    flex: 7;
-    text-align: left;
-    border-bottom: 1px solid #797979;
-    border-right: 1px solid #797979;
-    position: relative;
+  .basicInfo .basicInfo4 .basicInfo-radio{
+    height: 100%;
+    width: 69.8%;
   }
-  /*.basicInfo .basicInfo-radio div:first-child{padding-left: 20px;}
-  .basicInfo .basicInfo-radio div:last-child{padding-right: 20px;}*/
-  .basicInfo .basicInfo-radio div{
-    width: 95%;
+  .basicInfo-radio .basicInfo-radio-content{
+    width: 100%;
     display: flex;
     margin: auto;
-    padding-top: 11%;
+    padding-top: 10%;
+    padding-left: 6%;
   }
-  .basicInfo .basicInfo-radio div>section{flex: 1;}
+  .basicInfo-radio .basicInfo-radio-content section{
+    width: 100%;
+    flex: 1;
+  }
+  .basicInfo-item{
+    width: 100%;
+  }
   .basicInfo .roundStyle{
     text-align: center;
     display: inline-block;
@@ -178,7 +183,7 @@
     color: white;
   }
   .basicInfo .defaultStyle{
-    width: 81%;
+    width: 75%;
     height: 5px;
     display: inline-block;
   }
@@ -190,27 +195,25 @@
   .basicInfo .danger{background: red;}
   .basicInfo .dangerColor{color: red;}
   .basicInfo .succeedColor{color: #85E085;}
-  .reported-info{
-    position: absolute;
-    top: 13%;
-    left: 60%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: left;
-  }
-  .reported-content{
-    position: absolute;
-    top: 5%;
-    left: 55%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: left;
-  }
-  .reported-info div label,
-  .reported-info div span,
-  .reported-content div{
-    font-size: 17px;
-  }
-  .reported-content div,.reported-info div{padding: 8px 0;}
 
+
+  /*  66666  */
+  .basicInfo .basicInfo6{
+    width: 100%;
+    height: 60%;
+    border-top: 1px solid #C8BEB6;
+  }
+  .basicInfo .basicInfo6 .basicInfo6-left{
+    width: 30%;
+    height: 100%;
+    padding-left: 15px;
+    padding-top: 15px;
+    box-sizing: border-box;
+    border-right: 1px solid #C8BEB6;
+  }
+  .basicInfo .basicInfo6 .basicInfo6-right{
+    width: 69.8%;
+    height: 100%;
+    padding-top: 15px;
+  }
 </style>

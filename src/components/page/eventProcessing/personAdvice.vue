@@ -170,7 +170,7 @@
       //删除建议
       deleteJy: function(){
         if(this.activeid == null){
-          return this.$message.error("选择要删除的数据！")
+          return this.$message.error("选择要删除的文件！")
         }
         this.$confirm('确认删除？', '提示', {
           confirmButtonText: '确定',
@@ -195,7 +195,7 @@
       //建议回现数据
       modifyJy: function(){
         if(this.activeid == null){
-          return this.$message.error("选择要编辑的数据！")
+          return this.$message.error("选择要编辑的文件！")
         }
         let data = {proposalid: this.activeid}
         this.$http.post('/proposal/detail/'+ data.proposalid, data).then( res => {

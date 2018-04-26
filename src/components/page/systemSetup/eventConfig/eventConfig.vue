@@ -3,10 +3,10 @@
     <aside class="conditions">
       <section  :class="[{activeMenu:term.showActiveMenu}]"  v-for="(term, index) in eventMenu" @click="monitorClick(term, index)">{{ term.TYPENAME }}
         <div class="element" style="margin-right: 25px" @click="removeElement(term)">
-          <i class="proFont" style="color: #333;font-size: 19px">&#xe633;</i>
+          <i class="proFont" style="color: #333;font-size: 19px;line-height: 40px;">&#xe633;</i>
         </div>
         <div class="element" @click="modifyElement(term)" >
-          <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
+          <i class="proFont" style="color: #333;font-size: 19px;line-height: 30px;" >&#xe8cf;</i>
         </div>
       </section>
       <section style="text-align: left;" v-show="eventMenu.length <= 0 ">无数据</section>
@@ -98,11 +98,10 @@
     },
     mounted: function (){
       this.eventMenu = this.twoEventMenu;
-     /* for(let item of this.eventMenu){
+      for(let item of this.eventMenu){
           item.showActiveMenu = false;
         }
-        this.eventMenu[0].showActiveMenu = true;
-       */
+      console.log(this.eventMenu)
     },
     methods: {
       updataEventSubmit: function () {
@@ -190,6 +189,21 @@
         this.defaultActive = true;
         this.noDefaultActive = false;
         this.showAllPageData = true;
+
+        // for(let item of this.eventMenu){
+        //   if(item.TYPENAME == term.TYPENAME){
+        //     this.eventMenu[index].showActiveMenu= true;
+        //     Vue.set(this.eventMenu, index, this.eventMenu[index]);
+        //     let notNeedData =  this.eventMenu.filter( (notAtive) => {
+        //       return notAtive.TYPENAME != term.TYPENAME;
+        //     })
+        //     for(let noActive of notNeedData){
+        //       noActive.showActiveMenu = false;
+        //     }
+        //   }
+        // }
+
+
        /* for(let oa of this.eventMenu){
           if(oa.TYPENAME == term.TYPENAME){
             oa.showActiveMenu = true;
@@ -271,7 +285,7 @@
   .medicalDevice .conditions section{
     position: relative;
     width: 100%;
-    padding: 6px 0 6px 20px;
+    padding: 10px 0 10px 20px;
     box-sizing: border-box;
     text-align: left;
   }

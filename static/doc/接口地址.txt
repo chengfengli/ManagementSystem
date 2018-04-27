@@ -2,3 +2,45 @@
 文档地址：http://118.24.47.62:10086/aers/apidoc/index.html
 http://118.24.47.62:10010
 上传：fileUpload
+
+我的事件、事件处理、事件管理、事件报告
+{
+	mode:'EDIT',
+	category:'INCIDENT',
+	eventId:事件id,
+	saveMode:'editEvent'
+}
+
+分析报告:
+如果code=100014
+{
+	mode:'FILL',
+	category:'ANALYSIS',
+	eventId:事件id,
+	saveMode:'fillAnalysis'
+}
+如果code=10000
+{
+	mode:'EDIT',
+	category:'ANALYSIS',
+	eventId:事件id,
+	saveMode:'editAnalysis'
+}
+
+追踪报告：
+如果code=100014
+{
+	mode:'FILL',
+	category:'TRACK',
+	eventId:事件id,
+	saveMode:'fillAnalysis'
+}
+如果code=10000
+{
+	mode:'EDIT',
+	category:'TRACK',
+	eventId:事件id,
+	saveMode:'editTrack'
+}
+
+

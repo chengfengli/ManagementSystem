@@ -43,7 +43,8 @@
         			path: 'eventFill',
         			name: 'eventFill',
         			query:{ 
-		                id: id
+		                typeId: id,
+		                local:true
 		            }
         		});
         	}

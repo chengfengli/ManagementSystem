@@ -22,6 +22,7 @@
 							<span class="type-title">{{item.MODNAME}}</span><span class="remakes">{{item.MODMARK}}</span>
 						</div>
 						<div v-for="ele in item.ELES" :keys="ele.ELEID">
+							<div v-if="ele.ELETYPE==1" style="font-size: 16px;font-weight: 600;color: #5aa1ea;margin-top: 20px;">—————————&nbsp;{{ele.LABEL}}&nbsp;—————————</div>
 							<hr v-if="ele.ELETYPE==2">
 							<div v-else>
 								<table v-if="ele.LABEL.length<17">
@@ -133,7 +134,7 @@
        	},
 		data: function(){
             return {
-            	eventDeal:true,
+            	eventDeal:false,
             	checks:[],
             	activeNames: [],
             	dataList:[],
@@ -153,13 +154,7 @@
             	detailDialog:false,
             	reportmode:null,
             	uploadUrl:this.$hostUrl+'/fileUpload',
-            	options:{
-            		target:this.$uploadUrl+'/fileUpload',
-          			testChunks: false
-            	},
-            	headers:{
-            		sessionId:localStorage.getItem('sessionId')
-            	}
+            	saveMode:'fillEvent',
             }
         },
         methods: {
@@ -213,7 +208,7 @@
         	save() {//暂存
         		var bool = this.validation(this.form,this.dataList);
         		if(bool){
-        			var data = {TYPE:this.type,SET:null,VALUES:''};
+        			var data = {TYPE:this.type,SET:null,VALUES:'',MODE:'tempStorageEvent'};
 	        		var list = [];
 	        		for(var key in this.form){
 	        			var new_key = key.substring(key.lastIndexOf('_')+1);
@@ -231,7 +226,7 @@
 	        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
 	        		}
 	        		data.VALUES=list;
-	        		this.$http.post('/event/tempStorage/',data).then(res=>{
+	        		this.$http.post('/event/save/',data).then(res=>{
 		        		if(res.code == 10000){
 		        			this.$message({
 					            type: 'success',
@@ -324,10 +319,24 @@
         },
 		mounted() {
 			var obj = this.$route.query;
-			if(!this.$validation(obj.eventDeal,'required')){
-				this.eventDeal = false;
+			if(obj.local==true){
+				this.eventDeal = true;
 			}
-			this.$http.post('/event/initFillPage',{TYPEID:obj.id,EVENTID:null}).then(res=>{
+			var params={};
+			if(!this.$validation(obj.typeId,'required')){
+				params={
+					TYPEID:obj.typeId,
+					MODE:'FILL',
+					CATEGORY:'INCIDENT'
+				};
+			}else{
+				params={
+					EVENTID:obj.id,
+					MODE:'EDIT',
+					CATEGORY:'INCIDENT'
+				};
+			}
+			this.$http.post('/event/initFillPage',params).then(res=>{
         		if(res.code == 10000){
         			var list = res.data.DATA;
         			this.type = res.data.TYPE;

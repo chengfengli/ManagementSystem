@@ -3,7 +3,7 @@
     <aside class="generalCase-select">
       <section v-for="module in moduleTwoMenu" @click="activeMenu(module)" style="position: relative;">{{ module.NAME }}
         <div class="element" style="margin-right: 25px" @click="removeModule(module)">
-          <i class="proFont" style="color: #333;font-size: 19px">&#xe633;</i>
+          <i class="proFont" style="color: #333;font-size: 19px;line-height: 40px">&#xe633;</i>
         </div>
       <!--  <div class="element" @click="modifyModule(module)" >
           <i class="proFont" style="color: #333;font-size: 19px" >&#xe8cf;</i>
@@ -139,6 +139,7 @@
     name: "moduleCfg",
     data() {
       return {
+        needModuleTwoMenu: [],
         moduleEchoType: {
           EVENTTYPEID: null,
           ISDEL: null,
@@ -158,6 +159,8 @@
     mounted: function () {
       this.dataSource();
       this.getElementType();
+      this.needModuleTwoMenu = this.moduleTwoMenu;
+      console.log(this.needModuleTwoMenu)
     },
     methods: {
       //回现数据
@@ -378,7 +381,7 @@
     cursor: pointer;
   }
   .generalCase .generalCase-select section:hover {
-    background: #666666;
+    background: #ECF5FF;
   }
   .generalCase .generalCase-content {
     flex: 8;

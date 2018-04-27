@@ -818,7 +818,6 @@
             this.permisMenu = res.data.filter((resData)=>{
               return resData.ROLEID != "1";
             });
-            console.log(this.permisMenu)
           } else {
             this.$message.error(res.msg);
           }

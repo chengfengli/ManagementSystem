@@ -224,7 +224,7 @@
           eventid: data.ID
         }
         if(data.CANDEL == true){
-          this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          this.$confirm('确认删除?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
@@ -248,7 +248,7 @@
         }else {
           this.$message({
             type: 'error',
-            message: '不能删除该文件!'
+            message: '不能删除!'
           });
         }
 
@@ -414,6 +414,14 @@
   .el-table thead{background: #839964;}
   .el-table th{background: #839964;color: white;width: 100%}
   .eventProcessing .el-table td, .el-table th{text-align: center!important;}
-  .el-input--mini .el-input__inner{padding: 3px 0;text-align: center;z-index: 50}
+  .eventProcessing .el-input--mini .el-input__inner{padding: 3px 0;text-align: center;z-index: 50}
   .eventProcessing .el-icon-date:before{top: 0!important;}
+  .eventProcessing .el-input--mini .el-input__inner{
+    line-height: 0!important;
+    -ms-line-height:  0!important;
+  }
+ .eventProcessing .el-input__inner{
+   line-height: 0!important;
+   -ms-line-height:  0!important;
+ }
 </style>

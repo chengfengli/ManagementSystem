@@ -11,7 +11,8 @@ import {fishbone} from "./d3.fishbone"
     mounted: function () {
       var fishbone = d3.fishbone()
       //let needFishboneData = this.fishboneData;
-      let needFishboneData = {
+      let needFishboneData =
+        {
         "name": "Quality---111111",
         "children": [
           {
@@ -33,24 +34,8 @@ import {fishbone} from "./d3.fishbone"
             "name": "Material---1-3",
             "children": [
               {"name": "Masonite"},
-              {
-                "name": "Marscapone",
-                "children": [
-                  {"name": "Malty"},
-                  {
-                    "name": "Minty",
-                    "children": [
-                      {"name": "spearMint"},
-                      {"name": "pepperMint"}
-                    ]
-                  }
-                ]
-              },
-              {"name": "Meat",
-                "children": [
-                  {"name": "Mutton"}
-                ]
-              }
+              {"name": "Marscapone"},
+              {"name": "Meat"}
             ]
           },
           {
@@ -60,16 +45,8 @@ import {fishbone} from "./d3.fishbone"
               {"name": "Master's Student"},
               {"name": "Magician"},
               {"name": "Miner"},
-              {"name": "Magister", "children": [
-                  {"name": "Malpractice"}
-                ]},
-              {
-                "name": "Massage Artist",
-                "children": [
-                  {"name": "Masseur"},
-                  {"name": "Masseuse"}
-                ]
-              }
+              {"name": "Magister"},
+              {"name": "Massage Artist"}
             ]
           },
           {
@@ -95,9 +72,6 @@ import {fishbone} from "./d3.fishbone"
         // 响应错误回调
         alert('服务器请求失败');
       });*/
-
-
-
 
       d3.json(needFishboneData,(data) =>{
         console.log(data)

@@ -174,7 +174,7 @@
           if(item.MODID == data.MODID){
             this.reportData[index].isActive= true;
             Vue.set(this.reportData, index, this.reportData[index]);
-            var notNeedData =  this.reportData.filter( (notAtive) => {
+            let notNeedData =  this.reportData.filter( (notAtive) => {
               return notAtive.MODID != data.MODID;
             })
             for(let noActive of notNeedData){

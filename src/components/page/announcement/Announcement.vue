@@ -187,4 +187,12 @@
 		text-align: center;
 		margin:20px 0;
 	}
+	#announcement .el-input--mini .el-input__inner{
+	    line-height: 0!important;
+	    -ms-line-height:  0!important;
+	 }
+	#announcement .el-input__inner{
+	   line-height: 0!important;
+	   -ms-line-height:  0!important;
+	}
 </style>

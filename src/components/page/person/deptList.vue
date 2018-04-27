@@ -139,4 +139,12 @@
 	#deptList .emp table td .el-select{
 		width: 100%;
 	}
+	#deptList .el-input--mini .el-input__inner{
+	    line-height: 0!important;
+	    -ms-line-height:  0!important;
+	 }
+	#deptList .el-input__inner{
+	   line-height: 0!important;
+	   -ms-line-height:  0!important;
+	}
 </style>

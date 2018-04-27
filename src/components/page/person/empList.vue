@@ -167,4 +167,12 @@
 	#empList .emp table td .el-select{
 		width: 100%;
 	}
+	#empList .el-input--mini .el-input__inner{
+	    line-height: 0!important;
+	    -ms-line-height:  0!important;
+	 }
+	#empList .el-input__inner{
+	   line-height: 0!important;
+	   -ms-line-height:  0!important;
+	}
 </style>

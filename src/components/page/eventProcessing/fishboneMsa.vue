@@ -8,7 +8,9 @@
 import {fishbone} from "./d3.fishbone"
   export default {
     name: "fishboneMsa",
+    props: ["dataId"],
     mounted: function () {
+      console.log(this.dataId)
       var fishbone = d3.fishbone()
       //let needFishboneData = this.fishboneData;
       let needFishboneData =

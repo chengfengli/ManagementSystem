@@ -203,15 +203,33 @@
     },
     methods: {
       skipDetails: function (row) {
+        /*this.$router.push({
+          path: "/eventFill",
+          query: {
+            mode:'EDIT',
+            category:'INCIDENT',
+            eventId: this.dataId,
+            saveMode:'editEvent'
+          }
+        })*/
+
         if(row.STATUS == "暂存"){
           this.$router.push({
+            path: "/eventFill",
+            query: {
+              mode:'EDIT',
+              category:'INCIDENT',
+              eventId: row.ID,
+              saveMode:'editEvent'
+            }
+          })
+          /*this.$router.push({
             path: "/eventFill",
             query: {
               id: row.ID,
               eventDeal: "entrance"
             }
-          })
-          console.log("事件填报！")
+          })*/
         }else {
           this.$router.push({
             path: "/eventList",

@@ -1,6 +1,9 @@
 <template>
   <div class="eventReport">
     <div class="container">
+      <div class="menu-list" style="font-size: 14px;top: 150px;border: none;text-align: left">操作提示：
+        <div @click="toeventFill" class="tobgbAA" style="color: #318ABE;margin-left: 5px;display: inline-block;cursor: pointer;font-size: 14px">{{ eventTitle }}</div>
+      </div>
       <div class="report-menu menu-list">
         <section v-for="(item, index) in reportData"  :class="{active: item.isActive}" @click="activeStyle(item, index)">{{ item.MODNAME }}</section>
         <div class="reportIcon">
@@ -93,6 +96,9 @@
     },
     data(){
       return{
+        saveMode: "",
+        needModeName: "",
+        eventTitle: null,
         historyData: [],
         showaddModify: false,
         showViewModify: false,
@@ -110,6 +116,18 @@
       }
     },
     methods: {
+      //事件填报
+      toeventFill: function () {
+        this.$router.push({
+          path: "/eventFill",
+          query: {
+            mode: this.needModeName,
+            category:'INCIDENT',
+            eventId: this.dataId,
+            saveMode:'editEvent'
+          }
+        })
+      },
       monitorTable: function (title, index) {
         this.addModifyId = null;
         this.viewModifyId = null;
@@ -195,8 +213,16 @@
       initReport: function(){
         let data = {id:this.dataId}
         this.$http.post('/event/track/'+ this.dataId, data).then( res => {
+          if(res.code == 100014){
+            this.eventTitle = "填写分析报告";
+            this.needModeName = "FILL";
+            this.saveMode = "fillAnalysis";
+          }
           if(res.code == 10000){
-            this.reportData = res.data;
+            this.eventTitle = "编辑分析报告";
+            this.needModeName = "EDIT";
+            this.saveMode = "editTrack";
+            this.reportData = res.data.DATA;
             for(let item of this.reportData){
               item.isActive = false;
               for(let itemSon of item.ELES){
@@ -233,7 +259,7 @@
   }
   .eventReport .menu-list{
     position: fixed;
-    top: 155px;
+    top: 180px;
     min-width: 200px;
     height: auto;
     text-align: center;

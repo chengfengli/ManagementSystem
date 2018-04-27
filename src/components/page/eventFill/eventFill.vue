@@ -15,7 +15,7 @@
 				<ul id="ancho-box">
 					<li v-for="item in dataList" :keys="item.MODID"><a @click="select(item.MODID)" class="menu-left" :class="isactive==item.MODID?isactiveClass:noactiveClass" href="javascript:void(0)">{{item.MODNAME}}</a></li>
 				</ul>
-				
+
 				<div id="form-box">
 					<div class="plan" v-for="item in dataList" :keys="item.MODID">
 						<div class="type" :id="item.MODID">
@@ -300,7 +300,7 @@
         		}
         	},
 			submitUpload(content){
-				let formData = new FormData;  
+				let formData = new FormData;
                 formData.append('files', content.file);
                 this.$http.post('/fileUpLoad',formData).then(res=>{
 	        		if(res.code == 10000){
@@ -331,7 +331,7 @@
 			}else{
 				this.saveMode = obj.saveMode;
 				params={
-					TYPEID:obj.eventId,
+				  EVENTID:obj.eventId,
 					MODE:obj.mode,
 					CATEGORY:obj.category
 				};

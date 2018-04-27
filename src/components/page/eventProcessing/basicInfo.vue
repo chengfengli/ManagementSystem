@@ -139,17 +139,18 @@
     width: 100%;
     position: relative;
     min-width: 1300px;
-    overflow: hidden;
-    border-bottom: 1px solid #ccc;
+    overflow-x: hidden;
+    overflow-y: auto;
     color: #333;
   }
   .basicInfo .basicInfo4{
-    height: 40%;
+    height: 290px;
     width: 100%;
   }
   .basicInfo .basicInfo4 .basicInfo-grade{
-    padding: 5% 3%;
+    padding: 45px 45px;
     box-sizing: border-box;
+    border: 1px ;
     height: 100%;
     width: 30%;
     border-right: 1px solid #C8BEB6;
@@ -200,8 +201,9 @@
   /*  66666  */
   .basicInfo .basicInfo6{
     width: 100%;
-    height: 60%;
+    height: 460px;
     border-top: 1px solid #C8BEB6;
+    border-bottom: 1px solid #C8BEB6;
   }
   .basicInfo .basicInfo6 .basicInfo6-left{
     width: 30%;

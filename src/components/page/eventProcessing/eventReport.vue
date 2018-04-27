@@ -1,6 +1,9 @@
 <template>
   <div class="eventReport">
     <div class="container">
+      <div class="menu-list" style="font-size: 14px;top: 150px;border: none;text-align: left">操作提示：
+        <div @click="toeventFill" class="tobgbAA" style="color: #318ABE;margin-left: 5px;display: inline-block;cursor: pointer;font-size: 14px">编辑事件报告</div>
+      </div>
       <div class="report-menu menu-list">
         <section v-for="(item, index) in reportData"  :class="{active: item.isActive}" @click="activeStyle(item, index)">{{ item.MODNAME }}</section>
         <div class="reportIcon">
@@ -110,7 +113,22 @@
         }
       }
     },
+    mounted: function () {
+      /*console.log(this.dataId)*/
+    },
     methods: {
+      //事件填报
+      toeventFill: function () {
+         this.$router.push({
+            path: "/eventFill",
+            query: {
+              mode:'EDIT',
+              category:'INCIDENT',
+              eventId: this.dataId,
+              saveMode:'editEvent'
+            }
+          })
+      },
       //下载文件
       downloadType: function (data) {
         console.log(data)
@@ -188,7 +206,7 @@
         let data = {id:this.dataId}
         this.$http.post('/event/report/'+ this.dataId, data).then( res => {
           if(res.code == 10000){
-            this.reportData = res.data;
+            this.reportData = res.data.DATA;
             for(let item of this.reportData){
               item.isActive = false;
               for(let itemSon of item.ELES){
@@ -219,6 +237,7 @@
 </script>
 
 <style>
+  .tobgbAA:hover{color: red!important;}
   .eventReport{
     width: 100%;
     height: 100%;
@@ -238,7 +257,7 @@
   }
   .eventReport .menu-list{
     position: fixed;
-    top: 155px;
+    top: 180px;
     min-width: 200px;
     height: auto;
     text-align: center;

@@ -232,7 +232,7 @@
 					            type: 'success',
 					            message: res.msg
 					        });
-					        setTimeout(function(){
+					        setTimeout(()=>{
 					        	this.$router.push({
 					                path: 'eventProcessing',
 					                query: {txt:'我的事件'}
@@ -287,7 +287,7 @@
 					            type: 'success',
 					            message: res.msg
 					        });
-					        setTimeout(function(){
+					        setTimeout(()=>{
 					        	this.$router.push({
 					                path: 'eventProcessing',
 					                query: {txt:'我的事件'}
@@ -320,7 +320,6 @@
 		mounted() {
 			var obj = this.$route.query;
 			var params={};
-			debugger
 			if(!this.$validation(obj.local,'required')){
 				this.eventDeal = true;
 				params={

@@ -191,4 +191,13 @@
 	#notice .unread{
 		background-color: red;
 	}
+	
+	#notice .el-input--mini .el-input__inner{
+	    line-height: 0!important;
+	    -ms-line-height:  0!important;
+	 }
+	#notice .el-input__inner{
+	   line-height: 0!important;
+	   -ms-line-height:  0!important;
+	}
 </style>

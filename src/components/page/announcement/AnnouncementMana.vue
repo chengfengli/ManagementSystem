@@ -285,4 +285,13 @@
 	.data-tr{
 		border-bottom: 1px solid #CCCCCC;
 	}
+	
+	#announcementMana .el-input--mini .el-input__inner{
+	    line-height: 0!important;
+	    -ms-line-height:  0!important;
+	 }
+	#announcementMana .el-input__inner{
+	   line-height: 0!important;
+	   -ms-line-height:  0!important;
+	}
 </style>

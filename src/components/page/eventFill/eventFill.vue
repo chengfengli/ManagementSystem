@@ -262,7 +262,7 @@
 	        		}
         		}
         		if(bool){
-        			var data = {TYPE:this.type,SET:this.form2,VALUES:''};
+        			var data = {TYPE:this.type,SET:this.form2,VALUES:'',MODE:this.saveMode};
 	        		var list = [];
 	        		for(var key in this.form){
 	        			var new_key = key.substring(key.lastIndexOf('_')+1);
@@ -319,21 +319,21 @@
         },
 		mounted() {
 			var obj = this.$route.query;
-			if(obj.local==true){
-				this.eventDeal = true;
-			}
 			var params={};
-			if(!this.$validation(obj.typeId,'required')){
+			debugger
+			if(!this.$validation(obj.local,'required')){
+				this.eventDeal = true;
 				params={
 					TYPEID:obj.typeId,
 					MODE:'FILL',
 					CATEGORY:'INCIDENT'
 				};
 			}else{
+				this.saveMode = obj.saveMode;
 				params={
-					EVENTID:obj.id,
-					MODE:'EDIT',
-					CATEGORY:'INCIDENT'
+					TYPEID:obj.eventId,
+					MODE:obj.mode,
+					CATEGORY:obj.category
 				};
 			}
 			this.$http.post('/event/initFillPage',params).then(res=>{
@@ -350,12 +350,22 @@
         				this.activeNames.push(list[i].MODID);
         				for(var j in list[i].ELES){
         					var key = 'ele_'+list[i].ELES[j].ELEID;
-        					if(list[i].ELES[j].ELETYPE==11){
-        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE.split('_');
-        					}else if(list[i].ELES[j].ELETYPE==12){
-        						temp_form[key]=[];
-    						}else{
-        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE;
+        					if(params.MODE=='FILL'){
+        						if(list[i].ELES[j].ELETYPE==11){
+	        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE.split('_');
+	        					}else if(list[i].ELES[j].ELETYPE==12){
+	        						temp_form[key]=[];
+	    						}else{
+	        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE;
+	        					}
+        					}else{
+        						if(list[i].ELES[j].ELETYPE==11){
+	        						temp_form[key]=list[i].ELES[j].VAL.split(',');
+	        					}else if(list[i].ELES[j].ELETYPE==12){
+	        						temp_form[key]=[];
+	    						}else{
+	        						temp_form[key]=list[i].ELES[j].VAL;
+	        					}
         					}
         				}
         			}

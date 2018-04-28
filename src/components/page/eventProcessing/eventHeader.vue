@@ -3,6 +3,10 @@
       <aside class="h-left">
         <div class="set-up" v-if="showSetUp">
           <div class="setup-type">
+            <label class="type-label">事件标题</label>
+            <el-input size="mini" style="width: 160px" v-model="setUpData.TITLE" placeholder="请输入标题"></el-input>
+          </div>
+          <div class="setup-type">
             <label class="type-label">事件等级</label>
             <el-radio v-model="setUpData.LEVEL" :label="item.VALUE" v-for="item in eventlevel">{{item.DISPLAY}}</el-radio>
           </div>
@@ -11,16 +15,8 @@
             <el-radio v-model="setUpData.FLAG" :label="flag.VALUE" v-for="flag in eventflag">{{flag.DISPLAY}}</el-radio>
           </div>
           <div class="setup-type">
-            <label class="type-label">是否置顶</label>
-            <el-checkbox v-model="setUpData.TOP"></el-checkbox>
-          </div>
-          <div class="setup-type">
             <label class="type-label">事件打分</label>
             <el-rate v-model="setUpData.GRADE" style="display: inline-block"></el-rate>
-          </div>
-          <div class="setup-type">
-            <label class="type-label">上报卫计委</label>
-            <el-checkbox v-model="setUpData.REPORTTOCOMMISSION"></el-checkbox>
           </div>
           <div class="setup-type">
             <label class="type-label">开放</label>
@@ -63,11 +59,10 @@
           eventlevel: [],
           eventflag: [],
           setUpData: {
+            TITLE: null,
             LEVEL: null,
             FLAG: null,
-            TOP: null,
             GRADE: null,
-            REPORTTOCOMMISSION: null,
             ISOPEN: null
           },
           setUpSubmitData: {},
@@ -127,9 +122,6 @@
             if(res.data.REPORTTOCOMMISSION == 1){
               res.data.REPORTTOCOMMISSION = true;
             }else{res.data.REPORTTOCOMMISSION = false;}
-            if(res.data.TOP == 1){
-              res.data.TOP = true;
-            }else{res.data.TOP = false;}
             this.setUpData = res.data;
           }
         }).catch(function (error) {//加上catch
@@ -150,15 +142,13 @@
         }else{this.setUpData.TOP = 0;}
         let data = {
           eventid: this.dataId,
+          TITLE: this.setUpData.TITLE,
           LEVEL: this.setUpData.LEVEL,
           FLAG: this.setUpData.FLAG,
-          TOP: this.setUpData.TOP,
           GRADE: this.setUpData.GRADE,
-          REPORTTOCOMMISSION: this.setUpData.REPORTTOCOMMISSION,
           ISOPEN: this.setUpData.ISOPEN
         }
         console.log(this.setUpData.GRADE)
-        console.log(data);
         this.$http.post('/event/setting/'+ data.eventid, data).then( res => {
           if(res.code == 10000){
             this.showSetUpBtn();

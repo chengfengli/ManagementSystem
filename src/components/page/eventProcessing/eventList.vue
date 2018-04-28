@@ -85,10 +85,11 @@
   .eventList{
     height: 100%;
     width: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
   .eventList .eventList-m{
-    height: calc(100% - 125px);
+    height: 100%;
     width: 100%;
     background: white;
   }

@@ -144,11 +144,11 @@
     color: #333;
   }
   .basicInfo .basicInfo4{
-    height: 290px;
+    height: 340px;
     width: 100%;
   }
   .basicInfo .basicInfo4 .basicInfo-grade{
-    padding: 45px 45px;
+    padding: 78px 45px;
     box-sizing: border-box;
     border: 1px ;
     height: 100%;
@@ -163,7 +163,7 @@
     width: 100%;
     display: flex;
     margin: auto;
-    padding-top: 10%;
+    padding-top: 13%;
     padding-left: 6%;
   }
   .basicInfo-radio .basicInfo-radio-content section{
@@ -201,7 +201,7 @@
   /*  66666  */
   .basicInfo .basicInfo6{
     width: 100%;
-    height: 460px;
+    height: 500px;
     border-top: 1px solid #C8BEB6;
     border-bottom: 1px solid #C8BEB6;
   }

@@ -96,6 +96,7 @@
     },
     data(){
       return{
+        category: "",
         saveMode: "",
         needModeName: "",
         eventTitle: null,
@@ -122,9 +123,9 @@
           path: "/eventFill",
           query: {
             mode: this.needModeName,
-            category:'INCIDENT',
+            category: this.category,
             eventId: this.dataId,
-            saveMode:'editEvent'
+            saveMode: this.saveMode
           }
         })
       },
@@ -214,14 +215,17 @@
         let data = {id:this.dataId}
         this.$http.post('/event/track/'+ this.dataId, data).then( res => {
           if(res.code == 100014){
-            this.eventTitle = "填写分析报告";
             this.needModeName = "FILL";
+            this.category = "TRACK";
             this.saveMode = "fillAnalysis";
+            this.eventTitle = "填写分析报告";
+            console.log(res)
           }
           if(res.code == 10000){
-            this.eventTitle = "编辑分析报告";
             this.needModeName = "EDIT";
+            this.category = "TRACK";
             this.saveMode = "editTrack";
+            this.eventTitle = "编辑分析报告";
             this.reportData = res.data.DATA;
             for(let item of this.reportData){
               item.isActive = false;

@@ -96,6 +96,7 @@
     },
     data(){
       return{
+        category: "",
         needModeName: "",
         saveMode: "",
         eventTitle: null,
@@ -122,7 +123,7 @@
           path: "/eventFill",
           query: {
             mode: this.needModeName,
-            category:'INCIDENT',
+            category: this.category,
             eventId: this.dataId,
             saveMode: this.saveMode
           }
@@ -202,11 +203,13 @@
         let data = {id:this.dataId}
         this.$http.post('/event/analysis/'+ this.dataId, data).then( res => {
           if(res.code == 100014){
+            this.category = "ANALYSIS";
             this.eventTitle = "填写分析报告";
             this.needModeName = "FILL";
             this.saveMode = "fillAnalysis";
           }
           if(res.code == 10000){
+            this.category = "ANALYSIS";
             this.eventTitle = "编辑分析报告";
             this.needModeName = "EDIT";
             this.saveMode = "editAnalysis";

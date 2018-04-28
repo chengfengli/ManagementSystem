@@ -151,6 +151,7 @@
             	},
             	deptList:[],
             	type:'',
+            	eventId:null,
             	detailDialog:false,
             	reportmode:null,
             	uploadUrl:this.$hostUrl+'/fileUpload',
@@ -262,7 +263,7 @@
 	        		}
         		}
         		if(bool){
-        			var data = {TYPE:this.type,SET:this.form2,VALUES:'',MODE:this.saveMode};
+        			var data = {TYPE:this.type,SET:this.form2,VALUES:'',MODE:this.saveMode,EVENTID:this.eventId};
 	        		var list = [];
 	        		for(var key in this.form){
 	        			var new_key = key.substring(key.lastIndexOf('_')+1);
@@ -279,6 +280,7 @@
 	        			}
 	        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
 	        		}
+	        		
 	        		data.VALUES=list;
 	        		this.$http.post('/event/save/',data).then(res=>{
 		        		if(res.code == 10000){
@@ -329,8 +331,9 @@
 				};
 			}else{
 				this.saveMode = obj.saveMode;
+				this.eventId = obj.eventId;
 				params={
-				  EVENTID:obj.eventId,
+				  	EVENTID:obj.eventId,
 					MODE:obj.mode,
 					CATEGORY:obj.category
 				};

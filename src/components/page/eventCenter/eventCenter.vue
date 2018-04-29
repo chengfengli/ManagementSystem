@@ -89,7 +89,7 @@
               </el-radio-group>
             </div>
             <table class="data" cellspacing="0">
-              <tr v-for="item in dataList" :keys="item.count" @click="details(item.id)">
+              <tr v-for="item in dataList" :keys="item.count" @click="details(item.ID)">
                 <td>【{{item.TYPENAME}}】{{item.TITLE}}<span v-if='item.TOP==1' style="color: blue;">【置顶】</span></td>
                 <td>{{item.PUBLISHDATE}}</td>
                 <td><img class="icon" src="../../../../static/img/public/click.png"><span class="count">({{item.CLICKS}})</span>&nbsp;&nbsp;<img
@@ -180,7 +180,10 @@
         this.initDate(this.form);
       },
       details(id) {//详情
-
+				this.$router.push({
+		        path: 'eventList',
+		        query: {eventID:id,ENTRANCE:'center'}
+		   	})
       },
       checkboxChange() {
         this.initDate(this.form);
@@ -253,6 +256,7 @@
 
   #eventCenter .data tr:hover {
     background-color: #F5F7FA;
+    cursor: pointer;
   }
 
   #eventCenter .data td {

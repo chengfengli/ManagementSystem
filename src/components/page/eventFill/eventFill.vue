@@ -118,7 +118,7 @@
 	            	<el-input v-model="form2.LW" size="mini"></el-input>
 	            </el-form-item>
 	            <div class="btn-box" style="text-align: center;margin: 20px 0;">
-	            	<el-button @click="submit" size="mini">确定</el-button>
+	            	<el-button @click="check" size="mini">确定</el-button>
 	            	<el-button @click="detailDialog=false" size="mini">取消</el-button>
 	            </div>
 	        </el-form>
@@ -246,12 +246,17 @@
         		}
         	},
         	openDialog(){
-        		var bool = this.validation(this.form,this.dataList);
-        		if(bool){
-        			this.detailDialog = true;
+        		var obj = this.$route.query;
+        		if(!this.$validation(obj.local,'required')){
+        			var bool = this.validation(this.form,this.dataList);
+	        		if(bool){
+	        			this.detailDialog = true;
+	        		}
+        		}else{
+        			this.submit();
         		}
         	},
-        	submit() {// 提交
+        	check(){
         		var bool = true;
         		if(this.$validation(this.form2.HAPPENDEPT,'required')){
         			this.$message.error('请选择当事科室');
@@ -263,43 +268,46 @@
 	        		}
         		}
         		if(bool){
-        			var data = {TYPE:this.type,SET:this.form2,VALUES:'',MODE:this.saveMode,EVENTID:this.eventId};
-	        		var list = [];
-	        		for(var key in this.form){
-	        			var new_key = key.substring(key.lastIndexOf('_')+1);
-	        			if(typeof(this.form[key])=='object'){
-	        				var arry = [];
-	        				for(var i in this.form[key]){
-	        					if(!this.$validation(this.form[key][i].url,'required')){
-	        						arry.push(this.form[key][i].url);
-	        					}
-	        				}
-	        				if(arry.length>0){
-	        					this.form[key]=arry;
-	        				}
-	        			}
-	        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
-	        		}
-	        		
-	        		data.VALUES=list;
-	        		this.$http.post('/event/save/',data).then(res=>{
-		        		if(res.code == 10000){
-		        			this.detailDialog = false;
-		        			this.$message({
-					            type: 'success',
-					            message: res.msg
-					        });
-					        setTimeout(()=>{
-					        	this.$router.push({
-					                path: 'eventProcessing',
-					                query: {txt:'我的事件'}
-					           	})
-					        },2000);
-		        		}else{
-		        			this.$message.error(res.msg);
-		        		}
-		        	});
+        			this.submit();
         		}
+        	},
+        	submit() {// 提交
+    			var data = {TYPE:this.type,SET:this.form2,VALUES:'',MODE:this.saveMode,EVENTID:this.eventId};
+        		var list = [];
+        		for(var key in this.form){
+        			var new_key = key.substring(key.lastIndexOf('_')+1);
+        			if(typeof(this.form[key])=='object'){
+        				var arry = [];
+        				for(var i in this.form[key]){
+        					if(!this.$validation(this.form[key][i].url,'required')){
+        						arry.push(this.form[key][i].url);
+        					}
+        				}
+        				if(arry.length>0){
+        					this.form[key]=arry;
+        				}
+        			}
+        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
+        		}
+        		
+        		data.VALUES=list;
+        		this.$http.post('/event/save/',data).then(res=>{
+	        		if(res.code == 10000){
+	        			this.detailDialog = false;
+	        			this.$message({
+				            type: 'success',
+				            message: res.msg
+				        });
+				        setTimeout(()=>{
+				        	this.$router.push({
+				                path: 'eventProcessing',
+				                query: {txt:'我的事件'}
+				           	})
+				        },2000);
+	        		}else{
+	        			this.$message.error(res.msg);
+	        		}
+	        	});
         	},
 			submitUpload(content){
 				let formData = new FormData;

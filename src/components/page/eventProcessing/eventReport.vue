@@ -26,7 +26,8 @@
           <div class="table-title" :id="data.MODID">{{ data.MODNAME }}</div>
           <div class="table-data topic" v-for="(title, index) in data.ELES">
             <section style="position: relative;cursor: pointer;" @click="monitorTable(title, index)">
-              <i class="proFont" style="color: red;margin-right: 30px;font-size: 25px" v-if="title.ISANAYLIS == 0">&#xe628;</i>
+              <i class="proFont" style="color: red;margin-right: 30px;font-size: 25px" v-show="title.ISANAYLIS == 1">&#xe628;</i>
+              <i class="positionIoc"  v-if="title.ISANAYLIS != 1"></i>
               <span style="margin-right: 30px;width: 200px;display: inline-block;">{{ title.ELENAME }}</span>
               <span v-show="title.ELETYPE != 12">{{ title.VAL }}</span><!--@click="downloadType(title.VAL)"-->
               <span v-show="title.ELETYPE == 12">
@@ -112,9 +113,6 @@
           others: false
         }
       }
-    },
-    mounted: function () {
-      /*console.log(this.dataId)*/
     },
     methods: {
       //事件填报
@@ -237,6 +235,14 @@
 </script>
 
 <style>
+  .eventReport .positionIoc{
+    color: white;
+    margin-right: 30px;
+    font-size: 25px;
+    display: inline-block;
+    height: 25px!important;
+    width: 25px!important;
+  }
   .tobgbAA:hover{color: red!important;}
   .eventReport{
     width: 100%;

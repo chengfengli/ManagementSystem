@@ -40,8 +40,30 @@
       </aside>
       <aside class="h-right clear-fix">
         <div class="set-right" style="padding:5px 20px 0 0;box-sizing: border-box">
-          <section><el-button type="danger" plain size="small" >导出word</el-button></section>
-          <section><el-button type="success" plain size="small" style="width: 50px;margin-left: 10px">提交</el-button></section>
+          <section><el-button type="danger" plain size="small" @click="exportWord">导出word</el-button></section>
+          <section><el-button @click="eventSubmit" type="success" plain size="small" style="width: 50px;margin-left: 10px">提交</el-button></section>
+          <div class="set-upRight" v-if="showEventSubmit">
+            <div class="setup-type">
+              <label class="type-label">处理结果</label>
+              <el-radio v-model="RESULT" :label="item.VALUE" v-for="item in eventTjHx.DEALTYPE">{{item.DISPLAY}}</el-radio>
+            </div>
+            <div class="setup-type">
+              <label class="type-label">消息内容</label>
+              <el-input size="mini" style="width: 160px" v-model="eventLW" placeholder="最对两百字"></el-input>
+            </div>
+            <div class="setup-type" >
+              <label class="type-label">上报卫计委</label>
+              <el-checkbox v-model="eventTjHx.REPORTHPC"></el-checkbox>
+            </div>
+            <div class="setup-type">
+              <label class="type-label">是否置顶</label>
+              <el-checkbox v-model="eventTjHx.TOP"></el-checkbox>
+            </div>
+            <div style="text-align: right!important;">
+              <el-button @click="showEventSubmit = false;" type="info" plain style="padding: 8px 10px;box-sizing: border-box;margin-top: 15px;">取消</el-button>
+              <el-button @click="eventTjHxSubmit" type="danger" plain style="padding: 8px 10px;box-sizing: border-box;margin-top: 15px;">提交</el-button>
+            </div>
+          </div>
         </div>
       </aside>
     </div>
@@ -55,6 +77,10 @@
       },
       data() {
         return{
+          eventLW: "",
+          RESULT: null,
+          eventTjHx: [],
+          showEventSubmit: false,
           isActiveFont: false,
           eventlevel: [],
           eventflag: [],
@@ -80,14 +106,78 @@
         }
       },
     methods: {
+      //导出word
+      exportWord: function () {
+        let data = {eventid: this.dataId}
+        this.$http.post('/export/event/'+ this.dataId, data).then( res => {
+          if(res.code == 10000){
+            window.open(res.data,'_blank')
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      //表单提交事件
+      eventTjHxSubmit: function () {
+        if(this.eventTjHx.REPORTHPC == true){
+          this.eventTjHx.REPORTHPC = 1;
+        }else {
+          this.eventTjHx.REPORTHPC = 0;
+        }
+        if(this.eventTjHx.TOP == true){
+          this.eventTjHx.TOP = 1;
+        }else {
+          this.eventTjHx.TOP = 0;
+        }
+        if(this.RESULT == null){
+          return this.$message.error("处理结果不能为空！");
+        }
+        let data = {
+          eventid: this.dataId,
+          RESULT: this.RESULT,
+          LW: this.eventLW,
+          TOP: this.eventTjHx.TOP,
+          REPORTHPC: this.eventTjHx.REPORTHPC
+        }
+        this.$http.post('/event/deal/'+ this.dataId, data).then( res => {
+          if(res.code == 10000){
+            this.eventTjHx = [];
+            this.RESULT = null;
+            this.eventLW = null;
+            this.$message.success("修改成功！");
+            this.showEventSubmit = false;
+            console.log(data)
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
+      //显示提交表单
+      eventSubmit: function () {
+        this.RESULT = null;
+        this.showEventSubmit = true;
+        let data = {
+          eventid: this.dataId
+        }
+        this.$http.post('/event/getDealForm/'+ this.dataId, data).then( res => {
+          if(res.code == 10000){
+            this.eventTjHx = res.data;
+            if(this.eventTjHx.TOP == 1){
+              this.eventTjHx.TOP = true;
+            }else {
+              this.eventTjHx.TOP = false;
+            }
+            console.log(this.eventTjHx)
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
       //获取事件等级
       getEventLevel: function () {
         this.$http.post('/dic/getDicByKey/eventlevel').then( res => {
           if(res.code == 10000){
             this.eventlevel = res.data;
-          /*  for(let item of this.eventlevel){
-              console.log(item)
-            }*/
           }
         }).catch(function (error) {//加上catch
           console.log(error);
@@ -128,7 +218,6 @@
           console.log(error);
         });
         this.showSetUp = true;
-
       },
       setUpSubmit: function(){
         if(this.setUpData.ISOPEN == true){
@@ -160,6 +249,7 @@
         });
       },
       monitorActiveBtn: function (activeName, pageName){
+        console.log(pageName)
         for(let i in this.activeControl){
           if(i == activeName){
             this.activeControl[i] = true;
@@ -208,6 +298,17 @@
     position: absolute;
     top: 45px;
     left: 30px;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    width: auto;
+    background: white;
+    z-index: 100;
+    border: 1px solid #ccc;
+  }
+  .eventHeader .set-upRight{
+    position: absolute;
+    top: 45px;
+    right: 30px;
     padding: 30px 20px;
     box-sizing: border-box;
     width: auto;

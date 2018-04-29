@@ -348,39 +348,43 @@
 			}
 			this.$http.post('/event/initFillPage',params).then(res=>{
         		if(res.code == 10000){
-        			var list = res.data.DATA;
-        			this.type = res.data.TYPE;
-        			this.reportmode = res.data.REPORTMODE;
-        			if(this.reportmode==3){
-        				this.form2.REALNAME = '0';
-        			}
-        			var temp_form = {};
-        			this.isactive = list[0].MODID;
-        			for(var i in list){
-        				this.activeNames.push(list[i].MODID);
-        				for(var j in list[i].ELES){
-        					var key = 'ele_'+list[i].ELES[j].ELEID;
-        					if(params.MODE=='FILL'){
-        						if(list[i].ELES[j].ELETYPE==11){
-	        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE.split('_');
-	        					}else if(list[i].ELES[j].ELETYPE==12){
-	        						temp_form[key]=[];
-	    						}else{
-	        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE;
+        			if(res.data!=null){
+        				var list = res.data.DATA;
+	        			this.type = res.data.TYPE;
+	        			this.reportmode = res.data.REPORTMODE;
+	        			if(this.reportmode==3){
+	        				this.form2.REALNAME = '0';
+	        			}
+	        			var temp_form = {};
+	        			this.isactive = list[0].MODID;
+	        			for(var i in list){
+	        				this.activeNames.push(list[i].MODID);
+	        				for(var j in list[i].ELES){
+	        					var key = 'ele_'+list[i].ELES[j].ELEID;
+	        					if(params.MODE=='FILL'){
+	        						if(list[i].ELES[j].ELETYPE==11){
+		        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE.split('_');
+		        					}else if(list[i].ELES[j].ELETYPE==12){
+		        						temp_form[key]=[];
+		    						}else{
+		        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE;
+		        					}
+	        					}else{
+	        						if(list[i].ELES[j].ELETYPE==11){
+		        						temp_form[key]=list[i].ELES[j].VAL.split(',');
+		        					}else if(list[i].ELES[j].ELETYPE==12){
+		        						temp_form[key]=[];
+		    						}else{
+		        						temp_form[key]=list[i].ELES[j].VAL;
+		        					}
 	        					}
-        					}else{
-        						if(list[i].ELES[j].ELETYPE==11){
-	        						temp_form[key]=list[i].ELES[j].VAL.split(',');
-	        					}else if(list[i].ELES[j].ELETYPE==12){
-	        						temp_form[key]=[];
-	    						}else{
-	        						temp_form[key]=list[i].ELES[j].VAL;
-	        					}
-        					}
-        				}
+	        				}
+	        			}
+	        			this.form = temp_form;
+	        			this.dataList=list;
+        			}else{
+        				this.$message.error('无数据');
         			}
-        			this.form = temp_form;
-        			this.dataList=list;
         		}else{
         			this.$message.error(res.msg);
         		}
@@ -446,7 +450,7 @@
 		color: #839965;
 	}
 	#form-box{
-		margin-left: 200px;
+		margin-left: 300px;
 		margin-top: 20px;
 	}
 	#eventFill-page .eventFill-body .btn-box{

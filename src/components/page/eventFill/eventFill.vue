@@ -118,7 +118,7 @@
 	            	<el-input v-model="form2.LW" size="mini"></el-input>
 	            </el-form-item>
 	            <div class="btn-box" style="text-align: center;margin: 20px 0;">
-	            	<el-button @click="submit" size="mini">确定</el-button>
+	            	<el-button @click="check" size="mini">确定</el-button>
 	            	<el-button @click="detailDialog=false" size="mini">取消</el-button>
 	            </div>
 	        </el-form>
@@ -246,12 +246,17 @@
         		}
         	},
         	openDialog(){
-        		var bool = this.validation(this.form,this.dataList);
-        		if(bool){
-        			this.detailDialog = true;
+        		var obj = this.$route.query;
+        		if(!this.$validation(obj.local,'required')){
+        			var bool = this.validation(this.form,this.dataList);
+	        		if(bool){
+	        			this.detailDialog = true;
+	        		}
+        		}else{
+        			this.submit();
         		}
         	},
-        	submit() {// 提交
+        	check(){
         		var bool = true;
         		if(this.$validation(this.form2.HAPPENDEPT,'required')){
         			this.$message.error('请选择当事科室');
@@ -263,43 +268,46 @@
 	        		}
         		}
         		if(bool){
-        			var data = {TYPE:this.type,SET:this.form2,VALUES:'',MODE:this.saveMode,EVENTID:this.eventId};
-	        		var list = [];
-	        		for(var key in this.form){
-	        			var new_key = key.substring(key.lastIndexOf('_')+1);
-	        			if(typeof(this.form[key])=='object'){
-	        				var arry = [];
-	        				for(var i in this.form[key]){
-	        					if(!this.$validation(this.form[key][i].url,'required')){
-	        						arry.push(this.form[key][i].url);
-	        					}
-	        				}
-	        				if(arry.length>0){
-	        					this.form[key]=arry;
-	        				}
-	        			}
-	        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
-	        		}
-	        		
-	        		data.VALUES=list;
-	        		this.$http.post('/event/save/',data).then(res=>{
-		        		if(res.code == 10000){
-		        			this.detailDialog = false;
-		        			this.$message({
-					            type: 'success',
-					            message: res.msg
-					        });
-					        setTimeout(()=>{
-					        	this.$router.push({
-					                path: 'eventProcessing',
-					                query: {txt:'我的事件'}
-					           	})
-					        },2000);
-		        		}else{
-		        			this.$message.error(res.msg);
-		        		}
-		        	});
+        			this.submit();
         		}
+        	},
+        	submit() {// 提交
+    			var data = {TYPE:this.type,SET:this.form2,VALUES:'',MODE:this.saveMode,EVENTID:this.eventId};
+        		var list = [];
+        		for(var key in this.form){
+        			var new_key = key.substring(key.lastIndexOf('_')+1);
+        			if(typeof(this.form[key])=='object'){
+        				var arry = [];
+        				for(var i in this.form[key]){
+        					if(!this.$validation(this.form[key][i].url,'required')){
+        						arry.push(this.form[key][i].url);
+        					}
+        				}
+        				if(arry.length>0){
+        					this.form[key]=arry;
+        				}
+        			}
+        			list.push({ELEID:parseInt(new_key),VAL:this.form[key].toString()});
+        		}
+        		
+        		data.VALUES=list;
+        		this.$http.post('/event/save/',data).then(res=>{
+	        		if(res.code == 10000){
+	        			this.detailDialog = false;
+	        			this.$message({
+				            type: 'success',
+				            message: res.msg
+				        });
+				        setTimeout(()=>{
+				        	this.$router.push({
+				                path: 'eventProcessing',
+				                query: {txt:'我的事件'}
+				           	})
+				        },2000);
+	        		}else{
+	        			this.$message.error(res.msg);
+	        		}
+	        	});
         	},
 			submitUpload(content){
 				let formData = new FormData;
@@ -340,39 +348,43 @@
 			}
 			this.$http.post('/event/initFillPage',params).then(res=>{
         		if(res.code == 10000){
-        			var list = res.data.DATA;
-        			this.type = res.data.TYPE;
-        			this.reportmode = res.data.REPORTMODE;
-        			if(this.reportmode==3){
-        				this.form2.REALNAME = '0';
-        			}
-        			var temp_form = {};
-        			this.isactive = list[0].MODID;
-        			for(var i in list){
-        				this.activeNames.push(list[i].MODID);
-        				for(var j in list[i].ELES){
-        					var key = 'ele_'+list[i].ELES[j].ELEID;
-        					if(params.MODE=='FILL'){
-        						if(list[i].ELES[j].ELETYPE==11){
-	        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE.split('_');
-	        					}else if(list[i].ELES[j].ELETYPE==12){
-	        						temp_form[key]=[];
-	    						}else{
-	        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE;
+        			if(res.data!=null){
+        				var list = res.data.DATA;
+	        			this.type = res.data.TYPE;
+	        			this.reportmode = res.data.REPORTMODE;
+	        			if(this.reportmode==3){
+	        				this.form2.REALNAME = '0';
+	        			}
+	        			var temp_form = {};
+	        			this.isactive = list[0].MODID;
+	        			for(var i in list){
+	        				this.activeNames.push(list[i].MODID);
+	        				for(var j in list[i].ELES){
+	        					var key = 'ele_'+list[i].ELES[j].ELEID;
+	        					if(params.MODE=='FILL'){
+	        						if(list[i].ELES[j].ELETYPE==11){
+		        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE.split('_');
+		        					}else if(list[i].ELES[j].ELETYPE==12){
+		        						temp_form[key]=[];
+		    						}else{
+		        						temp_form[key]=list[i].ELES[j].DEFAULTVALUE;
+		        					}
+	        					}else{
+	        						if(list[i].ELES[j].ELETYPE==11){
+		        						temp_form[key]=list[i].ELES[j].VAL.split(',');
+		        					}else if(list[i].ELES[j].ELETYPE==12){
+		        						temp_form[key]=[];
+		    						}else{
+		        						temp_form[key]=list[i].ELES[j].VAL;
+		        					}
 	        					}
-        					}else{
-        						if(list[i].ELES[j].ELETYPE==11){
-	        						temp_form[key]=list[i].ELES[j].VAL.split(',');
-	        					}else if(list[i].ELES[j].ELETYPE==12){
-	        						temp_form[key]=[];
-	    						}else{
-	        						temp_form[key]=list[i].ELES[j].VAL;
-	        					}
-        					}
-        				}
+	        				}
+	        			}
+	        			this.form = temp_form;
+	        			this.dataList=list;
+        			}else{
+        				this.$message.error('无数据');
         			}
-        			this.form = temp_form;
-        			this.dataList=list;
         		}else{
         			this.$message.error(res.msg);
         		}
@@ -438,7 +450,7 @@
 		color: #839965;
 	}
 	#form-box{
-		margin-left: 200px;
+		margin-left: 300px;
 		margin-top: 20px;
 	}
 	#eventFill-page .eventFill-body .btn-box{

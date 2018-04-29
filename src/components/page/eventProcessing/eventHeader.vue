@@ -27,16 +27,16 @@
             <el-button @click="setUpSubmit" type="danger" plain style="padding: 8px 10px;box-sizing: border-box;margin-top: 15px;">提交</el-button>
           </div>
         </div>
-        <section @click="showSetUpBtn">
+        <section @click="showSetUpBtn" style="max-width: 110px">
           <i class="proFont" style="font-size: 30px;color: #0094BD" :class="{activeFont: isActiveFont}">&#xe62b;</i>
         </section>
-        <section :class="{activeSe:activeControl.basicInfo}" @click="monitorActiveBtn('basicInfo','showBasicInfo')">基本信息</section>
-        <section :class="{activeSe:activeControl.eventAbstract}" @click="monitorActiveBtn('eventAbstract','showAbstract')">事件摘要</section>
-        <section :class="{activeSe:activeControl.eventReport}" @click="monitorActiveBtn('eventReport','showReport')">事件报告</section>
-        <section :class="{activeSe:activeControl.msaReport}" @click="monitorActiveBtn('msaReport','showMsaReport')">分析报告</section>
-        <section :class="{activeSe:activeControl.trackReport}" @click="monitorActiveBtn('trackReport','showTrackReport')">追踪报告</section>
-        <section :class="{activeSe:activeControl.fishboneMsa}" @click="monitorActiveBtn('fishboneMsa','showFishboneMsa')">鱼骨分析</section>
-        <section :class="{activeSe:activeControl.personAdvice}" @click="monitorActiveBtn('personAdvice','showPersonAdvice')">个人建议</section>
+        <section style="max-width: 110px" v-if="permisControl.basicInfo" :class="{activeSe:activeControl.basicInfo}" @click="monitorActiveBtn('basicInfo','showBasicInfo')">基本信息</section>
+        <section style="max-width: 110px" v-if="permisControl.summary" :class="{activeSe:activeControl.eventAbstract}" @click="monitorActiveBtn('eventAbstract','showAbstract')">事件摘要</section>
+        <section style="max-width: 110px" v-if="permisControl.report" :class="{activeSe:activeControl.eventReport}" @click="monitorActiveBtn('eventReport','showReport')">事件报告</section>
+        <section style="max-width: 110px" v-if="permisControl.analysis" :class="{activeSe:activeControl.msaReport}" @click="monitorActiveBtn('msaReport','showMsaReport')">分析报告</section>
+        <section style="max-width: 110px" v-if="permisControl.track" :class="{activeSe:activeControl.trackReport}" @click="monitorActiveBtn('trackReport','showTrackReport')">追踪报告</section>
+        <section style="max-width: 110px" v-if="permisControl.fishbone" :class="{activeSe:activeControl.fishboneMsa}" @click="monitorActiveBtn('fishboneMsa','showFishboneMsa')">鱼骨分析</section>
+        <section style="max-width: 110px" v-if="permisControl.personalsuggestion" :class="{activeSe:activeControl.personAdvice}" @click="monitorActiveBtn('personAdvice','showPersonAdvice')">个人建议</section>
       </aside>
       <aside class="h-right clear-fix">
         <div class="set-right" style="padding:5px 20px 0 0;box-sizing: border-box">
@@ -44,7 +44,7 @@
           <section><el-button @click="eventSubmit" type="success" plain size="small" style="width: 50px;margin-left: 10px">提交</el-button></section>
           <div class="set-upRight" v-if="showEventSubmit">
             <div class="setup-type">
-              <label class="type-label">处理结果</label>
+              <label class="type-label" style="color: red;">处理结果</label>
               <el-radio v-model="RESULT" :label="item.VALUE" v-for="item in eventTjHx.DEALTYPE">{{item.DISPLAY}}</el-radio>
             </div>
             <div class="setup-type">
@@ -71,7 +71,7 @@
 <script>
   export default {
       name: "eventHeader",
-      props: ["dataId"],
+      props: ["dataId", "permisControl"],
       mounted: function(){
 
       },
@@ -130,7 +130,7 @@
           this.eventTjHx.TOP = 0;
         }
         if(this.RESULT == null){
-          return this.$message.error("处理结果不能为空！");
+          return this.$message.error("处理结果为必选项！");
         }
         let data = {
           eventid: this.dataId,

@@ -10,7 +10,7 @@
           <el-breadcrumb-item>事件详情</el-breadcrumb-item>-->
         </el-breadcrumb>
       </div>
-      <eventHeader @monitorActivePage="monitorActivePage" :dataId="dataId"></eventHeader>
+      <eventHeader @monitorActivePage="monitorActivePage" :dataId="dataId" :permisControl="permisControl"></eventHeader>
     </section>
     <section class="eventList-m">
       <basicInfo v-if="monitorBtn.showBasicInfo" :dataId="dataId"></basicInfo>
@@ -37,11 +37,35 @@
   export default {
     name: "eventList",
     mounted: function () {
-
+      let data;
+      if(this.$route.query.eventID && this.$route.query.ENTRANCE){
+        data = {
+          eventid: this.$route.query.eventID,
+          ENTRANCE: this.$route.query.ENTRANCE
+        }
+      }else {
+        data = {
+          eventid: this.dataId,
+          ENTRANCE: "other"
+        }
+        console.log(data)
+      }
+      this.$http.post('/event/showTabs/' + data.eventid, data).then( res =>{
+        this.permisControl = res.data;
+      })
     },
     data() {
       return{
         dataId: this.$route.query.eventID,
+        permisControl: {
+          analysis: false,
+          basicInfo: false,
+          fishbone: false,
+          personalsuggestion: false,
+          report: false,
+          summary: false,
+          track: false
+        },
         monitorBtn: {
           showBasicInfo: true,
           showAbstract: false,
@@ -54,12 +78,6 @@
       }
     },
     methods: {
-      permisControl: function () {
-
-      },
-      returnOn: function(){
-        this.history.go(-1);
-      },
       monitorActivePage: function (activePageName) {
         for(let i in this.monitorBtn){
           if(i == activePageName){

@@ -18,7 +18,7 @@
           </aside>
           <aside style="margin-top: 20px;">
             <section style="display: inline-block;padding: 18px 25px;box-sizing: border-box;border: 1px solid #797979;border-radius: 50%;text-align: center">
-              <i class="proFont" style="font-size: 45px;">&#xe62c;</i><br/>
+              <i class="proFont" style="font-size: 45px;cursor: pointer;" :class="{activeBlue: basicInfoData.BASICINFO.HASTHUMB}" @click="giveALike">&#xe62c;</i><br/>
               <span style="color: red;">{{ basicInfoData.BASICINFO.THUMBS }}</span>
             </section>
             <section style="display: inline-block;margin-left: 30px;">
@@ -86,15 +86,29 @@
     },
     data(){
       return{
-        /*roundActive: true,
-        activeSucceed: false,
-        activeDanger: false,*/
         basicInfoData: {},
         value3: null,
         radio: 3
       }
     },
     methods: {
+      //点赞
+      giveALike: function () {
+        console.log("111111111")
+        let data = {
+          eventid: this.dataId
+        }
+        this.$http.post('/event/thumb/'+ this.dataId, data).then(res => {
+          if (res.code == 10000) {
+            this.initBasicInfoData(this.dataId)
+
+          } else {
+            this.$message.error(res.msg);
+          }
+        }).catch(function (error) {//加上catch
+          console.log(error);
+        });
+      },
       //基本信息初始数据
       initBasicInfoData: function (eventId) {
         this.$http.post('/event/basicInfo/'+ eventId).then(res => {
@@ -134,6 +148,9 @@
 </script>
 
 <style>
+  .basicInfo .activeBlue{
+    color: #388EF4;
+  }
   .basicInfo{
     height: 100%;
     width: 100%;
@@ -218,4 +235,5 @@
     height: 100%;
     padding-top: 15px;
   }
+
 </style>

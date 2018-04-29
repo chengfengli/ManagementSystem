@@ -54,6 +54,9 @@
       }
     },
     methods: {
+      permisControl: function () {
+
+      },
       returnOn: function(){
         this.history.go(-1);
       },

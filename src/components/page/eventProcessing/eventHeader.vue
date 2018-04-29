@@ -307,7 +307,7 @@
   }
   .eventHeader .set-upRight{
     position: absolute;
-    top: 45px;
+    top: 130px;
     right: 30px;
     padding: 30px 20px;
     box-sizing: border-box;

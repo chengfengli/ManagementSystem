@@ -157,7 +157,7 @@
         			this.$message.error(res.msg);
         		}
         	})
-			this.$http.post('/dept/list',{BELONGID:null}).then(res=>{
+			this.$http.post('/dic/getDicByKey/dept',{BELONGID:null}).then(res=>{
         		if(res.code == 10000){
         			this.depts = res.data;
         		}else{

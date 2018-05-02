@@ -49,7 +49,7 @@
             </div>
             <div class="setup-type">
               <label class="type-label">消息内容</label>
-              <el-input size="mini" style="width: 160px" v-model="eventLW" placeholder="最对两百字"></el-input>
+              <el-input size="mini" style="width: 160px" v-model="eventLW" placeholder="最多两百字"></el-input>
             </div>
             <div class="setup-type" >
               <label class="type-label">上报卫计委</label>
